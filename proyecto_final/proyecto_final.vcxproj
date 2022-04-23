@@ -132,6 +132,8 @@
   <ItemGroup>
     <None Include="shaders\shader_static.fs" />
     <None Include="shaders\shader_static.vs" />
+    <None Include="shaders\shader_texture_color.fs" />
+    <None Include="shaders\shader_texture_color.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
