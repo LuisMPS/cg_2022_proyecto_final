@@ -1,0 +1,62 @@
+# Blender MTL File: 'kite.blend'
+# Material Count: 5
+
+newmtl Black
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.031063 0.029538 0.029538
+Ks 0.000000 0.000000 0.000000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 1
+map_Ka Black.png
+map_Kd Black.png
+
+newmtl Blue
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.034322 0.053036 0.559601
+Ks 0.000000 0.000000 0.000000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 1
+map_Ka Blue.jpg
+map_Kd Blue.jpg
+
+newmtl Red
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.486897 0.016085 0.024798
+Ks 0.000000 0.000000 0.000000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 1
+map_Ka Red.jpg
+map_Kd Red.jpg
+
+newmtl White
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 1
+map_Ka White.png
+map_Kd White.png
+
+newmtl Yellow
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.391188 0.061692
+Ks 0.000000 0.000000 0.000000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 1
+map_Ka Yellow.png
+map_Kd Yellow.png
