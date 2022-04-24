@@ -119,6 +119,10 @@ int main() {
 
 	// load models
 	// -----------
+	Model Asphalt("resources/models/Asphalt/Asphalt.obj");
+	Model BasketHoop("resources/models/BasketBallHoop/BasketballHoop.obj");
+	Model BasketField("resources/models/BasketballField/BasketballField.obj");
+	Model BasketBall("resources/models/BasketballBall/Basketball.obj");
 	Model testModel("resources/models/Jeep/Jeep.obj");
 
 	// render loop
@@ -160,6 +164,41 @@ int main() {
 		glm::mat4 view = camera.GetViewMatrix();
 		shaderStatic.setMat4("projection", projection);
 		shaderStatic.setMat4("view", view);
+
+		//Plano Asfalto
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.75f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.2f));
+		shaderStatic.setMat4("model", model);
+		Asphalt.Draw(shaderStatic);
+
+		//Aros de Basketball
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(450.0f, 0.0f, 7.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.5f));
+		shaderStatic.setMat4("model", model);
+		BasketHoop.Draw(shaderStatic);
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-450.0f, 0.0f, -7.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.5f));
+		shaderStatic.setMat4("model", model);
+		BasketHoop.Draw(shaderStatic);
+
+		//Cancha
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f));
+		shaderStatic.setMat4("model", model);
+		BasketField.Draw(shaderStatic);
+
+		//Pelota Basket
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 10.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f));
+		shaderStatic.setMat4("model", model);
+		BasketBall.Draw(shaderStatic);
+
+
 
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20, lightPosition.z));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
