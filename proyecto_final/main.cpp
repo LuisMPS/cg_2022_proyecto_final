@@ -8,14 +8,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <time.h>
 
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>	//Texture
-
 #define SDL_MAIN_HANDLED
 #include <SDL/SDL.h>
 
 #include <shader_m.h>
+#include <texture.h>
 #include <camera.h>
 #include <modelAnim.h>
 #include <model.h>
@@ -31,10 +28,11 @@ void my_input(GLFWwindow* window, int key, int scancode, int action, int mods);
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 GLFWmonitor *monitors;
+GLuint VBO[2], VAO[2];
 
 //Lighting
 glm::vec3 lightPosition(0.0f, 4.0f, -10.0f);
-glm::vec3 lightDirection(0.0f, -1.0f, -1.0f);
+glm::vec3 lightDirection(-1.0f, -1.0f, 0.0f);
 
 void getResolution(void);
 
@@ -54,6 +52,132 @@ void getResolution() {
 	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	SCR_WIDTH = mode->width;
 	SCR_HEIGHT = (mode->height) - 80;
+}
+
+void myData() {
+
+	glGenVertexArrays(2, VAO);
+	glGenBuffers(2, VBO);
+
+	glBindVertexArray(VAO[0]);
+
+	GLfloat cubeVertexCoordsBuffer[] = {
+		//Position				
+		-0.5f, -0.5f, 0.5f,		//V0 - Frontal
+		0.5f, -0.5f, 0.5f,		//V1
+		0.5f, 0.5f, 0.5f,		//V5
+		-0.5f, -0.5f, 0.5f,		//V0
+		-0.5f, 0.5f, 0.5f,		//V4
+		0.5f, 0.5f, 0.5f,		//V5
+
+		0.5f, -0.5f, -0.5f,		//V2 - Trasera
+		-0.5f, -0.5f, -0.5f,	//V3
+		-0.5f, 0.5f, -0.5f,		//V7
+		0.5f, -0.5f, -0.5f,		//V2
+		0.5f, 0.5f, -0.5f,		//V6
+		-0.5f, 0.5f, -0.5f,		//V7
+
+		-0.5f, 0.5f, 0.5f,		//V4 - Izq
+		-0.5f, 0.5f, -0.5f,		//V7
+		-0.5f, -0.5f, -0.5f,	//V3
+		-0.5f, -0.5f, -0.5f,	//V3
+		-0.5f, 0.5f, 0.5f,		//V4
+		-0.5f, -0.5f, 0.5f,		//V0
+
+		0.5f, 0.5f, 0.5f,		//V5 - Der
+		0.5f, -0.5f, 0.5f,		//V1
+		0.5f, -0.5f, -0.5f,		//V2
+		0.5f, 0.5f, 0.5f,		//V5
+		0.5f, 0.5f, -0.5f,		//V6
+		0.5f, -0.5f, -0.5f,		//V2
+
+		-0.5f, 0.5f, 0.5f,		//V4 - Sup
+		0.5f, 0.5f, 0.5f,		//V5
+		0.5f, 0.5f, -0.5f,		//V6
+		-0.5f, 0.5f, 0.5f,		//V4
+		-0.5f, 0.5f, -0.5f,		//V7
+		0.5f, 0.5f, -0.5f,		//V6
+
+		-0.5f, -0.5f, 0.5f,		//V0 - Inf
+		-0.5f, -0.5f, -0.5f,	//V3
+		0.5f, -0.5f, -0.5f,		//V2
+		-0.5f, -0.5f, 0.5f,		//V0
+		0.5f, -0.5f, -0.5f,		//V2
+		0.5f, -0.5f, 0.5f,		//V1
+	};
+
+	GLfloat cubeTextureCoordsBuffer[] = {
+		// Coord
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 0.0f,
+	};
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertexCoordsBuffer), cubeVertexCoordsBuffer, GL_STATIC_DRAW);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTextureCoordsBuffer), cubeTextureCoordsBuffer, GL_DYNAMIC_DRAW);
+
+	// texture coord attribute
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+unsigned int texture_asphalt;
+unsigned int texture_grass;
+unsigned int texture_sidewalk;
+
+void loadTextures() {
+	TextureLoad texture;
+	texture_asphalt = texture.generate("textures/asphalt.jpg", false);
+	texture_grass = texture.generate("textures/grass.bmp", false);
+	texture_sidewalk = texture.generate("textures/stone.png", false);
 }
 
 int main() {
@@ -100,8 +224,7 @@ int main() {
 	Shader shaderStatic("shaders/shader_static.vs", "shaders/shader_static.fs");
 	Shader skyboxShader("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
 
-	vector<std::string> faces
-	{
+	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
 		"resources/skybox/sh_bk.png",
 		"resources/skybox/sh_up.png",
@@ -201,8 +324,7 @@ int main() {
 
 
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20, lightPosition.z));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f));
+		model = glm::scale(model, glm::vec3(0.05f));
 		shaderStatic.setMat4("model", model);
 		testModel.Draw(shaderStatic);
 		
