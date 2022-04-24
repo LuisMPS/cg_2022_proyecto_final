@@ -166,8 +166,8 @@ int main() {
 		shaderStatic.setMat4("view", view);
 
 		//Plano Asfalto
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.75f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.2f));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.75f, 400.0f));
+		model = glm::scale(model, glm::vec3(0.05f));
 		shaderStatic.setMat4("model", model);
 		Asphalt.Draw(shaderStatic);
 
