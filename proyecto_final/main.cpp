@@ -98,7 +98,24 @@ int main() {
 	// build and compile shaders
 	// -------------------------
 	Shader shaderStatic("shaders/shader_static.vs", "shaders/shader_static.fs");
-	Shader shaderSkybox("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
+	Shader skyboxShader("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
+
+	vector<std::string> faces
+	{
+		"resources/skybox/sh_ft.png",
+		"resources/skybox/sh_bk.png",
+		"resources/skybox/sh_up.png",
+		"resources/skybox/sh_dn.png",
+		"resources/skybox/sh_rt.png",
+		"resources/skybox/sh_lf.png"
+	};
+
+	Skybox skybox = Skybox(faces);
+
+	// Shader configuration
+	// --------------------
+	skyboxShader.use();
+	skyboxShader.setInt("skybox", 0);
 
 	// load models
 	// -----------
@@ -106,7 +123,9 @@ int main() {
 
 	// render loop
 	// -----------
-	while (!glfwWindowShouldClose(window)) {		
+	while (!glfwWindowShouldClose(window)) {	
+		skyboxShader.setInt("skybox", 0);
+
 		// per-frame time logic
 		// --------------------
 		lastFrame = SDL_GetTicks();
@@ -148,6 +167,9 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		testModel.Draw(shaderStatic);
 		
+		skyboxShader.use();
+		skybox.Draw(skyboxShader, view, projection, camera);
+
 		// Limitar el framerate a 60
 		deltaTime = SDL_GetTicks() - lastFrame; // time for full 1 loop
 		if (deltaTime < LOOP_TIME) {
@@ -159,7 +181,7 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
+	skybox.Terminate();
 	glfwTerminate();
 	return 0;
 }
