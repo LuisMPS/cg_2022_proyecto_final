@@ -18,17 +18,20 @@
 #include <model.h>
 #include <Skybox.h>
 #include <iostream>
+#include <string>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void my_input(GLFWwindow* window, int key, int scancode, int action, int mods);
+void loadData();
+void loadTextures();
 
 // settings
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 GLFWmonitor *monitors;
-GLuint VBO[2], VAO[2];
+GLuint VBO[2], VAO[1];
 
 //Lighting
 glm::vec3 lightPosition(0.0f, 4.0f, -10.0f);
@@ -37,10 +40,20 @@ glm::vec3 lightDirection(-1.0f, -1.0f, 0.0f);
 void getResolution(void);
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 40.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
+
+float	rulerSizeX = 5.0f,
+		rulerSizeY = 5.0f,
+		rulerSizeZ = 5.0f,
+		rulerSizeStep = 0.1f;
+
+float	rulerPositionX = 5.0f,
+		rulerPositionY = 5.0f,
+		rulerPositionZ = 5.0f,
+		rulerPositionStep = 0.1f;
 
 // timing
 const int FPS = 60;
@@ -56,9 +69,9 @@ void getResolution() {
 	SCR_HEIGHT = (mode->height) - 80;
 }
 
-void myData() {
+void loadData() {
 
-	glGenVertexArrays(2, VAO);
+	glGenVertexArrays(1, VAO);
 	glGenBuffers(2, VBO);
 
 	glBindVertexArray(VAO[0]);
@@ -161,7 +174,7 @@ void myData() {
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTextureCoordsBuffer), cubeTextureCoordsBuffer, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTextureCoordsBuffer), cubeTextureCoordsBuffer, GL_STATIC_DRAW);
 
 	// texture coord attribute
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -217,6 +230,9 @@ int main() {
 		return -1;
 	}
 
+	loadData();
+	loadTextures();
+
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
@@ -224,7 +240,8 @@ int main() {
 	// build and compile shaders
 	// -------------------------
 	Shader shaderStatic("shaders/shader_static.vs", "shaders/shader_static.fs");
-	Shader skyboxShader("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
+	Shader shaderSkybox("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
+	Shader shaderCube("shaders/shader_texture_color.vs", "shaders/shader_texture_color.fs");
 
 	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
@@ -239,8 +256,8 @@ int main() {
 
 	// Shader configuration
 	// --------------------
-	skyboxShader.use();
-	skyboxShader.setInt("skybox", 0);
+	shaderSkybox.use();
+	shaderSkybox.setInt("skybox", 0);
 
 	// load models
 	// -----------
@@ -256,7 +273,8 @@ int main() {
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window)) {	
-		skyboxShader.setInt("skybox", 0);
+
+		shaderSkybox.setInt("skybox", 0);
 
 		// per-frame time logic
 		// --------------------
@@ -359,27 +377,34 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		BasketField.Draw(shaderStatic);
 
-		//Pelota Basket
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 00.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.1f));
-		shaderStatic.setMat4("model", model);
-		BasketBall.Draw(shaderStatic);
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.07f * scale, 3.0f, 9.77f * scale));
 		model = glm::scale(model, glm::vec3(0.1f));
 		shaderStatic.setMat4("model", model);
 		BasketBall.Draw(shaderStatic);
 
-
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20, lightPosition.z));
 		model = glm::scale(model, glm::vec3(0.05f));
 		shaderStatic.setMat4("model", model);
 		testModel.Draw(shaderStatic);
-		
-		skyboxShader.use();
-		skybox.Draw(skyboxShader, view, projection, camera);
 
+		shaderCube.use();
+
+		// view/projection transformations
+		shaderCube.setMat4("projection", projection);
+		shaderCube.setMat4("view", view);
+
+		glBindVertexArray(VAO[0]);
+		glBindTexture(GL_TEXTURE_2D, texture_asphalt);
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(rulerPositionX, rulerPositionY, rulerPositionZ));
+		model = glm::scale(model, glm::vec3(rulerSizeX, rulerSizeY, rulerSizeZ));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		shaderSkybox.use();
+		skybox.Draw(shaderSkybox, view, projection, camera);
+		
 		// Limitar el framerate a 60
 		deltaTime = SDL_GetTicks() - lastFrame; // time for full 1 loop
 		if (deltaTime < LOOP_TIME) {
@@ -409,6 +434,24 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 		camera.ProcessKeyboard(LEFT, (float)deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+		rulerSizeX += rulerSizeStep;
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+		rulerSizeY += rulerSizeStep;
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+		rulerSizeZ += rulerSizeStep;
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+		rulerSizeStep *= -1;
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+		std::cout << "Size is: " << rulerSizeX << ", " << rulerSizeY << ", " << rulerSizeZ << std::endl;
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+		rulerPositionX += rulerPositionStep;
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+		rulerPositionY += rulerPositionStep;
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+		rulerPositionZ += rulerPositionStep;
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+		rulerPositionStep *= -1;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
