@@ -87,6 +87,7 @@ StyleCopReport.xml
 *.log
 *.vspscc
 *.vssscc
+*.vcxproj
 .builds
 *.pidb
 *.svclog
