@@ -66,12 +66,6 @@ Ns 50
 illum 7
 map_Kd Stone.png
 
-newmtl Grass
-Ka 1 1 1
-Ns 50
-illum 7
-map_Kd Grass.bmp
-
 newmtl Yellow
 Ka 1 1 1
 Ns 50
