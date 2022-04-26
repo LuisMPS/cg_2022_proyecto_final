@@ -311,77 +311,141 @@ int main() {
 		shaderStatic.setMat4("projection", projection);
 		shaderStatic.setMat4("view", view);
 
-		//Plano Asfalto
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.07f * scale, -0.1f, 9.77f * scale));
-		model = glm::scale(model, glm::vec3(0.005348f * scale, 1.0f, 0.003904f * scale));
+		for (int i = 0; i <= 5; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(-7.5f * i * scale, -0.1f, -3.75f * scale));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 7.5f * scale, 1.0f, 1.0f / 5000.0f * 7.5f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		for (int i = 0; i <= 4; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(7.5f * i * scale, -0.1f, -3.75f * scale));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 7.5f * scale, 1.0f, 1.0f / 5000.0f * 7.5f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		for (int i = 0; i <= 5; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, -0.1f, (-3.75f - 14.31f * i) * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 14.31f * scale, 1.0f, 1.0f / 5000.0f * 14.31f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		for (int i = 0; i <= 5; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, -0.1f, (-3.75f + 14.31f * i) * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 14.31f * scale, 1.0f, 1.0f / 5000.0f * 14.31f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		for (int i = 0; i <= 2; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(-36.07f * scale, -0.1f, (-3.75f - 7.5f * i) * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 7.5f * scale, 1.0f, 1.0f / 5000.0f * 7.5f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		for (int i = 0; i <= 6; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(-36.07f * scale, -0.1f, (-3.75f + 7.5f * i) * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 7.5f * scale, 1.0f, 1.0f / 5000.0f * 7.5f * scale));
+			shaderStatic.setMat4("model", model);
+			Asphalt.Draw(shaderStatic);
+		}
+
+		// Plano Asfalto Debajo de Cancha
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.180f * scale, -0.1f, 23.90f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 26.76f * scale, 1.0f, 1.0f / 5000.0f * 19.54f * scale));
 		shaderStatic.setMat4("model", model);
 		Asphalt.Draw(shaderStatic);
 
-		//Asfalto (Cambiar?)
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.045f * scale, -0.1f, 9.77f * scale));
-		model = glm::scale(model, glm::vec3(0.00467f * scale, 1.0f, 0.003904f * scale));
+		// Plano Asfalto Debajo de Cesped 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.01f * scale, -0.1f, 23.90f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 22.90f * scale, 1.0f, 1.0f / 5000.0f * 19.54f * scale));
 		shaderStatic.setMat4("model", model);
 		Asphalt.Draw(shaderStatic);
 
-		//Cesped
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.045f * scale, -2.6f, 9.77f * scale));
+		// Plano Asfalto Debajo de Cesped 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.180f * scale, -0.1f, 3.34f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 26.76f * scale, 1.0f, 1.0f / 5000.0f * 21.58f * scale));
+		shaderStatic.setMat4("model", model);
+		Asphalt.Draw(shaderStatic);
+
+		// Cesped 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.01f * scale, -2.6f, 23.90f * scale));
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.0567f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 300.0f * 17.0f * scale, 1.0f / 300.0f * 17.0f * scale, 1.0f / 300.0f * 17.0f * scale));
 		shaderStatic.setMat4("model", model);
 		Grass.Draw(shaderStatic);
 
-		//Columpio
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-83.045f * scale, 1.7f, 15.0f * scale));
+		// Cesped 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.180f * scale, -0.1f, 3.34f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 300.0f * 18.93f * scale, 1.0f / 300.0f * 18.93f * scale, 1.0f / 300.0f * 18.93f * scale));
+		shaderStatic.setMat4("model", model);
+		Grass.Draw(shaderStatic);
+
+		// Columpio 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-83.045f * scale, 1.7f, 27.0f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
 		Swing.Draw(shaderStatic);
 
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-83.045f * scale, 1.7f, 10.0f * scale));
+		// Columpio 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-83.045f * scale, 1.7f, 21.5f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
 		Swing.Draw(shaderStatic);
 
-		//Bancas
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-75.045f * scale, 1.0f, 5.0f * scale));
+		// Banca 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-75.045f * scale, 1.0f, 17.0f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.0125f * scale));
 		shaderStatic.setMat4("model", model);
 		Banca.Draw(shaderStatic);
 
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-79.045f * scale, 1.0f, 5.0f * scale));
+		// Banca 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-79.045f * scale, 1.0f, 17.0f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.0125f * scale));
 		shaderStatic.setMat4("model", model);
 		Banca.Draw(shaderStatic);
 
-		//Aros de Basketball
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-415.0f, 0.0f, 99.5f));
+		// Aro de Basketball 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-41.5f * scale, 0.0f, 24.05f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(0.1f));
 		shaderStatic.setMat4("model", model);
 		BasketHoop.Draw(shaderStatic);
 
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-647.0f, 0.0f, 96.0f));
+		// Aro de Basketball 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-64.7f * scale, 0.0f, 23.75f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(0.1f));
 		shaderStatic.setMat4("model", model);
 		BasketHoop.Draw(shaderStatic);
 
-		//Cancha
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.07f * scale, 0.0f, 9.77f * scale));
-		model = glm::scale(model, glm::vec3(0.01f * scale, 1.0f, 0.0104f * scale));
+		// Cancha de Basket
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.30f * scale, 0.05f, 23.90f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 2650.0f * 26.76f * scale, 1.0f, 1.0f / 1550.0f * 19.54f * scale));
 		shaderStatic.setMat4("model", model);
 		BasketField.Draw(shaderStatic);
 
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.07f * scale, 3.0f, 9.77f * scale));
+		// Pelota de Basket
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-53.180f * scale, 3.0f, 23.90f * scale));
 		model = glm::scale(model, glm::vec3(0.1f));
 		shaderStatic.setMat4("model", model);
 		BasketBall.Draw(shaderStatic);
 
+		// Modelo de Prueba
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20, lightPosition.z));
 		model = glm::scale(model, glm::vec3(0.05f));
 		shaderStatic.setMat4("model", model);
