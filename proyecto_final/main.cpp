@@ -266,15 +266,16 @@ int main() {
 	Model BasketField("resources/models/BasketballField/BasketballField.obj");
 	Model BasketBall("resources/models/BasketballBall/Basketball.obj");
 	Model Grass("resources/models/Grass/Grass.obj");
+	Model Greens("resources/models/Greens/Greens.obj");
 	Model Swing("resources/models/Swing/Swing.obj");
 	Model Banca("resources/models/ParkBench/ParkBench.obj");
 	Model Sidewalk("resources/models/Sidewalk/Sidewalk.obj");
 
-	Model testModel("resources/models/Sidewalk/Sidewalk.obj");
+	Model testModel("resources/models/Grass/Grass.obj");
 
 	// render loop
 	// -----------
-	while (!glfwWindowShouldClose(window)) {	
+	while (!glfwWindowShouldClose(window)) {
 
 		shaderSkybox.setInt("skybox", 0);
 
@@ -288,7 +289,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shaderStatic.use();
-		
+
 		//Setup Advanced Lights
 		shaderStatic.setVec3("viewPos", camera.Position);
 		shaderStatic.setVec3("dirLight.direction", lightDirection);
@@ -342,7 +343,7 @@ int main() {
 		Asphalt.Draw(shaderStatic);
 
 		// Calle 2
-		for (int i = 0; i <= 5; i++) {
+		for (int i = 0; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, -0.1f, (-3.75f - 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 14.31f * scale, 1.0f, 1.0f / 5000.0f * 14.31f * scale));
@@ -351,7 +352,7 @@ int main() {
 		}
 
 		// Calle 2
-		for (int i = 0; i <= 5; i++) {
+		for (int i = 0; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, -0.1f, (-3.75f + 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 14.31f * scale, 1.0f, 1.0f / 5000.0f * 14.31f * scale));
@@ -360,7 +361,7 @@ int main() {
 		}
 
 		// Calle 3
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-36.07f * scale, -0.1f, (-3.75f - 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 7.5f * scale, 1.0f, 1.0f / 5000.0f * 7.5f * scale));
@@ -434,7 +435,7 @@ int main() {
 		Sidewalk.Draw(shaderStatic);
 
 		// Banqueta Calle 2 Izquierda
-		for (int i = 0; i <= 5; i++) {
+		for (int i = 0; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(47.17f * scale, -0.1f, (-3.75f + 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.31f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
@@ -450,7 +451,7 @@ int main() {
 		Sidewalk.Draw(shaderStatic);
 
 		// Banqueta Calle 2 Izquierda
-		for (int i = 0; i <= 5; i++) {
+		for (int i = 0; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(47.17f * scale, -0.1f, (-3.75f - 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.31f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
@@ -466,7 +467,7 @@ int main() {
 		Sidewalk.Draw(shaderStatic);
 
 		// Banqueta Calle 2 Derecha 
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(31.86f * scale, -0.1f, (-3.75f + 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.31f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
@@ -475,7 +476,7 @@ int main() {
 		}
 
 		// Banqueta Calle 2 Derecha
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(31.86f * scale, -0.1f, (-3.75f - 14.31f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.31f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
@@ -484,7 +485,7 @@ int main() {
 		}
 
 		// Banqueta Calle 3 Izquierda
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-40.32f * scale, -0.1f, (-3.75f - 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 7.5f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
@@ -502,13 +503,15 @@ int main() {
 		}
 
 		// Banqueta Calle 3 Derecha
-		for (int i = 1; i <= 2; i++) {
+		for (int i = 1; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-31.82f * scale, -0.1f, (-3.75f - 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(1.0f / 100.0f * 7.5f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 1.0f * scale));
 			shaderStatic.setMat4("model", model);
 			Sidewalk.Draw(shaderStatic);
 		}
+
+		/* AREA RECREATIVA */
 
 		// Banqueta Calle 3 Derecha
 		for (int i = 1; i <= 6; i++) {
@@ -607,9 +610,34 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		BasketBall.Draw(shaderStatic);
 
+		/* AREA RESIDENCIAL */
+
+		// Piso de Pasto
+		for (int i = 0; i <= 9; i++) {
+			for (int j = 0; j <= 4; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-28.35f + 6.3f * i) * scale, -0.1f, (4.284f + 6.568f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.568f * scale));
+				shaderStatic.setMat4("model", model);
+				Greens.Draw(shaderStatic);
+			}
+		}
+
+		/* AREA COMUN */
+
+		// Piso de Pasto
+		for (int i = 0; i <= 9; i++) {
+			for (int j = 0; j <= 5; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-28.35f + 6.3f * i) * scale, -0.1f, (-11.715f - 6.43f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.43f * scale));
+				shaderStatic.setMat4("model", model);
+				Greens.Draw(shaderStatic);
+			}
+		}
+
 		// Modelo de Prueba
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20.0f, lightPosition.z));
-		model = glm::scale(model, glm::vec3(1.0f));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 300.0f * 50.0f, 1.0f / 300.0f * 50.0f, 1.0f / 100.0f));
 		shaderStatic.setMat4("model", model);
 		testModel.Draw(shaderStatic);
 
