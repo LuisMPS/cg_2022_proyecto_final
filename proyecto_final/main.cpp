@@ -492,7 +492,7 @@ int main() {
 			Sidewalk.Draw(shaderStatic);
 		}
 
-		// Banqueta Calle 3 Derecha
+		// Banqueta Calle 3 Izquierda
 		for (int i = 0; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-40.32f * scale, -0.1f, (-3.75f + 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -501,7 +501,7 @@ int main() {
 			Sidewalk.Draw(shaderStatic);
 		}
 
-		// Banqueta 6
+		// Banqueta Calle 3 Derecha
 		for (int i = 1; i <= 2; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-31.82f * scale, -0.1f, (-3.75f - 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -510,7 +510,7 @@ int main() {
 			Sidewalk.Draw(shaderStatic);
 		}
 
-		// Banqueta 6
+		// Banqueta Calle 3 Derecha
 		for (int i = 1; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-31.82f * scale, -0.1f, (-3.75f + 7.5f * i) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
