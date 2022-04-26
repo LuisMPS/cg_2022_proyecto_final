@@ -270,6 +270,9 @@ int main() {
 	Model Swing("resources/models/Swing/Swing.obj");
 	Model Banca("resources/models/ParkBench/ParkBench.obj");
 	Model Sidewalk("resources/models/Sidewalk/Sidewalk.obj");
+	Model Path("resources/models/Path/Path.obj");
+	Model Pool("resources/models/SwimmingPool/Pool.obj");
+	Model Water("resources/models/Water/Water.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -511,8 +514,6 @@ int main() {
 			Sidewalk.Draw(shaderStatic);
 		}
 
-		/* AREA RECREATIVA */
-
 		// Banqueta Calle 3 Derecha
 		for (int i = 1; i <= 6; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-31.82f * scale, -0.1f, (-3.75f + 7.5f * i) * scale));
@@ -521,6 +522,8 @@ int main() {
 			shaderStatic.setMat4("model", model);
 			Sidewalk.Draw(shaderStatic);
 		}
+
+		/* AREA RECREATIVA */
 
 		// Plano Asfalto Debajo de Cancha
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, -0.1f, 23.90f * scale));
@@ -626,13 +629,59 @@ int main() {
 
 		// Piso de Pasto
 		for (int i = 0; i <= 9; i++) {
-			for (int j = 0; j <= 5; j++) {
+			for (int j = 0; j <= 8; j++) {
 				model = glm::translate(glm::mat4(1.0f), glm::vec3((-28.35f + 6.3f * i) * scale, -0.1f, (-11.715f - 6.43f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.43f * scale));
 				shaderStatic.setMat4("model", model);
 				Greens.Draw(shaderStatic);
 			}
 		}
+
+		// Camino 1
+		for (int i = 0; i <= 3; i++) {
+			for (int j = 0; j <= 24; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.055f + 1.37f * i) * scale, 0.0f, (-9.162f - 1.324f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.37f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
+				shaderStatic.setMat4("model", model);
+				Path.Draw(shaderStatic);
+			}
+		}
+
+		// Camino 2
+		for (int i = 0; i <= 3; i++) {
+			for (int j = 0; j <= 25; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.078f + 1.324f * j) * scale, 0.0f, (-42.285f - 1.37f * i) * scale));
+				model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.37f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
+				shaderStatic.setMat4("model", model);
+				Path.Draw(shaderStatic);
+			}
+		}
+
+		// Camino a Alberca
+		for (int i = 0; i <= 3; i++) {
+			for (int j = 0; j <= 7; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-3.365f - 1.25f * i) * scale, 0.0f, (-12.075f - 1.25f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.25f * scale, 1.0f, 1.0f / 5000.0f * 1.25f * scale));
+				shaderStatic.setMat4("model", model);
+				Path.Draw(shaderStatic);
+			}
+		}
+
+		// Alberca
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.25f, -16.45f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 92.5f * 20.0f * scale, 1.0f / 97.0f * 10.0f * scale, 1.0f / 52.5f * 10.0f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Pool.Draw(shaderStatic);
+
+		// Agua de Alberca
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.85f, -16.45f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 19.0f * scale, 1.0f, 1.0f / 5000.0f * 9.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Water.Draw(shaderStatic);
+
+		/* FIN DE AREAS */
 
 		// Modelo de Prueba
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(lightPosition.x, lightPosition.y - 20.0f, lightPosition.z));
