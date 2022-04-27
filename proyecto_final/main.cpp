@@ -523,6 +523,46 @@ int main() {
 			Sidewalk.Draw(shaderStatic);
 		}
 
+		// Camellon 1 Concreto
+		for (int i = 0; i <= 1; i++) {
+			for (int j = 0; j <= 1; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((38.84f + 1.35f * j) * scale, -0.1f, (10.35f + 14.1f * i) * scale));
+				model = glm::rotate(model, glm::radians(90.0f + 180.0f * j), glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.1f * scale, 1.0f / 5.0f * 0.15f * scale, 1.0f / 20.0f * 1.35f * scale));
+				shaderStatic.setMat4("model", model);
+				Sidewalk.Draw(shaderStatic);
+			}
+		}
+
+		// Camellon 1 Pasto
+		for (int i = 0; i <= 11; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, 1.5f, (4.475f + 2.35 * i) * scale));
+			model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 300.0f * 1.9f * scale, 1.0f / 300.0f * 2.35f * scale, 1.0f / 150.0f * scale));
+			shaderStatic.setMat4("model", model);
+			Grass.Draw(shaderStatic);
+		}
+
+		// Camellon 2 Concreto
+		for (int i = 0; i <= 1; i++) {
+			for (int j = 0; j <= 1; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((38.84f + 1.35f * j) * scale, -0.1f, (-17.85f - 14.1f * i) * scale));
+				model = glm::rotate(model, glm::radians(90.0f + 180.0f * j), glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(1.0f / 100.0f * 14.1f * scale, 1.0f / 5.0f * 0.15f * scale, 1.0f / 20.0f * 1.35f * scale));
+				shaderStatic.setMat4("model", model);
+				Sidewalk.Draw(shaderStatic);
+			}
+		}
+
+		// Camellon 2 Pasto
+		for (int i = 0; i <= 11; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(39.515f * scale, 1.5f, (-11.975 - 2.35 * i) * scale));
+			model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(1.0f / 300.0f * 1.9f * scale, 1.0f / 300.0f * 2.35f * scale, 1.0f / 150.0f * scale));
+			shaderStatic.setMat4("model", model);
+			Grass.Draw(shaderStatic);
+		}
+
 		/* AREA RECREATIVA */
 
 		// Plano Asfalto Debajo de Cancha
