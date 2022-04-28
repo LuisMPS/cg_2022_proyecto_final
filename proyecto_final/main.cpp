@@ -735,8 +735,8 @@ int main() {
 		Slide.Draw(shaderStatic);
 
 		//Caja de arena
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-80.045f * scale, 1.7f, 20.0f * scale));
-		model = glm::scale(model, glm::vec3(0.007f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.045f * scale, 1.0f, 22.0f * scale));
+		model = glm::scale(model, glm::vec3(0.002f * scale));
 		shaderStatic.setMat4("model", model);
 		Sandbox.Draw(shaderStatic);
 
