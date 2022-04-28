@@ -242,7 +242,6 @@ int main() {
 	Shader shaderStatic("shaders/shader_static.vs", "shaders/shader_static.fs");
 	Shader shaderSkybox("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
 	Shader shaderCube("shaders/shader_texture_color.vs", "shaders/shader_texture_color.fs");
-	Shader animShader("Shaders/anim.vs", "Shaders/anim.fs");
 
 	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
@@ -276,6 +275,7 @@ int main() {
 	Model Water("resources/models/Water/Water.obj");
 	Model HouseThree("resources/models/HouseThreeFloor/HouseThree.obj");
 	Model Kite("resources/models/Kite/Kite.obj");
+	Model Jeep("resources/models/Jeep/Jeep.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -567,9 +567,14 @@ int main() {
 			Grass.Draw(shaderStatic);
 		}
 
-		/* AREA RECREATIVA */
+		// Auto 1
+		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(1.75f, 0.5f, 9.75f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Jeep.Draw(shaderStatic);*/
 
-		
+		/* AREA RECREATIVA */
 
 		// Plano Asfalto Debajo de Cancha
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, -0.1f, 23.90f * scale));
@@ -669,27 +674,13 @@ int main() {
 
 		// Piso de Pasto
 		for (int i = 0; i <= 9; i++) {
-			for (int j = 0; j <= 4; j++) {
+			for (int j = 0; j <= 5; j++) {
 				model = glm::translate(glm::mat4(1.0f), glm::vec3((-28.35f + 6.3f * i) * scale, -0.1f, (4.284f + 6.568f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.568f * scale));
 				shaderStatic.setMat4("model", model);
 				Greens.Draw(shaderStatic);
 			}
 		}
-
-		// HouseThree
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.0f, 10.0f * scale));
-		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 20.0f * scale, 1.0f / 390.0f * 10.0f * scale, 1.0f / 710.0f * 10.0f * scale));
-		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		shaderStatic.setMat4("model", model);
-		HouseThree.Draw(shaderStatic);
-
-		// HouseThree2
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.0f, 25.0f * scale));
-		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 20.0f * scale, 1.0f / 390.0f * 10.0f * scale, 1.0f / 710.0f * 10.0f * scale));
-		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		shaderStatic.setMat4("model", model);
-		HouseThree.Draw(shaderStatic);
 
 		/* AREA COMUN */
 
@@ -746,6 +737,18 @@ int main() {
 		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 19.0f * scale, 1.0f, 1.0f / 5000.0f * 9.0f * scale));
 		shaderStatic.setMat4("model", model);
 		Water.Draw(shaderStatic);
+
+		/* AREA VERDE */
+
+		// Piso de Pasto
+		for (int i = 0; i <= 7; i++) {
+			for (int j = 0; j <= 15; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((50.82f + 6.3f * i) * scale, -0.1f, (37.071f - 6.673625f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.673625f * scale));
+				shaderStatic.setMat4("model", model);
+				Greens.Draw(shaderStatic);
+			}
+		}
 
 		/* FIN DE AREAS */
 
