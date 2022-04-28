@@ -278,6 +278,10 @@ int main() {
 	Model Jeep("resources/models/Jeep/Jeep.obj");
 	Model Slide("resources/models/Slide/Slide.obj");
 	Model Sandbox("resources/models/Sandbox/Sandbox.obj");
+	Model LamboWheel("resources/models/Lambo/Wheel.obj");
+	Model LamboBody("resources/models/Lambo/Carroceria.obj");
+	Model Subaru("resources/models/Subaru/Subaru.obj");
+	Model LampSingle("resources/models/Lamp/LampSingle.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -569,12 +573,102 @@ int main() {
 			Grass.Draw(shaderStatic);
 		}
 
-		// Auto 1
-		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(1.75f, 0.5f, 9.75f));
+		// Faros de Luz Calle 1 Izquierda
+		for (int i = 0; i <= 2; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((21.6666f - 21.1666f * i) * scale, 0.0f, 0.5f * scale));
+			model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			shaderStatic.setMat4("model", model);
+			LampSingle.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Calle 1 Izquierda
+		for (int i = 0; i <= 3; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((31.75f - 21.1666f * i) * scale, 0.0f, -8.0f * scale));
+			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			shaderStatic.setMat4("model", model);
+			LampSingle.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Calle 2 Izquierda
+		for (int j = 0; j <= 7; j++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(-40.32f * scale, 0.0f, (37.071f - 13.34725 * j) * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			shaderStatic.setMat4("model", model);
+			LampSingle.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Calle 3 Izquierda
+		for (int j = 0; j <= 7; j++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(47.17f * scale, 0.0f, (37.071f - 13.34725 * j) * scale));
+			model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			shaderStatic.setMat4("model", model);
+			LampSingle.Draw(shaderStatic);
+		}
+
+		// Auto Jeep Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.75f * scale, 0.35f, -1.75f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f * scale));
 		shaderStatic.setMat4("model", model);
-		Jeep.Draw(shaderStatic);*/
+		Jeep.Draw(shaderStatic);
+
+		// Auto Lambo Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.75f * scale, 0.5f, -5.75f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.008333f * scale));
+		shaderStatic.setMat4("model", model);
+		LamboBody.Draw(shaderStatic);
+
+		// Llantas Auto Lambo Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-18.82f * scale, 2.95f, -6.45f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.008333f * scale));
+		shaderStatic.setMat4("model", model);
+		LamboWheel.Draw(shaderStatic);
+
+		// Llantas Auto Lambo Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-16.53f * scale, 2.95f, -6.45f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.008333f * scale));
+		shaderStatic.setMat4("model", model);
+		LamboWheel.Draw(shaderStatic);
+
+		// Llantas Auto Lambo Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-18.82f * scale, 2.95f, -5.05f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.008333f * scale));
+		shaderStatic.setMat4("model", model);
+		LamboWheel.Draw(shaderStatic);
+
+		// Llantas Auto Lambo Calle 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-16.53f * scale, 2.95f, -5.05f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.008333f * scale));
+		shaderStatic.setMat4("model", model);
+		LamboWheel.Draw(shaderStatic);
+
+		// Auto Subaru 2 Calle 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(43.9f * scale, 0.5f, 18.5f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.35f * scale));
+		shaderStatic.setMat4("model", model);
+		Subaru.Draw(shaderStatic);
+
+		// Auto Jeep Calle 3
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-37.82f * scale, 0.35f, -25.75f * scale));
+		model = glm::scale(model, glm::vec3(1.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Jeep.Draw(shaderStatic);
+
+		// Auto Subaru Calle 3
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-34.02f * scale, 0.35f, 22.75f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.35f * scale));
+		shaderStatic.setMat4("model", model);
+		Subaru.Draw(shaderStatic);
 
 		/* AREA RECREATIVA */
 
