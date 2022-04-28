@@ -242,6 +242,7 @@ int main() {
 	Shader shaderStatic("shaders/shader_static.vs", "shaders/shader_static.fs");
 	Shader shaderSkybox("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
 	Shader shaderCube("shaders/shader_texture_color.vs", "shaders/shader_texture_color.fs");
+	Shader animShader("Shaders/anim.vs", "Shaders/anim.fs");
 
 	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
@@ -273,8 +274,11 @@ int main() {
 	Model Path("resources/models/Path/Path.obj");
 	Model Pool("resources/models/SwimmingPool/Pool.obj");
 	Model Water("resources/models/Water/Water.obj");
+	Model HouseThree("resources/models/HouseThreeFloor/HouseThree.obj");
+	Model Kite("resources/models/Kite/Kite.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
+
 
 	// render loop
 	// -----------
@@ -565,6 +569,8 @@ int main() {
 
 		/* AREA RECREATIVA */
 
+		
+
 		// Plano Asfalto Debajo de Cancha
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, -0.1f, 23.90f * scale));
 		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 26.76f * scale, 1.0f, 1.0f / 5000.0f * 19.54f * scale));
@@ -653,6 +659,12 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		BasketBall.Draw(shaderStatic);
 
+		// Kite
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, 6.0f, 23.90f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		shaderStatic.setMat4("model", model);
+		Kite.Draw(shaderStatic);
+
 		/* AREA RESIDENCIAL */
 
 		// Piso de Pasto
@@ -664,6 +676,20 @@ int main() {
 				Greens.Draw(shaderStatic);
 			}
 		}
+
+		// HouseThree
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.0f, 10.0f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 20.0f * scale, 1.0f / 390.0f * 10.0f * scale, 1.0f / 710.0f * 10.0f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		HouseThree.Draw(shaderStatic);
+
+		// HouseThree2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.0f, 25.0f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 20.0f * scale, 1.0f / 390.0f * 10.0f * scale, 1.0f / 710.0f * 10.0f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		HouseThree.Draw(shaderStatic);
 
 		/* AREA COMUN */
 
