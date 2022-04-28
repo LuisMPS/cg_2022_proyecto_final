@@ -40,7 +40,7 @@ glm::vec3 lightDirection(-1.0f, -1.0f, 0.0f);
 void getResolution(void);
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+Camera camera(glm::vec3(0.0f, 10.0f, 5.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -276,6 +276,8 @@ int main() {
 	Model HouseThree("resources/models/HouseThreeFloor/HouseThree.obj");
 	Model Kite("resources/models/Kite/Kite.obj");
 	Model Jeep("resources/models/Jeep/Jeep.obj");
+	Model Slide("resources/models/Slide/Slide.obj");
+	Model Sandbox("resources/models/Sandbox/Sandbox.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -604,7 +606,7 @@ int main() {
 		// Cesped 2
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, -0.1f, 3.34f * scale));
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f / 300.0f * 18.93f * scale, 1.0f / 300.0f * 18.93f * scale, 1.0f / 300.0f * 18.93f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 300.0f * 18.93f * scale, 1.0f / 300.0f * 17.0f * scale, 1.0f / 300.0f * 18.93f * scale));
 		shaderStatic.setMat4("model", model);
 		Grass.Draw(shaderStatic);
 
@@ -621,6 +623,28 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
 		Swing.Draw(shaderStatic);
+
+		//Resbaladilla 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-75.045f * scale, 1.7f, 28.0f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.007f * scale));
+		shaderStatic.setMat4("model", model);
+		Slide.Draw(shaderStatic);
+
+		//Resbaladilla 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-80.045f * scale, 1.7f, 28.0f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.007f * scale));
+		shaderStatic.setMat4("model", model);
+		Slide.Draw(shaderStatic);
+
+		//Caja de arena
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-80.045f * scale, 1.7f, 20.0f * scale));
+		model = glm::scale(model, glm::vec3(0.007f * scale));
+		shaderStatic.setMat4("model", model);
+		Sandbox.Draw(shaderStatic);
 
 		// Banca 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-76.045f * scale, 1.0f, 17.0f * scale));
