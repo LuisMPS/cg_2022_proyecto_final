@@ -282,6 +282,10 @@ int main() {
 	Model LamboBody("resources/models/Lambo/Carroceria.obj");
 	Model Subaru("resources/models/Subaru/Subaru.obj");
 	Model LampSingle("resources/models/Lamp/LampSingle.obj");
+	Model OakTree("resources/models/Trees/OakTree.obj");
+	Model Grill("resources/models/Grill/BBQ.obj");
+	Model PicnicTable("resources/models/PicnicTable/Table.obj");
+	Model Goal("resources/models/Goal/Goal.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -734,20 +738,51 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		Slide.Draw(shaderStatic);
 
+		//Resbaladilla 3
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f * scale, 5.0f, 6.0f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.007f * scale));
+		shaderStatic.setMat4("model", model);
+		Slide.Draw(shaderStatic);
+
 		//Caja de arena
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-78.045f * scale, 1.0f, 22.0f * scale));
 		model = glm::scale(model, glm::vec3(0.002f * scale));
 		shaderStatic.setMat4("model", model);
 		Sandbox.Draw(shaderStatic);
 
+		//Arbol 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-60.0f * scale, 5.0f, 3.34f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(2.0f * scale));
+		shaderStatic.setMat4("model", model);
+		OakTree.Draw(shaderStatic);
+
+		//Arbol 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-57.0f * scale, 5.0f, -2.0f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f * scale));
+		shaderStatic.setMat4("model", model);
+		OakTree.Draw(shaderStatic);
+
 		// Banca 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-58.0f * scale, 5.0f, 1.0f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.0125f * scale));
+		shaderStatic.setMat4("model", model);
+		Banca.Draw(shaderStatic);
+
+		// Banca 2
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-76.045f * scale, 1.0f, 17.0f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.0125f * scale));
 		shaderStatic.setMat4("model", model);
 		Banca.Draw(shaderStatic);
 
-		// Banca 2
+		// Banca 3
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-80.045f * scale, 1.0f, 17.0f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.0125f * scale));
@@ -849,6 +884,92 @@ int main() {
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
 		Pool.Draw(shaderStatic);
+
+		//Parrilla 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -37.0f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Grill.Draw(shaderStatic);
+
+		//Parrilla 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(17.0f * scale, 1.0f, -37.0f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Grill.Draw(shaderStatic);
+
+		//Parrilla 3
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -37.0f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Grill.Draw(shaderStatic);
+
+		//Parrilla 4
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(13.0f * scale, 1.0f, -21.0f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		shaderStatic.setMat4("model", model);
+		Grill.Draw(shaderStatic);
+
+		//Parrilla 5
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(21.0f * scale, 1.0f, -21.0f * scale));
+		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		shaderStatic.setMat4("model", model);
+		Grill.Draw(shaderStatic);
+
+		//Mesa Picnic 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -33.0f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		//Mesa Picnic 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(17.0f * scale, 1.0f, -33.0f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		//Mesa Picnic 3
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -33.0f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		//Mesa Picnic 4
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(13.0f * scale, 1.0f, -24.0f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		//Mesa Picnic 5
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(21.0f * scale, 1.0f, -24.0f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		//Porteria 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -15.0f * scale));
+		model = glm::scale(model, glm::vec3(0.8f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Goal.Draw(shaderStatic);
+
+		//Porteria 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -15.0f * scale));
+		model = glm::scale(model, glm::vec3(0.8f * scale));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Goal.Draw(shaderStatic);
 
 		// Agua de Alberca
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.85f, -16.45f * scale));
