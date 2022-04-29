@@ -274,7 +274,7 @@ int main() {
 	Model Pool("resources/models/SwimmingPool/Pool.obj");
 	Model Water("resources/models/Water/Water.obj");
 	Model HouseThree("resources/models/HouseThreeFloor/HouseThree.obj");
-	Model Kite("resources/models/Kite/Kite.obj");
+	Model Kite("resources/models/Kite/KiteModell.obj");
 	Model Jeep("resources/models/Jeep/Jeep.obj");
 	Model Slide("resources/models/Slide/Slide.obj");
 	Model Sandbox("resources/models/Sandbox/Sandbox.obj");
@@ -783,8 +783,8 @@ int main() {
 		BasketBall.Draw(shaderStatic);
 
 		// Kite
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.180f * scale, 6.0f, 23.90f * scale));
-		model = glm::scale(model, glm::vec3(0.01f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-75.40f * scale, 1.0f, 18.40f * scale));
+		model = glm::scale(model, glm::vec3(0.7f * scale));
 		shaderStatic.setMat4("model", model);
 		Kite.Draw(shaderStatic);
 
