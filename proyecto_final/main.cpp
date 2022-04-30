@@ -586,7 +586,7 @@ int main() {
 		for (int i = 0; i <= 2; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3((21.6666f - 21.1666f * i) * scale, 0.0f, 0.5f * scale));
 			model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			model = glm::scale(model, glm::vec3(0.1111f * scale));
 			shaderStatic.setMat4("model", model);
 			LampSingle.Draw(shaderStatic);
 		}
@@ -594,7 +594,7 @@ int main() {
 		// Faros de Luz Calle 1 Izquierda
 		for (int i = 0; i <= 3; i++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3((31.75f - 21.1666f * i) * scale, 0.0f, -8.0f * scale));
-			model = glm::scale(model, glm::vec3(0.1111 * scale));
+			model = glm::scale(model, glm::vec3(0.1111f * scale));
 			shaderStatic.setMat4("model", model);
 			LampSingle.Draw(shaderStatic);
 		}
@@ -920,17 +920,69 @@ int main() {
 			}
 		}
 
-		// Faro de Luz
+		// Faros de Luz Derecha Camino 1
 		for (int i = 0; i <= 2; i++) {
-			model = glm::translate(glm::mat4(1.0f), glm::vec3(0.22f * scale, 0.1f, (0.5f + 5.83f * i) * scale));
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(0.22f * scale, 0.1f, (0.75f + 5.5833f * i) * scale));
 			model = glm::scale(model, glm::vec3(0.2777f * scale));
 			shaderStatic.setMat4("model", model);
 			GardenLight.Draw(shaderStatic);
 		}
 
-		// Faro de Luz
+		// Faros de Luz Izquierda Camino 1
 		for (int i = 0; i <= 2; i++) {
-			model = glm::translate(glm::mat4(1.0f), glm::vec3(3.38f * scale, 0.1f, (0.5f + 5.83f * i) * scale));
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(3.38f * scale, 0.1f, (0.75f + 5.5833f * i) * scale));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Derecha Camino 1
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(0.22f * scale, 0.1f, (23.5f + 5.5833f * i) * scale));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Izquierda Camino 1
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(3.38f * scale, 0.1f, (23.5f + 5.5833f * i) * scale));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Derecha Camino 2
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((-17.85f + 5.5833f * i) * scale, 0.0f, 20.9f * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Izquierda Camino 2
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((-17.85f + 5.5833f * i) * scale, 0.0f, 17.74f * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Derecha Camino 2
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((6.15f + 5.5833f * i) * scale, 0.0f, 20.9f * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faros de Luz Izquierda Camino 2
+		for (int i = 0; i <= 1; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3((6.15f + 5.5833f * i) * scale, 0.0f, 17.74f * scale));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.2777f * scale));
 			shaderStatic.setMat4("model", model);
 			GardenLight.Draw(shaderStatic);
