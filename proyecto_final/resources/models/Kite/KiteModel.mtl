@@ -10,7 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Huber\\OneDrive\\Documentos\\3ds Max 2023\\import\\Kite\\Black.png
+map_Kd Black.png
 
 newmtl Blue
 Ns 0.000000
@@ -21,7 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Huber\\OneDrive\\Documentos\\3ds Max 2023\\import\\Kite\\Blue.jpg
+map_Kd Blue.jpg
 
 newmtl Red
 Ns 0.000000
@@ -32,7 +32,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Huber\\OneDrive\\Documentos\\3ds Max 2023\\import\\Kite\\Red.jpg
+map_Kd Red.jpg
 
 newmtl White
 Ns 0.000000
@@ -43,7 +43,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Huber\\OneDrive\\Documentos\\3ds Max 2023\\import\\Kite\\White.png
+map_Kd White.png
 
 newmtl Yellow
 Ns 0.000000
@@ -54,4 +54,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd C:\\Users\\Huber\\OneDrive\\Documentos\\3ds Max 2023\\import\\Kite\\Yellow.png
+map_Kd Yellow.png
