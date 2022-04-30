@@ -50,9 +50,9 @@ float	rulerSizeX = 5.0f,
 		rulerSizeZ = 5.0f,
 		rulerSizeStep = 2.5f;
 
-float	rulerPositionX = 5.0f,
+float	rulerPositionX = 0.0f,
 		rulerPositionY = 5.0f,
-		rulerPositionZ = 5.0f,
+		rulerPositionZ = 0.0f,
 		rulerPositionStep = 2.5f;
 
 // timing
@@ -273,8 +273,7 @@ int main() {
 	Model Path("resources/models/Path/Path.obj");
 	Model Pool("resources/models/SwimmingPool/Pool.obj");
 	Model Water("resources/models/Water/Water.obj");
-	Model HouseThree("resources/models/HouseThreeFloor/HouseThree.obj");
-	Model Kite("resources/models/Kite/KiteModell.obj");
+	Model Kite("resources/models/Kite/Kite.obj");
 	Model Jeep("resources/models/Jeep/Jeep.obj");
 	Model Slide("resources/models/Slide/Slide.obj");
 	Model Sandbox("resources/models/Sandbox/Sandbox.obj");
@@ -289,7 +288,10 @@ int main() {
 	Model SwingMoving("resources/models/SwingMoving/SwingMoving.obj");
 	Model SwingWithout("resources/models/SwingWithout/SwingWithoutMiddle.obj");
 	Model KiteTile("resources/models/KiteTile/KiteTileModel.obj");
-
+	Model Apartment("resources/models/Apartment/Building.obj");
+	Model HouseThreeFloor("resources/models/HouseThreeFloor/HouseThree.obj");
+	Model Fountain("resources/models/Fountain/Fountain.obj");
+	Model GardenLight("resources/models/GardenLight/GardenLight.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
 
 
@@ -855,12 +857,83 @@ int main() {
 
 		// Piso de Pasto
 		for (int i = 0; i <= 9; i++) {
-			for (int j = 0; j <= 5; j++) {
+			for (int j = 0; j <= 10; j++) {
 				model = glm::translate(glm::mat4(1.0f), glm::vec3((-28.35f + 6.3f * i) * scale, -0.1f, (4.284f + 6.568f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 6.3f * scale, 1.0f, 1.0f / 5000.0f * 6.568f * scale));
 				shaderStatic.setMat4("model", model);
 				Greens.Draw(shaderStatic);
 			}
+		}
+
+		// Apartamentos 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-29.35f * scale, 0.1f, 38.35f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 3200.0f * 30.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Apartment.Draw(shaderStatic);
+
+		// Apartamentos 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(29.35f * scale, 0.1f, 4.0f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 3200.0f * 30.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Apartment.Draw(shaderStatic);
+
+		// Casa 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-7.35f * scale, 0.1f, 45.0f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 12.5f * scale));
+		shaderStatic.setMat4("model", model);
+		HouseThreeFloor.Draw(shaderStatic);
+
+		// Casa 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(10.65f * scale, 0.1f, 45.0f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 12.5f * scale));
+		shaderStatic.setMat4("model", model);
+		HouseThreeFloor.Draw(shaderStatic);
+
+		// Fuente 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f * scale, 0.1f, 21.2f * scale));
+		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f / 1317.5f * 10.0f * scale, 1.0f / 1907.5f * 10.0f * scale, 1.0f / 1907.5f * 10.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Fountain.Draw(shaderStatic);
+
+		// Camino 1
+		for (int i = 0; i <= 1; i++) {
+			for (int j = 0; j <= 24; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-0.75f + 1.5f * i) * scale, 0.0f, (1.662f + 1.324f * j) * scale));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.5f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
+				shaderStatic.setMat4("model", model);
+				Path.Draw(shaderStatic);
+			}
+		}
+
+		// Camino 2
+		for (int i = 0; i <= 1; i++) {
+			for (int j = 0; j <= 32; j++) {
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-21.184f + 1.324f * j) * scale, 0.0f, (21.87f - 1.5f * i) * scale));
+				model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.5f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
+				shaderStatic.setMat4("model", model);
+				Path.Draw(shaderStatic);
+			}
+		}
+
+		// Faro de Luz
+		for (int i = 0; i <= 2; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(0.22f * scale, 0.1f, (0.5f + 5.83f * i) * scale));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
+		}
+
+		// Faro de Luz
+		for (int i = 0; i <= 2; i++) {
+			model = glm::translate(glm::mat4(1.0f), glm::vec3(3.38f * scale, 0.1f, (0.5f + 5.83f * i) * scale));
+			model = glm::scale(model, glm::vec3(0.2777f * scale));
+			shaderStatic.setMat4("model", model);
+			GardenLight.Draw(shaderStatic);
 		}
 
 		/* AREA COMUN */
