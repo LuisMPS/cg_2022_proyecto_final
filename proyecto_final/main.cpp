@@ -286,6 +286,9 @@ int main() {
 	Model Grill("resources/models/Grill/BBQ.obj");
 	Model PicnicTable("resources/models/PicnicTable/Table.obj");
 	Model Goal("resources/models/Goal/Goal.obj");
+	Model SwingMoving("resources/models/SwingMoving/SwingMoving.obj");
+	Model SwingWithout("resources/models/SwingWithout/SwingWithoutMiddle.obj");
+	Model KiteTile("resources/models/KiteTile/KiteTileModel.obj");
 
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -716,11 +719,28 @@ int main() {
 		Swing.Draw(shaderStatic);
 
 		// Columpio 2
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
+		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
-		Swing.Draw(shaderStatic);
+		Swing.Draw(shaderStatic);*/
+		
+		//Columpio 2 Sin columpio de en medio
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
+	/*	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 0.0f));*/
+		model = glm::scale(model, glm::vec3(0.012f * scale));
+		shaderStatic.setMat4("model", model);
+		SwingWithout.Draw(shaderStatic);
+
+		//Columpio 2 moviendose
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.012f * scale));
+		shaderStatic.setMat4("model", model);
+		SwingMoving.Draw(shaderStatic);
+
 
 		//Resbaladilla 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-75.045f * scale, 1.7f, 28.0f * scale));
@@ -822,6 +842,14 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.7f * scale));
 		shaderStatic.setMat4("model", model);
 		Kite.Draw(shaderStatic);
+
+		// KiteTile
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f * scale, 1.2f, 0.0f * scale));
+		model = glm::scale(model, glm::vec3( 0.8f * scale));
+		shaderStatic.setMat4("model", model);
+		KiteTile.Draw(shaderStatic);
+
+
 
 		/* AREA RESIDENCIAL */
 
