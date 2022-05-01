@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
 # File Created: 28.04.2022 22:27:10
 
-mtllib KiteModell.mtl
+mtllib KiteBody.mtl
 
 #
 # object Cube_Cube_002
