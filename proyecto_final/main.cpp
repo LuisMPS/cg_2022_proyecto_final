@@ -293,7 +293,7 @@ int main() {
 	Model Fountain("resources/models/Fountain/Fountain.obj");
 	Model GardenLight("resources/models/GardenLight/GardenLight.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
-
+	Model KiteCentroAbajo("resources/models/KiteCentroAbajo/KiteCentroAbajo.obj");
 
 	// render loop
 	// -----------
@@ -720,12 +720,12 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		Swing.Draw(shaderStatic);
 
-		// Columpio 2
-		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//Columpio 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f * scale, 1.7f, 0.0f * scale));
+	/*	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 0.0f));*/
 		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
-		Swing.Draw(shaderStatic);*/
+		SwingMoving.Draw(shaderStatic);
 		
 		//Columpio 2 Sin columpio de en medio
 
