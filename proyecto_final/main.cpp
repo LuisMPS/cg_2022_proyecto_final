@@ -293,7 +293,7 @@ int main() {
 	Model Fountain("resources/models/Fountain/Fountain.obj");
 	Model GardenLight("resources/models/GardenLight/GardenLight.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
-
+	Model KiteCentroAbajo("resources/models/KiteCentroAbajo/KiteCentroAbajo.obj");
 
 	// render loop
 	// -----------
