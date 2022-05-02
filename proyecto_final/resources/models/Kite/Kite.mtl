@@ -1,62 +1,72 @@
-# Blender MTL File: 'kite.blend'
-# Material Count: 5
-
-newmtl Black
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.031063 0.029538 0.029538
-Ks 0.000000 0.000000 0.000000
-Ke 0.0 0.0 0.0
-Ni 1.450000
-d 1.000000
-illum 1
-map_Ka Black.png
-map_Kd Black.png
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 01.05.2022 09:04:16
 
 newmtl Blue
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.034322 0.053036 0.559601
-Ks 0.000000 0.000000 0.000000
-Ke 0.0 0.0 0.0
-Ni 1.450000
-d 1.000000
-illum 1
-map_Ka Blue.jpg
-map_Kd Blue.jpg
-
-newmtl Red
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.486897 0.016085 0.024798
-Ks 0.000000 0.000000 0.000000
-Ke 0.0 0.0 0.0
-Ni 1.450000
-d 1.000000
-illum 1
-map_Ka Red.jpg
-map_Kd Red.jpg
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000
+	Kd 0.0343 0.0530 0.5596
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Blue.jpg
+	map_Kd Blue.jpg
 
 newmtl White
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.000000 0.000000 0.000000
-Ke 0.0 0.0 0.0
-Ni 1.450000
-d 1.000000
-illum 1
-map_Ka White.png
-map_Kd White.png
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000
+	Kd 0.8000 0.8000 0.8000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka White.png
+	map_Kd White.png
 
 newmtl Yellow
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.391188 0.061692
-Ks 0.000000 0.000000 0.000000
-Ke 0.0 0.0 0.0
-Ni 1.450000
-d 1.000000
-illum 1
-map_Ka Yellow.png
-map_Kd Yellow.png
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000
+	Kd 0.8000 0.3912 0.0617
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Yellow.png
+	map_Kd Yellow.png
+
+newmtl Red
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000
+	Kd 0.4869 0.0161 0.0248
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Red.jpg
+	map_Kd Red.jpg
+
+newmtl Black
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 1.0000 1.0000 1.0000
+	Kd 0.0311 0.0295 0.0295
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Black.png
+	map_Kd Black.png
