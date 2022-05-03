@@ -256,13 +256,12 @@ void loadAudio() {
 		std::cerr << ("alGenSources :", alError) << std::endl;
 		return;
 	}
-
 	// Audio Ozuna
 	alSourcef(sources[0], AL_PITCH, 1);
-	alSourcef(sources[0], AL_GAIN, 1.1f);
+	alSourcef(sources[0], AL_GAIN, 5.0f);
 	alSource3f(sources[0], AL_POSITION, -17.20f * scale, 0.0f, -26.45f * scale);
-	alSourcef(sources[0], AL_REFERENCE_DISTANCE, 0.5f * scale);
-	alSourcef(sources[0], AL_ROLLOFF_FACTOR, 70.0f);
+	alSourcef(sources[0], AL_REFERENCE_DISTANCE, 15.0f * scale);
+	alSourcef(sources[0], AL_ROLLOFF_FACTOR, 400.0f);
 	alSource3f(sources[0], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[0], AL_LOOPING, AL_TRUE);
 	alSourcei(sources[0], AL_BUFFER, buffers[0]);
@@ -274,7 +273,7 @@ void loadAudio() {
 
 	// Audio Naturaleza
 	alSourcef(sources[1], AL_PITCH, 1);
-	alSourcef(sources[1], AL_GAIN, 0.1f);
+	alSourcef(sources[1], AL_GAIN, 5.0f);
 	alSource3f(sources[1], AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
 	alSource3f(sources[1], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[1], AL_LOOPING, AL_TRUE);
@@ -287,10 +286,10 @@ void loadAudio() {
 
 	// Audio Ninos Jugando
 	alSourcef(sources[2], AL_PITCH, 1);
-	alSourcef(sources[2], AL_GAIN, 3.5f);
-	alSource3f(sources[2], AL_POSITION, -78.045f * scale, 1.0f, 22.0f * scale);
-	alSourcef(sources[2], AL_REFERENCE_DISTANCE, 1.0f * scale);
-	alSourcef(sources[2], AL_ROLLOFF_FACTOR, 30.0f);
+	alSourcef(sources[2], AL_GAIN, 4.5f);
+	alSource3f(sources[2], AL_POSITION, -54.180f * scale,03.0f, 23.90f * scale);
+	alSourcef(sources[2], AL_REFERENCE_DISTANCE, 20.0f * scale);
+	alSourcef(sources[2], AL_ROLLOFF_FACTOR, 70.0f);
 	alSource3f(sources[2], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[2], AL_LOOPING, AL_TRUE);
 	alSourcei(sources[2], AL_BUFFER, buffers[2]);
@@ -302,7 +301,7 @@ void loadAudio() {
 	
 	alListener3f(AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
 	alListener3f(AL_VELOCITY, 0, 0, 0);
-	alListenerf(AL_GAIN, 0.5f);
+	alListenerf(AL_GAIN, 0.99f);
 
 }
 
