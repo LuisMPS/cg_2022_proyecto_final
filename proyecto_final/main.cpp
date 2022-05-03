@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 #include <glfw3.h>	//main
+#include <AL/al.h>
+#include <Al/alc.h>
 #include <stdlib.h>		
 #include <glm/glm.hpp>	//camera y model
 #include <glm/gtc/matrix_transform.hpp>	//camera y model
@@ -12,6 +14,8 @@
 #include <SDL/SDL.h>
 
 #include <shader_m.h>
+#include <audio_file.h>
+#include <audio_format.h>
 #include <texture.h>
 #include <camera.h>
 #include <modelAnim.h>
@@ -197,6 +201,111 @@ void loadData() {
 	glBindVertexArray(0);
 }
 
+ALuint buffers[3];
+ALuint sources[3];
+
+void loadAudio() {
+
+	ALenum alError;
+	ALCenum alcError;
+
+	ALCdevice* openALDevice = alcOpenDevice(NULL);
+	if (!openALDevice) return;
+
+	ALCcontext* openALContext;
+	openALContext = alcCreateContext(openALDevice, NULL);
+	alcMakeContextCurrent(openALContext);
+	alcError = alcGetError(openALDevice);
+	if (alcError != ALC_NO_ERROR) {
+		std::cerr << ("alContext :", alcError) << std::endl;
+		return;
+	}
+
+	alGenBuffers(3, buffers);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alGenBuffers :", alError) << std::endl;
+		return;
+	}
+
+	AudioFile audio_ozuna;
+	char* audio_ozuna_buffer = audio_ozuna.load("audios/audio_ozuna_adicto.wav");
+	ALenum audio_ozuna_format = get_audio_format(audio_ozuna.channels, audio_ozuna.bitsPerSample);
+	alBufferData(buffers[0], audio_ozuna_format, audio_ozuna_buffer, audio_ozuna.size, audio_ozuna.sampleRate);
+
+	AudioFile audio_nature;
+	char* audio_nature_buffer = audio_nature.load("audios/audio_naturaleza.wav");
+	ALenum audio_nature_format = get_audio_format(audio_nature.channels, audio_nature.bitsPerSample);
+	alBufferData(buffers[1], audio_nature_format, audio_nature_buffer, audio_nature.size, audio_nature.sampleRate);
+
+	AudioFile audio_kids_playing;
+	char* audio_kids_playing_buffer = audio_kids_playing.load("audios/audio_ninos_jugando.wav");
+	ALenum audio_kids_playing_format = get_audio_format(audio_kids_playing.channels, audio_kids_playing.bitsPerSample);
+	alBufferData(buffers[2], audio_kids_playing_format, audio_kids_playing_buffer, audio_kids_playing.size, audio_kids_playing.sampleRate);
+
+	alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alDistanceModel :", alError) << std::endl;
+		return;
+	}
+
+	alGenSources(3, sources);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alGenSources :", alError) << std::endl;
+		return;
+	}
+
+	// Audio Ozuna
+	alSourcef(sources[0], AL_PITCH, 1);
+	alSourcef(sources[0], AL_GAIN, 1.1f);
+	alSource3f(sources[0], AL_POSITION, -17.20f * scale, 0.0f, -26.45f * scale);
+	alSourcef(sources[0], AL_REFERENCE_DISTANCE, 0.5f * scale);
+	alSourcef(sources[0], AL_ROLLOFF_FACTOR, 70.0f);
+	alSource3f(sources[0], AL_VELOCITY, 0, 0, 0);
+	alSourcei(sources[0], AL_LOOPING, AL_TRUE);
+	alSourcei(sources[0], AL_BUFFER, buffers[0]);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alSource :", alError) << std::endl;
+		return;
+	}
+
+	// Audio Naturaleza
+	alSourcef(sources[1], AL_PITCH, 1);
+	alSourcef(sources[1], AL_GAIN, 0.1f);
+	alSource3f(sources[1], AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
+	alSource3f(sources[1], AL_VELOCITY, 0, 0, 0);
+	alSourcei(sources[1], AL_LOOPING, AL_TRUE);
+	alSourcei(sources[1], AL_BUFFER, buffers[1]);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alSource :", alError) << std::endl;
+		return;
+	}
+
+	// Audio Ninos Jugando
+	alSourcef(sources[2], AL_PITCH, 1);
+	alSourcef(sources[2], AL_GAIN, 3.5f);
+	alSource3f(sources[2], AL_POSITION, -78.045f * scale, 1.0f, 22.0f * scale);
+	alSourcef(sources[2], AL_REFERENCE_DISTANCE, 1.0f * scale);
+	alSourcef(sources[2], AL_ROLLOFF_FACTOR, 30.0f);
+	alSource3f(sources[2], AL_VELOCITY, 0, 0, 0);
+	alSourcei(sources[2], AL_LOOPING, AL_TRUE);
+	alSourcei(sources[2], AL_BUFFER, buffers[2]);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alSource :", alError) << std::endl;
+		return;
+	}
+	
+	alListener3f(AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
+	alListener3f(AL_VELOCITY, 0, 0, 0);
+	alListenerf(AL_GAIN, 0.5f);
+
+}
+
 unsigned int texture_baby_yoda;
 
 void loadTextures() {
@@ -220,7 +329,10 @@ LEAF_DIRECTION leaf_direction = LEAF_LEFT_TO_RIGHT;
 // Animacion Cometa
 float kite_tail_rotation_offset_x = 0.0f;
 float kite_tail_rotation_offset_z = 0.0f;
-float kite_move_time = 0.0f;
+float kite_tail_move_time = 0.0f;
+int kite_wind_strength = 2;
+int kite_wind_change = 1;
+float kite_wind_strength_change_time = 0.0f;
 
 // Animacion Columpio
 float swing_rotation = 0.0f;
@@ -242,6 +354,8 @@ SWING_MOVEMENT swing_movement = SWING_ACCELERATE;
 
 // Baby Yoda Animation
 float baby_yoda_offset_y = 0.0f;
+float baby_yoda_last_offset_y = 0.0f;
+float baby_yoda_delta_offset_y = 0.0f;
 bool baby_yoda_levitating = false;
 enum BABY_YODA_LEVITATION_STAGE {
 	BABY_YODA_PREPARING_ARMS,
@@ -251,6 +365,7 @@ enum BABY_YODA_LEVITATION_STAGE {
 	BABY_YODA_TO_NORMAL_ARMS,
 };
 BABY_YODA_LEVITATION_STAGE baby_yoda_levitation_stage = BABY_YODA_PREPARING_ARMS;
+float baby_yoda_initial_offset_y;
 float baby_yoda_initial_left_arm_rotate_y;
 float baby_yoda_initial_left_arm_rotate_z;
 float baby_yoda_initial_right_arm_rotate_y;
@@ -300,10 +415,10 @@ void runAnimations() {
 	}
 
 	//Animacion de Cometa
-	kite_move_time += (deltaTime * 0.001f) / 0.25f;
-	if (kite_move_time >= 1.0f) {
-		kite_move_time = 0.0f;
-		kite_tail_rotation_offset_x += ((rand() % 600) / 100.0f) - 3.0f;
+	kite_tail_move_time += (deltaTime * 0.001f) / 0.5f;
+	if (kite_tail_move_time >= 0.5f) {
+		kite_tail_move_time = 0.0f;
+		kite_tail_rotation_offset_x += (rand() % kite_wind_strength) - (kite_wind_strength / 2.0f);
 		if (kite_tail_rotation_offset_x > 7.0f) {
 			kite_tail_rotation_offset_x = 7.0f;
 		}
@@ -317,6 +432,17 @@ void runAnimations() {
 		if (kite_tail_rotation_offset_z < -7.0f) {
 			kite_tail_rotation_offset_z = -7.0f;
 		}
+	}
+	kite_wind_strength_change_time += (deltaTime * 0.001f) / 7.0f;
+	if (kite_wind_strength_change_time >= 7.0f) {
+		kite_wind_strength_change_time = 0.0f;
+		if (kite_wind_strength >= 5) {
+			kite_wind_change = -1;
+		}
+		if (kite_wind_strength <= 2) {
+			kite_wind_change = 1;
+		}
+		kite_wind_strength += kite_wind_change;
 	}
 
 	// Animacion Columpio
@@ -374,6 +500,7 @@ void runAnimations() {
 	}
 
 	// Baby Yoda Animation
+	baby_yoda_last_offset_y = baby_yoda_offset_y;
 	if (baby_yoda_levitating) {
 		if (baby_yoda_should_save_initial_values) {
 			baby_yoda_initial_time = lastFrame;
@@ -381,6 +508,7 @@ void runAnimations() {
 			baby_yoda_initial_left_arm_rotate_z = baby_yoda_left_arm_rotate_z;
 			baby_yoda_initial_right_arm_rotate_y = baby_yoda_right_arm_rotate_y;
 			baby_yoda_initial_right_arm_rotate_z = baby_yoda_right_arm_rotate_z;
+			baby_yoda_initial_offset_y = baby_yoda_offset_y;
 			baby_yoda_should_save_initial_values = false;
 		}
 		if (baby_yoda_levitation_stage == BABY_YODA_PREPARING_ARMS) {
@@ -405,10 +533,12 @@ void runAnimations() {
 				float percentage = (lastFrame - baby_yoda_initial_time) / (2.5f * 1000.0f);
 				baby_yoda_left_arm_rotate_z = baby_yoda_initial_left_arm_rotate_z + (50.0f - baby_yoda_initial_left_arm_rotate_z) * percentage;
 				baby_yoda_right_arm_rotate_z = baby_yoda_initial_right_arm_rotate_z + (-50.0f - baby_yoda_initial_right_arm_rotate_z) * percentage;
+				baby_yoda_offset_y = baby_yoda_initial_offset_y + (1.5f - baby_yoda_initial_offset_y) * percentage;
 			}
 			else {
 				baby_yoda_left_arm_rotate_z = 50.0f;
 				baby_yoda_right_arm_rotate_z = -50.0f;
+				baby_yoda_offset_y = 1.5f;
 				baby_yoda_levitation_stage = BABY_YODA_FORWARD_ARMS;
 				baby_yoda_should_save_initial_values = true;
 			}
@@ -427,19 +557,20 @@ void runAnimations() {
 			}
 		}
 		else if (baby_yoda_levitation_stage == BABY_YODA_WAVING_ARMS) {
-			if (baby_yoda_wave_direction == BABY_YODA_WAVE_UP) {
-				baby_yoda_left_arm_rotate_z += (deltaTime * 0.001f * 3.0f) / 0.5f;
-				baby_yoda_right_arm_rotate_z -= (deltaTime * 0.001f * 3.0f) / 0.5f;
-				if (baby_yoda_left_arm_rotate_z - baby_yoda_initial_left_arm_rotate_z >= 5.0f) {
-					baby_yoda_wave_direction = BABY_YODA_WAVE_DOWN;
-				}
+			float baby_yoda_arm_rotation_goal = baby_yoda_wave_direction == BABY_YODA_WAVE_UP ? 55.0f : 45.0f;
+			float baby_yoda_offset_y_goal = baby_yoda_wave_direction == BABY_YODA_WAVE_UP ? 1.56f : 1.5f;
+			if (lastFrame - baby_yoda_initial_time < 0.8f * 1000.0f) {
+				float percentage = (lastFrame - baby_yoda_initial_time) / (0.8f * 1000.0f);
+				baby_yoda_left_arm_rotate_z = baby_yoda_initial_left_arm_rotate_z + (baby_yoda_arm_rotation_goal - baby_yoda_initial_left_arm_rotate_z) * percentage;
+				baby_yoda_right_arm_rotate_z = baby_yoda_initial_right_arm_rotate_z + (baby_yoda_arm_rotation_goal * -1.0f - baby_yoda_initial_right_arm_rotate_z) * percentage;
+				baby_yoda_offset_y = baby_yoda_initial_offset_y + (baby_yoda_offset_y_goal - baby_yoda_initial_offset_y) * percentage;
 			}
-			else if (baby_yoda_wave_direction == BABY_YODA_WAVE_DOWN) {
-				baby_yoda_left_arm_rotate_z -= (deltaTime * 0.001f * 3.0f) / 0.5f;
-				baby_yoda_right_arm_rotate_z += (deltaTime * 0.001f * 3.0f) / 0.5f;
-				if (baby_yoda_left_arm_rotate_z - baby_yoda_initial_left_arm_rotate_z <= -5.0f) {
-					baby_yoda_wave_direction = BABY_YODA_WAVE_UP;
-				}
+			else {
+				baby_yoda_left_arm_rotate_z = baby_yoda_arm_rotation_goal;
+				baby_yoda_right_arm_rotate_z = -1.0f * baby_yoda_arm_rotation_goal;
+				baby_yoda_offset_y = baby_yoda_offset_y_goal;
+				baby_yoda_wave_direction = baby_yoda_wave_direction == BABY_YODA_WAVE_UP ? BABY_YODA_WAVE_DOWN : BABY_YODA_WAVE_UP;
+				baby_yoda_should_save_initial_values = true;
 			}
 		}
 		else if (baby_yoda_levitation_stage == BABY_YODA_TO_NORMAL_ARMS) {
@@ -449,16 +580,21 @@ void runAnimations() {
 				baby_yoda_left_arm_rotate_z = baby_yoda_initial_left_arm_rotate_z + (40.0f - baby_yoda_initial_left_arm_rotate_z) * percentage;
 				baby_yoda_right_arm_rotate_y = baby_yoda_initial_right_arm_rotate_y + (-20.0f - baby_yoda_initial_right_arm_rotate_y) * percentage;
 				baby_yoda_right_arm_rotate_z = baby_yoda_initial_right_arm_rotate_z + (-40.0f - baby_yoda_initial_right_arm_rotate_z) * percentage;
+				baby_yoda_offset_y = baby_yoda_initial_offset_y + (0.0f - baby_yoda_initial_offset_y) * percentage;
+
 			}
 			else {
 				baby_yoda_left_arm_rotate_y = 20.0f;
 				baby_yoda_left_arm_rotate_z = 40.0f;
 				baby_yoda_right_arm_rotate_y = -20.0f;
 				baby_yoda_right_arm_rotate_z = -40.0f;
+				baby_yoda_offset_y = 0.0f;
 				baby_yoda_levitating = false;
 			}
 		}
 	}
+	baby_yoda_delta_offset_y = baby_yoda_offset_y - baby_yoda_last_offset_y;
+
 }
 
 int main() {
@@ -499,6 +635,7 @@ int main() {
 	loadData();
 	loadTextures();
 	loadTextureDataBabyYoda();
+	loadAudio();
 
 	// configure global opengl state
 	// -----------------------------
@@ -620,7 +757,6 @@ int main() {
 		glm::vec3(63.0f * scale, 0.25f, -18.0f * scale),
 		glm::vec3(78.0f * scale, 0.25f, 23.0f * scale),
 		glm::vec3(67.0f * scale, 0.25f, 15.0f * scale),
-		
 	};
 
 	vector<glm::vec3> oakTreePositions = {
@@ -683,13 +819,9 @@ int main() {
 		glm::vec3(57.0f * scale, 1.0f, 10.0f * scale),
 		glm::vec3(63.0f * scale, 1.0f, 4.0f * scale),
 		glm::vec3(72.0f * scale, 1.0f, -3.0f * scale),
-
-	
-		
 	};
 
 	vector<glm::vec3> lodTreePositions = {
-
 		// ... primera  columna
 		glm::vec3(85.0f * scale, 0.25f, -63.0f * scale),
 		glm::vec3(77.0f * scale, 1.0f, -61.0f * scale),
@@ -749,12 +881,68 @@ int main() {
 		glm::vec3(67.0f * scale, 1.0f, 16.0f * scale),
 		glm::vec3(94.0f * scale, 1.0f, 10.0f * scale),
 		glm::vec3(51.0f * scale, 1.0f, 12.0f * scale),
-		
+	};
 
+	vector<glm::vec3> bushPositionsComun = {
+		glm::vec3(3.0f * scale, 0.25f, -9.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -15.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -20.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -25.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -30.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -35.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(8.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(13.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(18.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(23.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(28.0f * scale, 0.25f, -41.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -9.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -22.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -27.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -32.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -37.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -42.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(2.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(7.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(12.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(17.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(22.0f * scale, 0.25f, -48.0f * scale),
+		glm::vec3(28.0f * scale, 0.25f, -48.0f * scale),
+	};
+
+	vector<glm::vec3> oakTreePositionsComun = {
+		glm::vec3(-27.0f * scale, 1.0f, -27.0f * scale),
+		glm::vec3(-7.0f * scale, 1.0f, -27.0f * scale),
+		glm::vec3(5.0f * scale, 1.0f, -27.0f * scale),
+		glm::vec3(28.0f * scale, 1.0f, -27.0f * scale),
+		glm::vec3(-26.0f * scale, 1.0f, -42.0f * scale),
+		glm::vec3(-8.0f * scale, 1.0f, -42.0f * scale),
+		glm::vec3(-26.0f * scale, 1.0f, -62.0f * scale),
+		glm::vec3(-8.0f * scale, 1.0f, -62.0f * scale),
+		glm::vec3(14.0f * scale, 1.0f, -62.0f * scale),
+		glm::vec3(3.0f * scale, 1.0f, -52.0f * scale),
+	};
+
+	vector<glm::vec3> lodTreePositionsComun = {
+		glm::vec3(-29.0f * scale, 0.25f, -9.0f * scale),
+		glm::vec3(29.0f * scale, 0.25f, -9.0f * scale),
+		glm::vec3(17.0f * scale, 1.0f, -27.0f * scale),
+		glm::vec3(-17.0f * scale, 1.0f, -32.0f * scale),
+		glm::vec3(-16.0f * scale, 1.0f, -52.0f * scale),
+		glm::vec3(16.0f * scale, 1.0f, -52.0f * scale),
+		glm::vec3(26.0f * scale, 1.0f, -52.0f * scale),
 	};
 
 	glm::mat4 modelBabyYodaBody;
 	glm::mat4 modelBabyYodaArms;
+
+	alSourcePlay(sources[0]);
+	alSourcePlay(sources[1]);
+	alSourcePlay(sources[2]);
+	ALint state = AL_PLAYING;
 
 	// render loop
 	// -----------
@@ -1184,7 +1372,7 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.012f * scale));
 		shaderStatic.setMat4("model", model);
 		Swing.Draw(shaderStatic);
-		
+
 		// Columpio 2 sin columpio de en medio
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 1.7f, 21.5f * scale));
 		model = glm::scale(model, glm::vec3(0.012f * scale));
@@ -1487,80 +1675,6 @@ int main() {
 
 		//Arboles
 
-		
-
-		vector<glm::vec3> bushPositionsComun = {
-
-			//Linea 1 derecha
-
-			glm::vec3(3.0f * scale, 0.25f, -9.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -15.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -20.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -25.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -30.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -35.0f * scale),
-			glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
-
-			glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
-			glm::vec3(8.0f * scale, 0.25f, -41.0f * scale),
-			glm::vec3(13.0f * scale, 0.25f, -41.0f * scale),
-			glm::vec3(18.0f * scale, 0.25f, -41.0f * scale),
-			glm::vec3(23.0f * scale, 0.25f, -41.0f * scale),
-			glm::vec3(28.0f * scale, 0.25f, -41.0f * scale),
-
-
-			//Linea 2 izquierda
-			glm::vec3(-3.0f * scale, 0.25f, -9.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -22.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -27.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -32.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -37.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -42.0f * scale),
-			glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
-
-			glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(2.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(7.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(12.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(17.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(22.0f * scale, 0.25f, -48.0f * scale),
-			glm::vec3(28.0f * scale, 0.25f, -48.0f * scale),
-
-
-
-		};
-
-		vector<glm::vec3> oakTreePositionsComun = {
-
-					//AREA COMUN
-			glm::vec3(-27.0f * scale, 1.0f, -27.0f * scale),
-			glm::vec3(-7.0f * scale, 1.0f, -27.0f * scale),
-			glm::vec3(5.0f * scale, 1.0f, -27.0f * scale),
-			glm::vec3(28.0f * scale, 1.0f, -27.0f * scale),
-			glm::vec3(-26.0f * scale, 1.0f, -42.0f * scale),
-			glm::vec3(-8.0f * scale, 1.0f, -42.0f * scale),
-			glm::vec3(-26.0f * scale, 1.0f, -62.0f * scale),
-			glm::vec3(-8.0f * scale, 1.0f, -62.0f * scale),
-			glm::vec3(14.0f * scale, 1.0f, -62.0f * scale),
-			glm::vec3(3.0f * scale, 1.0f, -52.0f * scale),
-
-
-
-		};
-
-		vector<glm::vec3> lodTreePositionsComun = {
-
-			glm::vec3(-29.0f * scale, 0.25f, -9.0f * scale),
-			glm::vec3(29.0f * scale, 0.25f, -9.0f * scale),
-			glm::vec3(17.0f * scale, 1.0f, -27.0f * scale),
-			glm::vec3(-17.0f * scale, 1.0f, -32.0f * scale),
-			glm::vec3(-16.0f * scale, 1.0f, -52.0f * scale),
-			glm::vec3(16.0f * scale, 1.0f, -52.0f * scale),
-			glm::vec3(26.0f * scale, 1.0f, -52.0f * scale),
-		
-
-		};
-
 		// Arbustos
 		for (glm::vec3 bushPositionComun : bushPositionsComun) {
 			model = glm::translate(glm::mat4(1.0f), bushPositionComun);
@@ -1586,9 +1700,6 @@ int main() {
 			shaderStatic.setMat4("model", model);
 			LodTree.Draw(shaderStatic);
 		}
-
-
-
 
 		// Piso de Pasto
 		for (int i = 0; i <= 9; i++) {
@@ -1778,7 +1889,7 @@ int main() {
 		testModel.Draw(shaderStatic);
 
 		/* MODELOS ANIMADOS */
-		
+
 		//// Light
 		glm::vec3 lightColor = glm::vec3(0.6f);
 		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
@@ -1820,8 +1931,10 @@ int main() {
 
 		/* Baby Yoda */
 
-		glm::vec3 thirdPersonCameraCenter = glm::vec3(camera.Center.x, camera.Center.y, camera.Center.z);
 		float thirdPersonCameraAngle = -camera.Yaw + 90.0f;
+		camera.Center.y += baby_yoda_delta_offset_y * scale;
+		camera.Position.y += baby_yoda_delta_offset_y * scale;
+		glm::vec3 thirdPersonCameraCenter = glm::vec3(camera.Center.x, camera.Center.y, camera.Center.z);
 
 		float BABY_YODA_SCALE = 50.0f;
 
@@ -1830,7 +1943,7 @@ int main() {
 
 		// UPPER BODY
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(upperBodyTextureCoordsBuffer), upperBodyTextureCoordsBuffer);
-		model = glm::translate(glm::mat4(1.0f), thirdPersonCameraCenter + glm::vec3(0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale) + glm::vec3(0.0f / BABY_YODA_SCALE * scale, (10.0f) / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale));
+		model = glm::translate(glm::mat4(1.0f), thirdPersonCameraCenter + glm::vec3(0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale) + glm::vec3(0.0f * scale, 0.2f * scale, 0.0f * scale));
 		modelBabyYodaBody = model = glm::rotate(model, glm::radians(thirdPersonCameraAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(14.0f / BABY_YODA_SCALE * scale, 4.0f / BABY_YODA_SCALE * scale, 14.0f / BABY_YODA_SCALE * scale));
 		shaderCube.setMat4("model", model);
@@ -1901,7 +2014,21 @@ int main() {
 
 		shaderSkybox.use();
 		skybox.Draw(shaderSkybox, view, projection, camera);
-		
+
+		/* AUDIO */
+
+		alListener3f(AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
+
+		// Audio Ozuna
+		alGetSourcei(sources[0], AL_SOURCE_STATE, &state);
+
+		// Audio Naturaleza
+		alGetSourcei(sources[1], AL_SOURCE_STATE, &state);
+		alSource3f(sources[1], AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
+
+		// Audio Ninos Jugando
+		alGetSourcei(sources[2], AL_SOURCE_STATE, &state);
+
 		// Limitar el framerate a 60
 		deltaTime = SDL_GetTicks() - lastFrame; // time for full 1 loop
 		if (deltaTime < LOOP_TIME) {
@@ -1913,8 +2040,19 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
 	skybox.Terminate();
+
 	glfwTerminate();
+
+	alDeleteSources(3, sources);
+	alDeleteBuffers(3, buffers);
+	ALCcontext* context = alcGetCurrentContext();
+	ALCdevice* device = alcGetContextsDevice(context);
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(context);
+	alcCloseDevice(device);
+
 	return 0;
 }
 
