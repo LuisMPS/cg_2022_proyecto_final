@@ -567,19 +567,190 @@ int main() {
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
+	// ARBOLES AREA VERDE
+
 	vector<glm::vec3> bushPositions = {
-		glm::vec3(70.0f * scale, 0.25f, 7.0f * scale),
-		// ... more
+		// ... primer columa
+		glm::vec3(97.0f * scale, 0.25f, -65.0f * scale),  
+		glm::vec3(84.0f * scale, 0.25f, -39.0f * scale),
+		glm::vec3(77.0f * scale, 0.25f, -5.0f * scale),
+		glm::vec3(62.0f * scale, 0.25f, -43.0f * scale),
+		glm::vec3(57.0f * scale, 0.25f, -36.0f * scale),
+		// ... segunda columa
+		glm::vec3(90.0f * scale, 0.25f, -55.0f * scale),
+		glm::vec3(52.0f * scale, 0.25f, -52.0f * scale),
+		glm::vec3(90.0f * scale, 0.25f, -5.0f * scale),
+		// ...tercera
+		glm::vec3(75.0f * scale, 0.25f, -40.0f * scale),
+		glm::vec3(72.0f * scale, 0.25f, -45.0f * scale),
+		glm::vec3(75.0f * scale, 0.25f, -40.0f * scale),
+		glm::vec3(72.0f * scale, 0.25f, -45.0f * scale),
+		// ... cuarta
+		glm::vec3(52.0f * scale, 0.25f, -34.0f * scale),
+		glm::vec3(48.0f * scale, 0.25f, -35.0f * scale),
+		glm::vec3(52.0f * scale, 0.25f, -32.0f * scale),
+		glm::vec3(48.0f * scale, 0.25f, -35.0f * scale),
+		// ... quinta
+		glm::vec3(96.0f * scale, 0.25f, -23.0f * scale),
+		glm::vec3(49.0f * scale, 0.25f, -25.0f * scale),
+		glm::vec3(72.0f * scale, 0.25f, -21.0f * scale),
+		glm::vec3(53.0f * scale, 0.25f, -25.0f * scale),
+		// ... sexta
+		glm::vec3(78.0f * scale, 0.25f, -12.0f * scale),
+		glm::vec3(63.0f * scale, 0.25f, -10.0f * scale),
+		glm::vec3(78.0f * scale, 0.25f, -5.0f * scale),
+		glm::vec3(56.0f * scale, 0.25f, -6.0f * scale),
+		// ... septima
+		glm::vec3(84.0f * scale, 0.25f, 0.0f * scale),
+		glm::vec3(72.0f * scale, 0.25f, 6.0f * scale),
+		glm::vec3(75.0f * scale, 0.25f, 12.0f * scale),
+		glm::vec3(51.0f * scale, 0.25f, 7.0f * scale),
+		// ... octava
+		glm::vec3(52.0f * scale, 0.25f, 18.0f * scale),
+		glm::vec3(49.0f * scale, 0.25f, 20.0f * scale),
+		glm::vec3(67.0f * scale, 0.25f, 26.0f * scale),
+		glm::vec3(90.0f * scale, 0.25f, 21.0f * scale),
+		// ... novena
+		glm::vec3(97.0f * scale, 0.25f, 31.0f * scale),
+		glm::vec3(51.0f * scale, 0.25f, 29.0f * scale),
+		glm::vec3(97.0f * scale, 0.25f, 36.0f * scale),
+		glm::vec3(49.0f * scale, 0.25f, 32.0f * scale),
+		// ... decima
+		glm::vec3(88.0f * scale, 0.25f, 4.0f * scale),
+		glm::vec3(63.0f * scale, 0.25f, -18.0f * scale),
+		glm::vec3(78.0f * scale, 0.25f, 23.0f * scale),
+		glm::vec3(67.0f * scale, 0.25f, 15.0f * scale),
+		
 	};
 
 	vector<glm::vec3> oakTreePositions = {
-		glm::vec3(68.82f * scale, 1.0f, -10.0f * scale),
-		// ... more
+		// ... segunda columna
+		glm::vec3(50.0f * scale, 1.0f, -63.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, -65.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -63.0f * scale),
+		glm::vec3(97.0f * scale, 1.0f, -65.0f * scale),
+		// ... segunda columna
+		glm::vec3(50.0f * scale, 0.25f, -63.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, -52.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, -55.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -53.0f * scale),
+		// ... tercera
+		glm::vec3(87.0f * scale, 1.0f, -45.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, -44.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -45.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -47.0f * scale),
+		// ... cuarta
+		glm::vec3(77.0f * scale, 1.0f, -33.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, -37.0f * scale),
+		glm::vec3(63.0f * scale, 1.0f, -33.0f * scale),
+		glm::vec3(72.0f * scale, 1.0f, -29.0f * scale),
+		// ... quinta
+		glm::vec3(87.0f * scale, 1.0f, -21.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -25.0f * scale),
+		glm::vec3(52.0f * scale, 1.0f, -23.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -26.0f * scale),
+		// ... sexta
+		glm::vec3(76.0f * scale, 1.0f, -15.0f * scale),
+		glm::vec3(97.0f * scale, 1.0f, -12.0f * scale),
+		glm::vec3(56.0f * scale, 1.0f, -13.0f * scale),
+		glm::vec3(76.0f * scale, 1.0f, -14.0f * scale),
+		// ... septima
+		glm::vec3(85.0f * scale, 0.25f, -10.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, -9.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -7.0f * scale),
+		// ... octava
+		glm::vec3(87.0f * scale, 1.0f, 0.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 2.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -3.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -4.0f * scale),
+		// ... novena
+		glm::vec3(77.0f * scale, 1.0f, 12.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 10.0f * scale),
+		glm::vec3(63.0f * scale, 1.0f, 4.0f * scale),
+		glm::vec3(72.0f * scale, 1.0f, -3.0f * scale),
+		// ... decima
+		glm::vec3(85.0f * scale, 0.25f, 18.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, 23.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, 24.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 29.0f * scale),
+		// ... onceava
+		glm::vec3(87.0f * scale, 1.0f, 32.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 34.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, 35.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, 30.0f * scale),
+		// ... doceava
+		glm::vec3(77.0f * scale, 1.0f, 12.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 10.0f * scale),
+		glm::vec3(63.0f * scale, 1.0f, 4.0f * scale),
+		glm::vec3(72.0f * scale, 1.0f, -3.0f * scale),
+
+	
+		
 	};
 
 	vector<glm::vec3> lodTreePositions = {
-		glm::vec3(60.25f * scale, 1.0f, 8.0f * scale),
-		// ... more
+
+		// ... primera  columna
+		glm::vec3(85.0f * scale, 0.25f, -63.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, -61.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -63.0f * scale),
+		glm::vec3(56.0f * scale, 1.0f, -65.0f * scale),
+		// ... segunda columna
+		glm::vec3(60.0f * scale, 1.0f, -65.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -55.0f * scale),
+		glm::vec3(56.0f * scale, 1.0f, -56.0f * scale),
+		glm::vec3(49.0f * scale, 1.0f, -48.0f * scale),
+		// ... tercera
+		glm::vec3(80.0f * scale, 1.0f, -45.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, -43.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, -45.0f * scale),
+		glm::vec3(50.0f * scale, 1.0f, -41.0f * scale),
+		// ... cuerta
+		glm::vec3(87.0f * scale, 1.0f, -33.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -35.0f * scale),
+		glm::vec3(94.0f * scale, 1.0f, -32.0f * scale),
+		glm::vec3(51.0f * scale, 1.0f, -35.0f * scale),
+		// ... quinta
+		glm::vec3(92.0f * scale, 1.0f, -25.0f * scale),
+		glm::vec3(63.0f * scale, 1.0f, -22.0f * scale),
+		glm::vec3(75.0f * scale, 1.0f, -25.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, -21.0f * scale),
+		// ... sexta
+		glm::vec3(49.0f * scale, 1.0f, -12.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, -15.0f * scale),
+		glm::vec3(80.0f * scale, 1.0f, -15.0f * scale),
+		glm::vec3(78.0f * scale, 1.0f, -14.0f * scale),
+		// ... septima
+		glm::vec3(60.0f * scale, 1.0f, -5.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, -7.0f * scale),
+		glm::vec3(56.0f * scale, 1.0f, -8.0f * scale),
+		// ... octava
+		glm::vec3(80.0f * scale, 1.0f, -5.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 0.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, 7.0f * scale),
+		glm::vec3(50.0f * scale, 1.0f, 4.0f * scale),
+		// ... novena
+		glm::vec3(87.0f * scale, 1.0f, 16.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, 18.0f * scale),
+		glm::vec3(94.0f * scale, 1.0f, 14.0f * scale),
+		glm::vec3(51.0f * scale, 1.0f, 23.0f * scale),
+		// ... decima
+		glm::vec3(60.0f * scale, 1.0f, 26.0f * scale),
+		glm::vec3(87.0f * scale, 1.0f, 24.0f * scale),
+		glm::vec3(56.0f * scale, 1.0f, 20.0f * scale),
+		glm::vec3(94.0f * scale, 1.0f, 29.0f * scale),
+		// ... onceava
+		glm::vec3(80.0f * scale, 1.0f, 34.0f * scale),
+		glm::vec3(57.0f * scale, 1.0f, 31.0f * scale),
+		glm::vec3(77.0f * scale, 1.0f, 35.0f * scale),
+		glm::vec3(50.0f * scale, 1.0f, 37.0f * scale),
+		// ... doceava
+		glm::vec3(87.0f * scale, 1.0f, 14.0f * scale),
+		glm::vec3(67.0f * scale, 1.0f, 16.0f * scale),
+		glm::vec3(94.0f * scale, 1.0f, 10.0f * scale),
+		glm::vec3(51.0f * scale, 1.0f, 12.0f * scale),
+		
+
 	};
 
 	glm::mat4 modelBabyYodaBody;
@@ -1313,6 +1484,111 @@ int main() {
 		}
 
 		/* AREA COMUN */
+
+		//Arboles
+
+		
+
+		vector<glm::vec3> bushPositionsComun = {
+
+			//Linea 1 derecha
+
+			glm::vec3(3.0f * scale, 0.25f, -9.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -15.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -20.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -25.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -30.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -35.0f * scale),
+			glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
+
+			glm::vec3(3.0f * scale, 0.25f, -41.0f * scale),
+			glm::vec3(8.0f * scale, 0.25f, -41.0f * scale),
+			glm::vec3(13.0f * scale, 0.25f, -41.0f * scale),
+			glm::vec3(18.0f * scale, 0.25f, -41.0f * scale),
+			glm::vec3(23.0f * scale, 0.25f, -41.0f * scale),
+			glm::vec3(28.0f * scale, 0.25f, -41.0f * scale),
+
+
+			//Linea 2 izquierda
+			glm::vec3(-3.0f * scale, 0.25f, -9.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -22.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -27.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -32.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -37.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -42.0f * scale),
+			glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
+
+			glm::vec3(-3.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(2.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(7.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(12.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(17.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(22.0f * scale, 0.25f, -48.0f * scale),
+			glm::vec3(28.0f * scale, 0.25f, -48.0f * scale),
+
+
+
+		};
+
+		vector<glm::vec3> oakTreePositionsComun = {
+
+					//AREA COMUN
+			glm::vec3(-27.0f * scale, 1.0f, -27.0f * scale),
+			glm::vec3(-7.0f * scale, 1.0f, -27.0f * scale),
+			glm::vec3(5.0f * scale, 1.0f, -27.0f * scale),
+			glm::vec3(28.0f * scale, 1.0f, -27.0f * scale),
+			glm::vec3(-26.0f * scale, 1.0f, -42.0f * scale),
+			glm::vec3(-8.0f * scale, 1.0f, -42.0f * scale),
+			glm::vec3(-26.0f * scale, 1.0f, -62.0f * scale),
+			glm::vec3(-8.0f * scale, 1.0f, -62.0f * scale),
+			glm::vec3(14.0f * scale, 1.0f, -62.0f * scale),
+			glm::vec3(3.0f * scale, 1.0f, -52.0f * scale),
+
+
+
+		};
+
+		vector<glm::vec3> lodTreePositionsComun = {
+
+			glm::vec3(-29.0f * scale, 0.25f, -9.0f * scale),
+			glm::vec3(29.0f * scale, 0.25f, -9.0f * scale),
+			glm::vec3(17.0f * scale, 1.0f, -27.0f * scale),
+			glm::vec3(-17.0f * scale, 1.0f, -32.0f * scale),
+			glm::vec3(-16.0f * scale, 1.0f, -52.0f * scale),
+			glm::vec3(16.0f * scale, 1.0f, -52.0f * scale),
+			glm::vec3(26.0f * scale, 1.0f, -52.0f * scale),
+		
+
+		};
+
+		// Arbustos
+		for (glm::vec3 bushPositionComun : bushPositionsComun) {
+			model = glm::translate(glm::mat4(1.0f), bushPositionComun);
+			model = glm::scale(model, glm::vec3(0.5666f * scale));
+			shaderStatic.setMat4("model", model);
+			Bush.Draw(shaderStatic);
+		}
+
+		//Arboles Oak
+		for (glm::vec3 oakTreePosition : oakTreePositionsComun) {
+			model = glm::translate(glm::mat4(1.0f), oakTreePosition);
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::scale(model, glm::vec3(1.666f * scale));
+			shaderStatic.setMat4("model", model);
+			OakTree.Draw(shaderStatic);
+		}
+
+		// Arboles Lod
+		for (glm::vec3 lodTreePositionComun : lodTreePositionsComun) {
+			model = glm::translate(glm::mat4(1.0f), lodTreePositionComun);
+			model = glm::scale(model, glm::vec3(1.0f * scale));
+			shaderStatic.setMat4("model", model);
+			LodTree.Draw(shaderStatic);
+		}
+
+
+
 
 		// Piso de Pasto
 		for (int i = 0; i <= 9; i++) {
