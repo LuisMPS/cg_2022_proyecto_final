@@ -1,0 +1,6 @@
+# Made in Blockbench 2.4.0
+newmtl 1
+map_Kd mitrashcan.png
+newmtl 3
+map_Kd silver.png
+newmtl none

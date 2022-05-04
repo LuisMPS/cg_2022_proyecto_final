@@ -698,6 +698,8 @@ int main() {
 	Model GardenLight("resources/models/GardenLight/GardenLight.obj");
 	Model Bush("resources/models/Bush/Bush.obj");
 	Model Leaf("resources/models/Leaf/Leaf.obj");
+	Model Deck("resources/models/PoolDeck/Deck.obj");
+	Model Platform("resources/models/DivingPlatform/Platform.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
 
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
@@ -1430,6 +1432,7 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		OakTree.Draw(shaderStatic);
 
+
 		// Hoja de Arbol 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3((-58.0f + leaf_offset_x) * scale, (5.67f + leaf_offset_y) * scale, (4.25f + leaf_offset_z) * scale));
 		model = glm::rotate(model, glm::radians(leaf_rotation), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -1741,12 +1744,14 @@ int main() {
 			}
 		}
 
-		// Alberca
+		//Alberca
+
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.25f, -16.45f * scale));
-		model = glm::scale(model, glm::vec3(1.0f / 92.5f * 20.0f * scale, 1.0f / 97.0f * 10.0f * scale, 1.0f / 52.5f * 10.0f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 92.5f * 20.0f * scale, 1.0f / 97.0f * 10.0f * scale, 1.0f / 52.0f * 10.0f  *  scale));
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
 		Pool.Draw(shaderStatic);
+
 
 		//Parrilla 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -37.0f * scale));
@@ -1797,7 +1802,7 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.0013f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
-		PicnicTable.Draw(shaderStatic);
+		Deck.Draw(shaderStatic);
 
 		//Mesa Picnic 3
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -33.0f * scale));
