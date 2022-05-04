@@ -698,7 +698,6 @@ int main() {
 	Model GardenLight("resources/models/GardenLight/GardenLight.obj");
 	Model Bush("resources/models/Bush/Bush.obj");
 	Model Leaf("resources/models/Leaf/Leaf.obj");
-	Model Deck("resources/models/PoolDeck/Deck.obj");
 	Model Platform("resources/models/DivingPlatform/Platform.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
 
@@ -1802,7 +1801,7 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.0013f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
-		Deck.Draw(shaderStatic);
+		PicnicTable.Draw(shaderStatic);
 
 		//Mesa Picnic 3
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -33.0f * scale));
