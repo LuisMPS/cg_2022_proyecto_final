@@ -21,6 +21,8 @@
 #include <modelAnim.h>
 #include <model.h>
 #include <Skybox.h>
+#include <torus.h>
+
 #include <iostream>
 #include <string>
 
@@ -306,10 +308,12 @@ void loadAudio() {
 }
 
 unsigned int texture_baby_yoda;
+unsigned int texture_pool_float;
 
 void loadTextures() {
 	TextureLoad texture;
 	texture_baby_yoda = texture.generate("textures/yoda.png", true);
+	texture_pool_float = texture.generate("textures/blue_white_stripes.jpg", false);
 }
 
 // Animacion Hojas
@@ -376,6 +380,12 @@ enum BABY_YODA_WAVE_DIRECTION {
 	BABY_YODA_WAVE_UP,
 };
 BABY_YODA_WAVE_DIRECTION baby_yoda_wave_direction = BABY_YODA_WAVE_DOWN;
+
+float pool_float_offset_x = 0.0f;
+float pool_float_offset_z = 0.0f;
+float pool_float_angle = 15.0f;
+float pool_float_speed = 0.5f;
+float pool_float_move_time = 0.0f;
 
 void runAnimations() {
 
@@ -517,7 +527,7 @@ void runAnimations() {
 				baby_yoda_left_arm_rotate_z = baby_yoda_initial_left_arm_rotate_z + (0.0f - baby_yoda_initial_left_arm_rotate_z) * percentage;
 				baby_yoda_right_arm_rotate_y = baby_yoda_initial_right_arm_rotate_y + (-10.0f - baby_yoda_initial_right_arm_rotate_y) * percentage;
 				baby_yoda_right_arm_rotate_z = baby_yoda_initial_right_arm_rotate_z + (0.0f - baby_yoda_initial_right_arm_rotate_z) * percentage;
-			}	
+			}
 			else {
 				baby_yoda_left_arm_rotate_y = 10.0f;
 				baby_yoda_left_arm_rotate_z = 5.0f;
@@ -594,6 +604,34 @@ void runAnimations() {
 	}
 	baby_yoda_delta_offset_y = baby_yoda_offset_y - baby_yoda_last_offset_y;
 
+	// Animacion Flotador
+	if (pool_float_speed == 0.0f) {
+		if (lastFrame - pool_float_move_time > 3.0f * 1000.0f) {
+			pool_float_angle = (rand() % 360) * 1.0f;
+			pool_float_speed = 0.5f;
+		}
+	}
+	else if (pool_float_speed > 0.0f) {
+		if (lastFrame - pool_float_move_time > 0.1f * 1000.0f) {
+			pool_float_move_time = lastFrame;
+			float pool_float_delta_x = sin(glm::radians(pool_float_angle)) * pool_float_speed;
+			float pool_float_delta_z = cos(glm::radians(pool_float_angle)) * pool_float_speed;
+			pool_float_offset_x += pool_float_delta_x;
+			pool_float_offset_z += pool_float_delta_z;
+			pool_float_speed -= 0.002f;
+			if (pool_float_speed <= 0.0f) {
+				pool_float_speed = 0.0f;
+			}
+		}
+	}
+	if (pool_float_offset_x > 8.4f || pool_float_offset_x < -8.4f) {
+		pool_float_angle = pool_float_angle * -1.0f;
+	}
+	if (pool_float_offset_z > 3.8f || pool_float_offset_z < -3.8f) {
+		pool_float_angle = (static_cast<int>(pool_float_angle + 180) % 360) * -1.0f;
+	}
+
+
 }
 
 int main() {
@@ -646,6 +684,8 @@ int main() {
 	Shader shaderSkybox("shaders/shader_skybox.vs", "shaders/shader_skybox.fs");
 	Shader shaderCube("shaders/shader_texture_color.vs", "shaders/shader_texture_color.fs");
 	Shader shaderAnimate("shaders/shader_animate.vs", "shaders/shader_animate.fs");
+
+	Torus torus(5.0f, 3.0f, 50, 50);
 
 	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
@@ -1744,13 +1784,18 @@ int main() {
 		}
 
 		//Alberca
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.25f, -16.45f * scale));
 		model = glm::scale(model, glm::vec3(1.0f / 92.5f * 20.0f * scale, 1.0f / 97.0f * 10.0f * scale, 1.0f / 52.0f * 10.0f  *  scale));
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
 		Pool.Draw(shaderStatic);
 
+		// Plataforma de Clavados
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-27.0f * scale, 2.25f, -17.45f * scale));
+		model = glm::scale(model, glm::vec3(1.0f / 100.0f * 5.0f * scale, 1.0f / 5.0f * 0.05f * scale, 1.0f / 20.0f * 0.9f * scale));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		Platform.Draw(shaderStatic);
 
 		//Parrilla 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -37.0f * scale));
@@ -1934,10 +1979,14 @@ int main() {
 
 		/* Baby Yoda */
 
-		float thirdPersonCameraAngle = -camera.Yaw + 90.0f;
-		camera.Center.y += baby_yoda_delta_offset_y * scale;
-		camera.Position.y += baby_yoda_delta_offset_y * scale;
-		glm::vec3 thirdPersonCameraCenter = glm::vec3(camera.Center.x, camera.Center.y, camera.Center.z);
+		float thirdPersonCameraAngle = 180.0f;
+		glm::vec3 thirdPersonCameraCenter = glm::vec3(0.0f * scale, 0.0f * scale, 6.3333f * scale);
+		if (camera.Mode == CAMERA_THIRD_PERSON) {
+			camera.Center.y += baby_yoda_delta_offset_y * scale;
+			camera.Position.y += baby_yoda_delta_offset_y * scale;
+			thirdPersonCameraAngle = -camera.Yaw + 90.0;
+			thirdPersonCameraCenter = glm::vec3(camera.Center.x, camera.Center.y, camera.Center.z);
+		}
 
 		float BABY_YODA_SCALE = 50.0f;
 
@@ -2014,6 +2063,16 @@ int main() {
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		glBindVertexArray(torus.getVAO());
+
+		glBindTexture(GL_TEXTURE_2D, texture_pool_float);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3((-17.20f + pool_float_offset_x) * scale, 1.85f, (-16.45f + pool_float_offset_z) * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.75f));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		torus.draw();
 
 		shaderSkybox.use();
 		skybox.Draw(shaderSkybox, view, projection, camera);
