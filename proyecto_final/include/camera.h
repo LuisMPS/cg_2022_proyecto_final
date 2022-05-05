@@ -78,7 +78,9 @@ class Camera {
 			float velocity = MovementSpeed * deltaTime;
 			if (direction == FORWARD) {
 				if (Mode == CAMERA_AERIAL) {
-					Position += Up * velocity;
+					glm::vec3 movement = Up * velocity;
+					Center += movement;
+					Position += movement;
 				}
 				else if (Mode == CAMERA_THIRD_PERSON) {
 					glm::vec3 movement = glm::normalize(glm::cross(WorldUp, Right)) * velocity;
@@ -94,7 +96,9 @@ class Camera {
 			}
 			if (direction == BACKWARD) {
 				if (Mode == CAMERA_AERIAL) {
-					Position -= Up * velocity;
+					glm::vec3 movement = Up * velocity;
+					Center -= movement;
+					Position -= movement;
 				}
 				else if (Mode == CAMERA_THIRD_PERSON) {
 					glm::vec3 movement = glm::normalize(glm::cross(WorldUp, Right)) * velocity;
@@ -185,6 +189,7 @@ class Camera {
 					Pitch = 0.0f;
 					break;
 				case CAMERA_AERIAL:
+					Center = glm::vec3(0.0f, 500.0f, 0.0f);
 					Position = glm::vec3(0.0f, 500.0f, 0.0f);
 					Yaw = -90.0f;
 					Pitch = -90.0f;
