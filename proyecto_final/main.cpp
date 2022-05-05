@@ -1,3 +1,12 @@
+/*-----------------------------------------------------------------------*/
+/*                         Proyecto Final CGeIHC                         */
+/*                                2022-2                                 */
+/*                         Elaborado por Alumnos:                        */
+/*                       - Cesar Ambrosio Martinez                       */
+/*                       - Luis Mario Perez Saldaña                      */
+/*                          - Huberto Rios Nunez                         */
+/*-----------------------------------------------------------------------*/
+
 #include <Windows.h>
 
 #include <glad/glad.h>
