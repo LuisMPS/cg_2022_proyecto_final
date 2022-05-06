@@ -631,15 +631,14 @@ void runAnimations() {
 			if (pool_float_speed <= 0.0f) {
 				pool_float_speed = 0.0f;
 			}
+			if (pool_float_offset_x > 8.4f || pool_float_offset_x < -8.4f) {
+				pool_float_angle = pool_float_angle * -1.0f;
+			}
+			if (pool_float_offset_z > 3.8f || pool_float_offset_z < -3.8f) {
+				pool_float_angle = (static_cast<int>(pool_float_angle + 180) % 360) * -1.0f;
+			}
 		}
 	}
-	if (pool_float_offset_x > 8.4f || pool_float_offset_x < -8.4f) {
-		pool_float_angle = pool_float_angle * -1.0f;
-	}
-	if (pool_float_offset_z > 3.8f || pool_float_offset_z < -3.8f) {
-		pool_float_angle = (static_cast<int>(pool_float_angle + 180) % 360) * -1.0f;
-	}
-
 
 }
 
