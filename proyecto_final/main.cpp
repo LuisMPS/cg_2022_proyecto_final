@@ -1366,6 +1366,39 @@ int main() {
 			LampSingle.Draw(shaderStatic);
 		}
 
+		// Iluminacion de Faros Calle 1 
+		for (int j = 0; j <= 6; j++) {
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].position", glm::vec3((31.75f - 10.5833f * j) * scale, 3.0f * scale, -3.5f * scale));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].diffuse", glm::vec3(1.0f, 0.9372f, 0.2588f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 1) + "].constant", 1.0f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 1) + "].linear", 0.03f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 1) + "].quadratic", 0.00032f);
+		}
+
+		// Iluminacion de Faros Calle 2
+		for (int j = 0; j <= 6; j++) {
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 8) + "].position", glm::vec3(-36.82f * scale, 3.0 * scale, (37.071f - 13.34725 * j) * scale));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 8) + "].ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 8) + "].diffuse", glm::vec3(1.0f, 0.9372f, 0.2588f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 8) + "].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 8) + "].constant", 1.0f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 8) + "].linear", 0.03f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 8) + "].quadratic", 0.001f);
+		}
+
+		// Iluminacion de Faros Calle 3
+		for (int j = 0; j <= 6; j++) {
+			shaderStatic.setVec3("pointLight[" +  std::to_string(j + 15) + "].position", glm::vec3(43.67f * scale, 3.0 * scale, (37.071f - 13.34725 * j) * scale));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 15) + "].ambient", glm::vec3(0.1f, 0.1f, 0.1f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 15) + "].diffuse", glm::vec3(1.0f, 0.9372f, 0.2588f));
+			shaderStatic.setVec3("pointLight[" + std::to_string(j + 15) + "].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 15) + "].constant", 1.0f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 15) + "].linear", 0.03f);
+			shaderStatic.setFloat("pointLight[" + std::to_string(j + 15) + "].quadratic", 0.001f);
+		}
+
 		// Auto Jeep Calle 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.75f * scale, 0.35f, -1.75f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
