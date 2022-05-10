@@ -37,6 +37,7 @@
 
 #include "textures_baby_yoda.h"
 #include "textures_mike_wazowski.h"
+#include "textures_aang.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -356,6 +357,7 @@ void loadAudio() {
 }
 
 unsigned int texture_baby_yoda;
+unsigned int texture_aang;
 unsigned int texture_mike_wazowski;
 unsigned int texture_pool_float;
 unsigned int texture_donut;
@@ -365,6 +367,7 @@ void loadTextures() {
 	TextureLoad texture;
 	texture_baby_yoda = texture.generate("textures/yoda.png", true);
 	texture_mike_wazowski = texture.generate("textures/mike_face.jpg", false);
+	texture_aang = texture.generate("textures/aang_texture.png", true);
 	texture_pool_float = texture.generate("textures/blue_white_stripes.jpg", false);
 	texture_donut = texture.generate("textures/donut.jpg", false);
 	texture_swing_lifesaver = texture.generate("textures/orange_yellow_stripes.jpg", false);
@@ -726,6 +729,7 @@ int main() {
 	loadTextures();
 	loadTextureDataBabyYoda();
 	loadTextureDataMikeWazowski();
+	loadTextureDataAang();
 	loadAudio();
 
 	// configure global opengl state
@@ -1034,6 +1038,7 @@ int main() {
 	glm::mat4 modelBabyYodaBody;
 	glm::mat4 modelBabyYodaArms;
 	glm::mat4 modelMikeWazowski;
+	glm::mat4 modelAang;
 
 	alSourcePlay(sources[0]);
 	alSourcePlay(sources[1]);
@@ -1064,7 +1069,7 @@ int main() {
 		//Setup Advanced Lights
 		shaderStatic.setVec3("viewPos", camera.Position);
 		shaderStatic.setVec3("dirLight.direction", lightDirection);
-		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.6f, 0.6f, 0.6f));
 		shaderStatic.setVec3("dirLight.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
 		shaderStatic.setVec3("dirLight.specular", glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -2086,6 +2091,7 @@ int main() {
 		shaderCube.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+
 		/* Baby Yoda */
 
 		float thirdPersonCameraAngle = 180.0f;
@@ -2282,6 +2288,110 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		/* Aang */
+		float Aang_SCALE = 25.0f;
+		glBindTexture(GL_TEXTURE_2D, texture_aang);
+
+		//Head
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(headAangTextureCoordsBuffer), headAangTextureCoordsBuffer);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f * scale, 1.25f * scale, 0.0f * scale));
+		model = modelAang = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3( 16.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Body
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyAangTextureCoordsBuffer), bodyAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -15.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(12.0f / Aang_SCALE * scale, 15.0f / Aang_SCALE * scale, 4.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Right Ear
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(earAangTextureCoordsBuffer), earAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(8.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.0f / Aang_SCALE * scale, 4.0f / Aang_SCALE * scale, 2.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Left Ear
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(earAangTextureCoordsBuffer), earAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(-8.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.0f / Aang_SCALE * scale, 4.0f / Aang_SCALE * scale, 2.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Right Arm
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(armAangTextureCoordsBuffer), armAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(7.0f / Aang_SCALE * scale, -12.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(2.5f / Aang_SCALE * scale, 7.5f / Aang_SCALE * scale, 2.5f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Left Arm
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(armAangTextureCoordsBuffer), armAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(-7.0f / Aang_SCALE * scale, -12.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(-15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(2.5f / Aang_SCALE * scale, 7.5f / Aang_SCALE * scale, 2.5f / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(180.0f) ,glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Right Leg
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(3.0f / Aang_SCALE * scale, -(23.0f + 5.0f * 0.7f) / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f)/ Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Left Leg
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(-3.0f / Aang_SCALE * scale, -(23.0f + 5.0f * 0.7f) / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f) / Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Right Shoe
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeAangTextureCoordsBuffer), shoeAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(3.0f / Aang_SCALE * scale, -(23.0f + 9.0f * 0.7f) / Aang_SCALE * scale, 2.25f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (2.0f * 0.7f) / Aang_SCALE * scale, 1.5f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Left Shoe
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeAangTextureCoordsBuffer), shoeAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(-3.0f / Aang_SCALE * scale, -(23.0f + 9.0f * 0.7f) / Aang_SCALE * scale, 2.25f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (2.0f * 0.7f) / Aang_SCALE * scale, 1.5f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Right Shoe Part 1
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(3.0f / Aang_SCALE * scale, -(23.0f + 8.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Left Shoe Part 1
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(-3.0f / Aang_SCALE * scale, -(23.0f + 8.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// TOROIDES
