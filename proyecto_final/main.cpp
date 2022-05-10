@@ -1349,7 +1349,7 @@ int main() {
 		}
 
 		// Faros de Luz Calle 2 Izquierda
-		for (int j = 0; j <= 7; j++) {
+		for (int j = 0; j <= 6; j++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(-40.32f * scale, 0.0f, (37.071f - 13.34725 * j) * scale));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.1111 * scale));
@@ -1358,7 +1358,7 @@ int main() {
 		}
 
 		// Faros de Luz Calle 3 Izquierda
-		for (int j = 0; j <= 7; j++) {
+		for (int j = 0; j <= 6; j++) {
 			model = glm::translate(glm::mat4(1.0f), glm::vec3(47.17f * scale, 0.0f, (37.071f - 13.34725 * j) * scale));
 			model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(0.1111 * scale));
