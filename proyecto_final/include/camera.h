@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <cmath>
 #include <vector>
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
@@ -196,6 +197,19 @@ class Camera {
 					break;
 			}
 			updateCameraVectors();
+		}
+
+		bool isWithinRadiusOfPosition(glm::vec3 position, float radius) {
+			float distance = glm::distance(position, Center);
+			return distance < radius;
+		}
+
+		bool isLookingAtPosition(glm::vec3 position, float toleranceAngle) {
+			glm::vec3 normalized_front = glm::normalize(Front);
+			glm::vec3 normalized_direction = glm::normalize(position - Center);
+			float angle = glm::degrees(acos(glm::dot(normalized_front, normalized_direction)));
+			if (angle < toleranceAngle) return true;
+			else return false;
 		}
 
 	private:
