@@ -441,6 +441,21 @@ float pool_float_angle = 15.0f;
 float pool_float_speed = 0.5f;
 float pool_float_move_time = 0.0f;
 
+glm::vec3 x_wing_position = glm::vec3(-78.045f * scale, 10.0f * scale, 22.0f * scale);
+float x_wing_movement_radius = 10.0f * scale;
+float x_wing_offset_x = 0.0f;
+float x_wing_offset_z = 0.0f;
+float x_wing_angle = 0.0f;
+float x_wing_rotate = 0.0f;
+float x_wing_initial_time = 0.0f;
+float x_wing_initial_rotate = 0.0f;
+bool x_wing_should_save_initial_values = false;
+enum X_WING_MOVEMENT {
+	X_WING_STRAIGHT_LINE,
+	X_WING_ROTATING
+};
+X_WING_MOVEMENT x_wing_movement = X_WING_STRAIGHT_LINE;
+
 void runAnimations() {
 
 	// Animaciones de Hojas
@@ -685,6 +700,37 @@ void runAnimations() {
 		}
 	}
 
+	// Animacion X Wing
+	if (x_wing_should_save_initial_values) {
+		x_wing_initial_time = lastFrame;
+		x_wing_initial_rotate = x_wing_rotate;
+		x_wing_should_save_initial_values = false;
+	}
+	if (x_wing_movement == X_WING_STRAIGHT_LINE) {
+		float x_wing_delta_x = sin(glm::radians(x_wing_angle)) * (deltaTime * 1.0f / 5.0f);
+		float x_wing_delta_z = cos(glm::radians(x_wing_angle)) * (deltaTime * 1.0f / 5.0f);
+		x_wing_offset_x += x_wing_delta_x;
+		x_wing_offset_z += x_wing_delta_z;
+		if (glm::distance(glm::vec2(0.0f, 0.0f), glm::vec2(x_wing_offset_x, x_wing_offset_z)) > x_wing_movement_radius) {
+			glm::vec2 vec = glm::normalize(glm::vec2(x_wing_offset_x, x_wing_offset_z)) * x_wing_movement_radius;
+			x_wing_offset_x = vec.x;
+			x_wing_offset_z = vec.y;
+			x_wing_angle = static_cast<int>((rand() % 40) + x_wing_angle + 180.0f - 45.0f) % 360;
+			x_wing_should_save_initial_values = true;
+			x_wing_movement = X_WING_ROTATING;
+		}
+	}
+	else if (x_wing_movement == X_WING_ROTATING) {
+		if (lastFrame - x_wing_initial_time < 1.0f * 1000.0f) {
+			float percentage = (lastFrame - x_wing_initial_time) / (1.0f * 1000.0f);
+			x_wing_rotate = x_wing_initial_rotate + (x_wing_angle - x_wing_initial_rotate) * percentage;
+		}
+		else {
+			x_wing_rotate = x_wing_angle;
+			x_wing_movement = X_WING_STRAIGHT_LINE;
+		}
+	}
+
 }
 
 int main() {
@@ -794,6 +840,7 @@ int main() {
 	Model Bush("resources/models/Bush/Bush.obj");
 	Model Leaf("resources/models/Leaf/Leaf.obj");
 	Model Platform("resources/models/DivingPlatform/Platform.obj");
+	Model Xwing("resources/models/Xwing/Xwing.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
 
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
@@ -1544,6 +1591,15 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.002f * scale));
 		shaderStatic.setMat4("model", model);
 		Sandbox.Draw(shaderStatic);
+
+		// X Wing
+		model = glm::translate(glm::mat4(1.0f), x_wing_position);
+		model = glm::translate(model, glm::vec3(x_wing_offset_x, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, x_wing_offset_z));
+		model = glm::rotate(model, glm::radians(x_wing_rotate), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.02 * scale));
+		shaderStatic.setMat4("model", model);
+		Xwing.Draw(shaderStatic);
 
 		//Arbol 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-60.0f * scale, 5.0f, 3.34f * scale));
