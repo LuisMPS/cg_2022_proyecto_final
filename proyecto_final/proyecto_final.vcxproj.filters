@@ -46,5 +46,8 @@
     <ClInclude Include="textures_baby_yoda.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
+    <ClInclude Include="textures_mike_wazowski.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

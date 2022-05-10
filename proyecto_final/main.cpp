@@ -36,6 +36,7 @@
 #include <string>
 
 #include "textures_baby_yoda.h"
+#include "textures_mike_wazowski.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -212,8 +213,29 @@ void loadData() {
 	glBindVertexArray(0);
 }
 
-ALuint buffers[3];
+ALuint buffers[2];
+ALuint song_buffers[4];
 ALuint sources[3];
+
+int current_song_index;
+glm::vec3 speakers_position = glm::vec3(-17.30f * scale, 1.1f * scale, -25.60f * scale);
+
+void load_song_with_index(int index) {
+	ALenum alError;
+	alSourceStop(sources[0]);
+	alSourcei(sources[0], AL_BUFFER, song_buffers[index]);
+	alSourcePlay(sources[0]);
+	alError = alGetError();
+	if (alError != AL_NO_ERROR) {
+		std::cerr << ("alSource :", alError) << std::endl;
+		return;
+	}
+}
+
+void load_next_song() {
+	current_song_index = (current_song_index + 1) % 4;
+	load_song_with_index(current_song_index);
+}
 
 void loadAudio() {
 
@@ -232,7 +254,8 @@ void loadAudio() {
 		return;
 	}
 
-	alGenBuffers(3, buffers);
+	alGenBuffers(2, buffers);
+	alGenBuffers(4, song_buffers);
 	alError = alGetError();
 	if (alError != AL_NO_ERROR) {
 		std::cerr << ("alGenBuffers :", alError) << std::endl;
@@ -242,17 +265,32 @@ void loadAudio() {
 	AudioFile audio_ozuna;
 	char* audio_ozuna_buffer = audio_ozuna.load("audios/audio_ozuna_adicto.wav");
 	ALenum audio_ozuna_format = get_audio_format(audio_ozuna.channels, audio_ozuna.bitsPerSample);
-	alBufferData(buffers[0], audio_ozuna_format, audio_ozuna_buffer, audio_ozuna.size, audio_ozuna.sampleRate);
+	alBufferData(song_buffers[0], audio_ozuna_format, audio_ozuna_buffer, audio_ozuna.size, audio_ozuna.sampleRate);
+
+	AudioFile audio_robin_schulz;
+	char* audio_robin_schulz_buffer = audio_robin_schulz.load("audios/audio_robin_schulz_sugar.wav");
+	ALenum audio_robin_schulz_format = get_audio_format(audio_robin_schulz.channels, audio_robin_schulz.bitsPerSample);
+	alBufferData(song_buffers[1], audio_robin_schulz_format, audio_robin_schulz_buffer, audio_robin_schulz.size, audio_robin_schulz.sampleRate);
+
+	AudioFile audio_lilly_wood;
+	char* audio_lilly_wood_buffer = audio_lilly_wood.load("audios/audio_lilly_wood_prayer.wav");
+	ALenum audio_lilly_wood_format = get_audio_format(audio_lilly_wood.channels, audio_lilly_wood.bitsPerSample);
+	alBufferData(song_buffers[2], audio_lilly_wood_format, audio_lilly_wood_buffer, audio_lilly_wood.size, audio_lilly_wood.sampleRate);
+
+	AudioFile audio_travis_scott;
+	char* audio_travis_scott_buffer = audio_travis_scott.load("audios/audio_travis_scott_goosebumps.wav");
+	ALenum audio_travis_scott_format = get_audio_format(audio_travis_scott.channels, audio_travis_scott.bitsPerSample);
+	alBufferData(song_buffers[3], audio_travis_scott_format, audio_travis_scott_buffer, audio_travis_scott.size, audio_travis_scott.sampleRate);
 
 	AudioFile audio_nature;
 	char* audio_nature_buffer = audio_nature.load("audios/audio_naturaleza.wav");
 	ALenum audio_nature_format = get_audio_format(audio_nature.channels, audio_nature.bitsPerSample);
-	alBufferData(buffers[1], audio_nature_format, audio_nature_buffer, audio_nature.size, audio_nature.sampleRate);
+	alBufferData(buffers[0], audio_nature_format, audio_nature_buffer, audio_nature.size, audio_nature.sampleRate);
 
 	AudioFile audio_kids_playing;
 	char* audio_kids_playing_buffer = audio_kids_playing.load("audios/audio_ninos_jugando.wav");
 	ALenum audio_kids_playing_format = get_audio_format(audio_kids_playing.channels, audio_kids_playing.bitsPerSample);
-	alBufferData(buffers[2], audio_kids_playing_format, audio_kids_playing_buffer, audio_kids_playing.size, audio_kids_playing.sampleRate);
+	alBufferData(buffers[1], audio_kids_playing_format, audio_kids_playing_buffer, audio_kids_playing.size, audio_kids_playing.sampleRate);
 
 	alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 	alError = alGetError();
@@ -267,20 +305,21 @@ void loadAudio() {
 		std::cerr << ("alGenSources :", alError) << std::endl;
 		return;
 	}
-	// Audio Ozuna
+
+	// Audio Bocinas
 	alSourcef(sources[0], AL_PITCH, 1);
 	alSourcef(sources[0], AL_GAIN, 5.0f);
-	alSource3f(sources[0], AL_POSITION, -17.20f * scale, 0.0f, -26.45f * scale);
+	alSource3f(sources[0], AL_POSITION, speakers_position.x, speakers_position.y, speakers_position.z);
 	alSourcef(sources[0], AL_REFERENCE_DISTANCE, 15.0f * scale);
 	alSourcef(sources[0], AL_ROLLOFF_FACTOR, 400.0f);
 	alSource3f(sources[0], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[0], AL_LOOPING, AL_TRUE);
-	alSourcei(sources[0], AL_BUFFER, buffers[0]);
 	alError = alGetError();
 	if (alError != AL_NO_ERROR) {
 		std::cerr << ("alSource :", alError) << std::endl;
 		return;
 	}
+	load_song_with_index(0);
 
 	// Audio Naturaleza
 	alSourcef(sources[1], AL_PITCH, 1);
@@ -288,7 +327,7 @@ void loadAudio() {
 	alSource3f(sources[1], AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
 	alSource3f(sources[1], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[1], AL_LOOPING, AL_TRUE);
-	alSourcei(sources[1], AL_BUFFER, buffers[1]);
+	alSourcei(sources[1], AL_BUFFER, buffers[0]);
 	alError = alGetError();
 	if (alError != AL_NO_ERROR) {
 		std::cerr << ("alSource :", alError) << std::endl;
@@ -298,12 +337,12 @@ void loadAudio() {
 	// Audio Ninos Jugando
 	alSourcef(sources[2], AL_PITCH, 1);
 	alSourcef(sources[2], AL_GAIN, 4.5f);
-	alSource3f(sources[2], AL_POSITION, -54.180f * scale,03.0f, 23.90f * scale);
+	alSource3f(sources[2], AL_POSITION, -54.180f * scale, 3.0f, 23.90f * scale);
 	alSourcef(sources[2], AL_REFERENCE_DISTANCE, 20.0f * scale);
 	alSourcef(sources[2], AL_ROLLOFF_FACTOR, 70.0f);
 	alSource3f(sources[2], AL_VELOCITY, 0, 0, 0);
 	alSourcei(sources[2], AL_LOOPING, AL_TRUE);
-	alSourcei(sources[2], AL_BUFFER, buffers[2]);
+	alSourcei(sources[2], AL_BUFFER, buffers[1]);
 	alError = alGetError();
 	if (alError != AL_NO_ERROR) {
 		std::cerr << ("alSource :", alError) << std::endl;
@@ -317,12 +356,18 @@ void loadAudio() {
 }
 
 unsigned int texture_baby_yoda;
+unsigned int texture_mike_wazowski;
 unsigned int texture_pool_float;
+unsigned int texture_donut;
+unsigned int texture_swing_lifesaver;
 
 void loadTextures() {
 	TextureLoad texture;
 	texture_baby_yoda = texture.generate("textures/yoda.png", true);
+	texture_mike_wazowski = texture.generate("textures/mike_face.jpg", false);
 	texture_pool_float = texture.generate("textures/blue_white_stripes.jpg", false);
+	texture_donut = texture.generate("textures/donut.jpg", false);
+	texture_swing_lifesaver = texture.generate("textures/orange_yellow_stripes.jpg", false);
 }
 
 // Animacion Hojas
@@ -680,6 +725,7 @@ int main() {
 	loadData();
 	loadTextures();
 	loadTextureDataBabyYoda();
+	loadTextureDataMikeWazowski();
 	loadAudio();
 
 	// configure global opengl state
@@ -737,6 +783,7 @@ int main() {
 	Model LodTree("resources/models/Trees/LodTree.obj");
 	Model Grill("resources/models/Grill/BBQ.obj");
 	Model PicnicTable("resources/models/PicnicTable/Table.obj");
+	Model Speakers("resources/models/Speakers/Speakers.obj");
 	Model Goal("resources/models/Goal/Goal.obj");
 	Model SwingSeat("resources/models/SwingParts/SwingSeat.obj");
 	Model SwingStructure("resources/models/SwingParts/SwingStructure.obj");
@@ -986,6 +1033,7 @@ int main() {
 
 	glm::mat4 modelBabyYodaBody;
 	glm::mat4 modelBabyYodaArms;
+	glm::mat4 modelMikeWazowski;
 
 	alSourcePlay(sources[0]);
 	alSourcePlay(sources[1]);
@@ -1791,7 +1839,7 @@ int main() {
 			}
 		}
 
-		//Alberca
+		// Alberca
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.25f, -16.45f * scale));
 		model = glm::scale(model, glm::vec3(1.0f / 92.5f * 20.0f * scale, 1.0f / 97.0f * 10.0f * scale, 1.0f / 52.0f * 10.0f  *  scale));
 		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -1804,6 +1852,26 @@ int main() {
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		shaderStatic.setMat4("model", model);
 		Platform.Draw(shaderStatic);
+
+		//Mesa Picnic Bocinas
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.0f, -25.45f * scale));
+		model = glm::scale(model, glm::vec3(0.0013f * scale));
+		shaderStatic.setMat4("model", model);
+		PicnicTable.Draw(shaderStatic);
+
+		// Bocina 1
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-16.80f * scale, 1.1f * scale, -25.60f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Speakers.Draw(shaderStatic);
+
+		// Bocina 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.80f * scale, 1.1f * scale, -25.60f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f * scale));
+		shaderStatic.setMat4("model", model);
+		Speakers.Draw(shaderStatic);
 
 		//Parrilla 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.0f * scale, 1.0f, -37.0f * scale));
@@ -2072,12 +2140,144 @@ int main() {
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+		/* MIKE WAZOWSKI */
+
+		float MIKE_SCALE = 12.5f;
+
+		glBindTexture(GL_TEXTURE_2D, texture_mike_wazowski);
+
+		// Cuerpo y Cara
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(headMikeTextureCoordsBuffer), headMikeTextureCoordsBuffer);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(24.5f * scale, 0.69f * scale, -15.0f * scale));
+		model = modelMikeWazowski = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Brazo Derecho
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(3.0f / MIKE_SCALE * scale, -2.5f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.0f / MIKE_SCALE * scale, 4.0f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Brazo Izquierdo
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-3.0f / MIKE_SCALE * scale, -2.5f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.0f / MIKE_SCALE * scale, 4.0f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Pierna Derecha
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(1.5f / MIKE_SCALE * scale, -5.0f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.5f / MIKE_SCALE * scale, 5.0f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Pierna Izquierda
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-1.5f / MIKE_SCALE * scale, -5.0f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.5f / MIKE_SCALE * scale, 5.0f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Pie Derecho
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(1.5f / MIKE_SCALE * scale, -7.25f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36); 
+
+		// Pie Izquierdo
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-1.5f / MIKE_SCALE * scale, -7.25f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(1.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Derecho Parte 1
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(1.5f / MIKE_SCALE * scale, 3.25f / MIKE_SCALE * scale, -1.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 1.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Derecho Parte 2
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(1.5f / MIKE_SCALE * scale, 3.0f / MIKE_SCALE * scale, -0.5f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Derecho Parte 3
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(1.5f / MIKE_SCALE * scale, 2.75f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Izquierdo Parte 1
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-1.5f / MIKE_SCALE * scale, 3.25f / MIKE_SCALE * scale, -1.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 1.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Izquierdo Parte 2
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-1.5f / MIKE_SCALE * scale, 3.0f / MIKE_SCALE * scale, -0.5f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 1.0f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cuerno Izquierdo Parte 3
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyMikeTextureCoordsBuffer), bodyMikeTextureCoordsBuffer);
+		model = glm::translate(modelMikeWazowski, glm::vec3(-1.5f / MIKE_SCALE * scale, 2.75f / MIKE_SCALE * scale, 0.0f / MIKE_SCALE * scale));
+		model = glm::scale(model, glm::vec3(0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale, 0.5f / MIKE_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 100.0f, 100.0f, 100.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// TOROIDES
 		glBindVertexArray(torus.getVAO());
 
+		// Flotador
 		glBindTexture(GL_TEXTURE_2D, texture_pool_float);
-		model = glm::translate(glm::mat4(1.0f), glm::vec3((-17.20f + pool_float_offset_x) * scale, 1.85f, (-16.45f + pool_float_offset_z) * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(pool_float_offset_x * scale, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, pool_float_offset_z * scale));
+		model = glm::translate(model, glm::vec3(-17.20f * scale, 1.85f, -16.45f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.75f));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		torus.draw();
+
+		// Dona
+		glBindTexture(GL_TEXTURE_2D, texture_donut);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(13.0f * scale, 1.08f * scale, -24.25f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.13f));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		torus.draw();
+
+		// Dona Columpio
+		glBindTexture(GL_TEXTURE_2D, texture_swing_lifesaver);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.07f * scale, 1.885f * scale, 19.135f * scale));
+		model = glm::scale(model, glm::vec3(0.5f));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		torus.draw();
@@ -2089,7 +2289,7 @@ int main() {
 
 		alListener3f(AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
 
-		// Audio Ozuna
+		// Audio Bocinas
 		alGetSourcei(sources[0], AL_SOURCE_STATE, &state);
 
 		// Audio Naturaleza
@@ -2116,7 +2316,8 @@ int main() {
 	glfwTerminate();
 
 	alDeleteSources(3, sources);
-	alDeleteBuffers(3, buffers);
+	alDeleteBuffers(2, buffers);
+	alDeleteBuffers(4, song_buffers);
 	ALCcontext* context = alcGetCurrentContext();
 	ALCdevice* device = alcGetContextsDevice(context);
 	alcMakeContextCurrent(NULL);
@@ -2182,6 +2383,11 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 			baby_yoda_levitating = true;
 			baby_yoda_should_save_initial_values = true;
 			baby_yoda_levitation_stage = BABY_YODA_PREPARING_ARMS;
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		if (camera.isWithinRadiusOfPosition(speakers_position, 6.0 * scale) && camera.isLookingAtPosition(speakers_position, 45.0f)) {
+			load_next_song();
 		}
 	}
 }
