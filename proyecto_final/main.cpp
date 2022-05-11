@@ -223,6 +223,7 @@ glm::vec3 speakers_position = glm::vec3(-17.30f * scale, 1.1f * scale, -25.60f *
 
 void load_song_with_index(int index) {
 	ALenum alError;
+	current_song_index = index;
 	alSourceStop(sources[0]);
 	alSourcei(sources[0], AL_BUFFER, song_buffers[index]);
 	alSourcePlay(sources[0]);
@@ -320,7 +321,6 @@ void loadAudio() {
 		std::cerr << ("alSource :", alError) << std::endl;
 		return;
 	}
-	load_song_with_index(0);
 
 	// Audio Naturaleza
 	alSourcef(sources[1], AL_PITCH, 1);
@@ -1095,10 +1095,9 @@ int main() {
 	glm::mat4 modelAang;
 	glm::vec3 aang_position = glm::vec3(10.0f * scale, 3.0f * scale, 10.0f * scale);
 
-	alSourcePlay(sources[0]);
+	load_song_with_index(0);
 	alSourcePlay(sources[1]);
 	alSourcePlay(sources[2]);
-	ALint state = AL_PLAYING;
 
 	// render loop
 	// -----------
@@ -2521,15 +2520,8 @@ int main() {
 
 		alListener3f(AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
 
-		// Audio Bocinas
-		alGetSourcei(sources[0], AL_SOURCE_STATE, &state);
-
 		// Audio Naturaleza
-		alGetSourcei(sources[1], AL_SOURCE_STATE, &state);
 		alSource3f(sources[1], AL_POSITION, camera.Center.x, camera.Center.y, camera.Center.z);
-
-		// Audio Ninos Jugando
-		alGetSourcei(sources[2], AL_SOURCE_STATE, &state);
 
 		// Limitar el framerate a 60
 		deltaTime = SDL_GetTicks() - lastFrame; // time for full 1 loop
