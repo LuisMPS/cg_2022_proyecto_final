@@ -7,6 +7,8 @@
 
 float TEX_AANG_WIDTH = 2048.0f;
 float TEX_AANG_HEIGHT = 2048.0f;
+float TEX_FIRE_WIDTH = 32.0f;
+float TEX_FIRE_HEIGHT = 32.0f;
 float PIXEL_SIZE_AANG = 23.0f;
 
 GLfloat headAangTextureCoordsBuffer[72];
@@ -16,6 +18,7 @@ GLfloat armAangTextureCoordsBuffer[72];
 GLfloat legAangTextureCoordsBuffer[72];
 GLfloat shoeAangTextureCoordsBuffer[72];
 GLfloat shoeUpAangTextureCoordsBuffer[72];
+GLfloat FireAangTextureCoordsBuffer[72];
 
 void loadTextureDataAang() {
 
@@ -369,6 +372,56 @@ void loadTextureDataAang() {
 		(966.0f / TEX_AANG_WIDTH), ((TEX_AANG_HEIGHT - 1633.0f) / TEX_AANG_HEIGHT),
 	};
 
+	GLfloat FireAangTextureCoords[72] = {
+		//Frente
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+
+		//Espalda
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+
+		//Izq
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+
+		//der
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(160.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 32.0f) / TEX_FIRE_HEIGHT),
+
+		//Up
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+
+		//Down
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+		(0.0f / TEX_FIRE_WIDTH), ((TEX_FIRE_HEIGHT - 0.0f) / TEX_FIRE_HEIGHT),
+	};
+
 	for (int i = 0; i < 72; i++) {
 		headAangTextureCoordsBuffer[i] = headAangTextureCoords[i];
 		bodyAangTextureCoordsBuffer[i] = bodyAangTextureCoords[i];
@@ -377,6 +430,7 @@ void loadTextureDataAang() {
 		legAangTextureCoordsBuffer[i] = legAangTextureCoords[i];
 		shoeAangTextureCoordsBuffer[i] = shoeAangTextureCoords[i];
 		shoeUpAangTextureCoordsBuffer[i] = shoeUpAangTextureCoords[i];
+		FireAangTextureCoordsBuffer[i] = FireAangTextureCoords[i];
 	}
 }
 
