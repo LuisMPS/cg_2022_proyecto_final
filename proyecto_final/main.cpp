@@ -2077,7 +2077,6 @@ int main() {
 		Water.Draw(shaderStatic);
 
 		//TrashCan Monsters Inc 1
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-12.80f * scale, 5.0f, -25.60f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f * scale));
@@ -2086,7 +2085,6 @@ int main() {
 		TrashCan.Draw(shaderStatic);
 
 		//TrashCan Monsters Inc 2
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.80f * scale, 5.0f, -32.60f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f * scale));
@@ -2095,23 +2093,27 @@ int main() {
 
 
 		//TrashCan Monsters Inc 3
-
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.80f * scale, 5.0f, -21.60f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f * scale));
 		shaderStatic.setMat4("model", model);
 		TrashCan.Draw(shaderStatic);
 
-		//Scream
-
+		//Scream 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(13.0f * scale, 1.0f * scale, -24.65f * scale));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.1f * scale));
 		shaderStatic.setMat4("model", model);
 		Scream.Draw(shaderStatic);
 
-		//Monster
+		//Scream 2
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(25.0f * scale, 1.0f, -13.5f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.15f * scale));
+		shaderStatic.setMat4("model", model);
+		Scream.Draw(shaderStatic);
 
+		//MonsterSullivan
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.5f * scale, 1.0f, -15.0f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.007f * scale));
