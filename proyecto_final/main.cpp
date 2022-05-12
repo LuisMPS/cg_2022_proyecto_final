@@ -1123,8 +1123,8 @@ int main() {
 		//Setup Advanced Lights
 		shaderStatic.setVec3("viewPos", camera.Position);
 		shaderStatic.setVec3("dirLight.direction", lightDirection);
-		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.01f, 0.01f, 0.01f));
-		shaderStatic.setVec3("dirLight.diffuse", glm::vec3(0.01f, 0.01f, 0.01f));
+		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		shaderStatic.setVec3("dirLight.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
 		shaderStatic.setVec3("dirLight.specular", glm::vec3(0.0f, 0.0f, 0.0f));
 
 		shaderStatic.setVec3("pointLight[0].position", lightPosition);
@@ -2156,15 +2156,15 @@ int main() {
 		shaderCube.setMat4("projection", projection);
 		shaderCube.setMat4("view", view);
 
-		glBindVertexArray(VAO[0]);
-		glBindTexture(GL_TEXTURE_2D, texture_baby_yoda);
-
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(rulerPositionX, rulerPositionY, rulerPositionZ));
+		// Ruler Cube
+		/*model = glm::translate(glm::mat4(1.0f), glm::vec3(rulerPositionX, rulerPositionY, rulerPositionZ));
 		model = glm::scale(model, glm::vec3(rulerSizeX, rulerSizeY, rulerSizeZ));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
+		glBindVertexArray(VAO[0]);
+		glBindTexture(GL_TEXTURE_2D, texture_baby_yoda);
 
 		/* Baby Yoda */
 
