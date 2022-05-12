@@ -853,7 +853,7 @@ int main() {
 	Model Platform("resources/models/DivingPlatform/Platform.obj");
 	Model Xwing("resources/models/Xwing/Xwing.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
-
+	Model TrashCan("resources/models/TrashCan/mitrashcan.obj");
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
@@ -1702,6 +1702,14 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		Kite.Draw(shaderStatic);
 
+		//TrashCan Monsters Inc
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.045f * scale, 5.0f, 17.5f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f * scale));
+		shaderStatic.setMat4("model", model);
+		TrashCan.Draw(shaderStatic);
+
 		/* AREA RESIDENCIAL */
 
 		// Piso de Pasto
@@ -2065,6 +2073,34 @@ int main() {
 		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 19.0f * scale, 1.0f, 1.0f / 5000.0f * 9.0f * scale));
 		shaderStatic.setMat4("model", model);
 		Water.Draw(shaderStatic);
+
+		//TrashCan Monsters Inc 1
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-12.80f * scale, 5.0f, -25.60f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setMat4("model", model);
+		TrashCan.Draw(shaderStatic);
+
+		//TrashCan Monsters Inc 2
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.80f * scale, 5.0f, -32.60f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f * scale));
+		shaderStatic.setMat4("model", model);
+		TrashCan.Draw(shaderStatic);
+
+
+		//TrashCan Monsters Inc 3
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.80f * scale, 5.0f, -21.60f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.05f * scale));
+		shaderStatic.setMat4("model", model);
+		TrashCan.Draw(shaderStatic);
+
+
 
 		/* AREA VERDE */
 
