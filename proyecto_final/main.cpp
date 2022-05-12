@@ -1096,6 +1096,8 @@ int main() {
 	glm::mat4 modelBabyYodaArms;
 	glm::mat4 modelMikeWazowski;
 	glm::mat4 modelAang;
+	glm::mat4 modelAangLeftLeg;
+	glm::mat4 modelAangRightLeg;
 	glm::vec3 aang_position = glm::vec3(10.0f * scale, 3.0f * scale, 10.0f * scale);
 
 	load_song_with_index(0);
@@ -2078,7 +2080,7 @@ int main() {
 		Water.Draw(shaderStatic);
 
 		//Fragata Nacion del Fuego
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.0f, -16.45f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.0f, -16.45f * scale));
 		model = glm::scale(model, glm::vec3( 0.0005f * scale));
 		shaderStatic.setMat4("model", model);
 		FireNation.Draw(shaderStatic);
@@ -2489,7 +2491,8 @@ int main() {
 
 		//Right Leg
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(21.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -1.0f / Aang_SCALE * scale));
+		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(20.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -2.0f / Aang_SCALE * scale));
+		modelAangRightLeg = model = glm::rotate(model, glm::radians(35.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f)/ Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2497,7 +2500,8 @@ int main() {
 
 		//Left Leg
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -1.0f / Aang_SCALE * scale));
+		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -3.0f / Aang_SCALE * scale));
+		modelAangLeftLeg = model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f) / Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2505,7 +2509,7 @@ int main() {
 
 		//Right Shoe
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeAangTextureCoordsBuffer), shoeAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(21.0f + 9.0f * 0.7f) / Aang_SCALE * scale, 1.25f / Aang_SCALE * scale));
+		model = glm::translate(modelAangRightLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 4.0f * 0.7f) / Aang_SCALE * scale, 2.25f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (2.0f * 0.7f) / Aang_SCALE * scale, 1.5f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2513,7 +2517,7 @@ int main() {
 
 		//Left Shoe
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeAangTextureCoordsBuffer), shoeAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 9.0f * 0.7f) / Aang_SCALE * scale, 1.25f / Aang_SCALE * scale));
+		model = glm::translate(modelAangLeftLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 4.0f * 0.7f) / Aang_SCALE * scale, 2.25f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (2.0f * 0.7f) / Aang_SCALE * scale, 1.5f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2521,7 +2525,7 @@ int main() {
 
 		//Right Shoe Part 1
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(21.0f + 8.0f * 0.7f) / Aang_SCALE * scale, 0.875f / Aang_SCALE * scale));
+		model = glm::translate(modelAangRightLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 3.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2529,7 +2533,7 @@ int main() {
 
 		//Left Shoe Part 1
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 8.0f * 0.7f) / Aang_SCALE * scale, 0.875f / Aang_SCALE * scale));
+		model = glm::translate(modelAangLeftLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 3.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
