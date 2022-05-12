@@ -854,6 +854,7 @@ int main() {
 	Model Xwing("resources/models/Xwing/Xwing.obj");
 	Model testModel("resources/models/Grass/Grass.obj");
 	Model TrashCan("resources/models/TrashCan/mitrashcan.obj");
+	Model Scream("resources/models/Scream/Scream.obj");
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
@@ -2099,6 +2100,14 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.05f * scale));
 		shaderStatic.setMat4("model", model);
 		TrashCan.Draw(shaderStatic);
+
+		//Scream
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(13.0f * scale, 1.0f * scale, -24.65f * scale));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.1f * scale));
+		shaderStatic.setMat4("model", model);
+		Scream.Draw(shaderStatic);
 
 
 
