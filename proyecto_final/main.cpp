@@ -855,6 +855,7 @@ int main() {
 	Model testModel("resources/models/Grass/Grass.obj");
 	Model TrashCan("resources/models/TrashCan/mitrashcan.obj");
 	Model Scream("resources/models/Scream/Scream.obj");
+	Model Monster("resources/models/Sullivan/SullivanMonster.obj");
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
@@ -2108,6 +2109,15 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.1f * scale));
 		shaderStatic.setMat4("model", model);
 		Scream.Draw(shaderStatic);
+
+		//Monster
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(9.5f * scale, 1.0f, -15.0f * scale));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.007f * scale));
+		shaderStatic.setMat4("model", model);
+		Monster.Draw(shaderStatic);
+
 
 
 
