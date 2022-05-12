@@ -855,6 +855,7 @@ int main() {
 	Model testModel("resources/models/Grass/Grass.obj");
 	Model TrashCan("resources/models/TrashCan/mitrashcan.obj");
 	Model Scream("resources/models/Scream/Scream.obj");
+	Model FireNation("resources/models/Fire_Nation_Frigate/FireNationFrigate.obj");
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
@@ -2075,8 +2076,14 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		Water.Draw(shaderStatic);
 
-		//TrashCan Monsters Inc 1
+		//Fragata Nacion del Fuego
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 2.0f, -16.45f * scale));
+		model = glm::scale(model, glm::vec3( 0.0005f * scale));
+		shaderStatic.setMat4("model", model);
+		FireNation.Draw(shaderStatic);
 
+
+		//TrashCan Monsters Inc 1
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-12.80f * scale, 5.0f, -25.60f * scale));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.05f * scale));
