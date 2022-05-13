@@ -2222,8 +2222,8 @@ int main() {
 		Monster.Draw(shaderStatic);
 
 		//Jabulani
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(16.5f * scale, 0.0f, -15.0f * scale));
-		model = glm::scale(model, glm::vec3(1.1f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(16.7f * scale, 0.0f, -15.0f * scale));
+		model = glm::scale(model, glm::vec3(1.2f * scale));
 		shaderStatic.setMat4("model", model);
 		Jabulani.Draw(shaderStatic);
 
