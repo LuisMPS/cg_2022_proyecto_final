@@ -865,7 +865,7 @@ int main() {
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
@@ -949,6 +949,7 @@ int main() {
 	Model Scream("resources/models/Scream/Scream.obj");
 	Model FireNation("resources/models/Fire_Nation_Frigate/FireNationFrigate.obj");
 	Model Monster("resources/models/Sullivan/SullivanMonster.obj");
+	Model Jabulani("resources/models/Jabulani/Jabulani.obj");
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
@@ -2219,6 +2220,12 @@ int main() {
 		model = glm::scale(model, glm::vec3(0.007f * scale));
 		shaderStatic.setMat4("model", model);
 		Monster.Draw(shaderStatic);
+
+		//Jabulani
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(16.5f * scale, 0.0f, -15.0f * scale));
+		model = glm::scale(model, glm::vec3(1.1f * scale));
+		shaderStatic.setMat4("model", model);
+		Jabulani.Draw(shaderStatic);
 
 
 
