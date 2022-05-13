@@ -97,6 +97,7 @@ float aang_left_leg_rotate_x = 0.0f;
 float aang_body_rotate_x = 0.0f;
 float aang_arms_rotate_x = 0.0f;
 float aang_fire_size = 1.0f;
+float aang_water_size = 1.0f;
 float aang_right_leg_z_offset = 0.0f;
 float aang_right_leg_y_offset = 0.0f;
 float aang_left_leg_z_offset = 0.0f;
@@ -378,6 +379,7 @@ unsigned int texture_pool_float;
 unsigned int texture_donut;
 unsigned int texture_swing_lifesaver;
 unsigned int texture_fire;
+unsigned int texture_water;
 
 void loadTextures() {
 	TextureLoad texture;
@@ -388,6 +390,7 @@ void loadTextures() {
 	texture_donut = texture.generate("textures/donut.jpg", false);
 	texture_swing_lifesaver = texture.generate("textures/orange_yellow_stripes.jpg", false);
 	texture_fire = texture.generate("textures/fire.png", true);
+	texture_water = texture.generate("textures/water.png", true);
 }
 
 // Animacion Hojas
@@ -476,8 +479,8 @@ enum X_WING_MOVEMENT {
 };
 X_WING_MOVEMENT x_wing_movement = X_WING_STRAIGHT_LINE;
 
-//Animacion Fuego
-float fire_rotation = 0.0f;
+//Animacion anillos
+float ring_rotation = 0.0f;
 
 void runAnimations() {
 
@@ -756,7 +759,7 @@ void runAnimations() {
 
 	//Animacion Avatar Aang
 	if (avatar_state) {
-		fire_rotation += 10.0f;
+		ring_rotation += 10.0f;
 		if (aang_arms_rotate_x < 15.0f) {
 			aang_arms_rotate_x += 1.0f;
 		}
@@ -775,6 +778,9 @@ void runAnimations() {
 		if (aang_fire_size < 50.0f) {
 			aang_fire_size += 50.0f / 15.0f;
 		}
+		if (aang_water_size < 45.0f) {
+			aang_water_size += 45.0f / 15.0f;
+		}		
 		if (aang_right_leg_z_offset > -2.0f) {
 			aang_right_leg_z_offset -= 2.0f / 15.0f;
 		}
@@ -809,6 +815,9 @@ void runAnimations() {
 		}
 		if (aang_fire_size > 0.0f) {
 			aang_fire_size -= 50.0f / 15.0f;
+		}
+		if (aang_water_size > 0.0f) {
+			aang_water_size -= 45.0f / 15.0f;
 		}
 		if (aang_right_leg_z_offset < 0.0f) {
 			aang_right_leg_z_offset += 2.0f / 15.0f;
@@ -2625,12 +2634,24 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, texture_fire);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(FireAangTextureCoordsBuffer), FireAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
-		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-fire_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(aang_fire_size / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, aang_fire_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Agua
+		glBindTexture(GL_TEXTURE_2D, texture_water);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(WaterAangTextureCoordsBuffer), WaterAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(-25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(aang_water_size / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, aang_water_size / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
 		// TOROIDES
 		glBindVertexArray(torus.getVAO());
