@@ -63,6 +63,7 @@ Camera camera(glm::vec3(0.0f, 10.0f, 5.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
+bool avatar_state = false;
 
 float scale = 10.0f;
 
@@ -86,6 +87,20 @@ float baby_yoda_left_arm_rotate_y = 20.0f;
 float baby_yoda_left_arm_rotate_z = 40.0f;
 float baby_yoda_right_arm_rotate_y = -20.0f;
 float baby_yoda_right_arm_rotate_z = -40.0f;
+
+//Aang Variables
+float aang_pos_x = 10.0f * scale;
+float aang_pos_y = 1.5f * scale;
+float aang_pos_z = 10.0f * scale;
+float aang_right_leg_rotate_x = 0.0f;
+float aang_left_leg_rotate_x = 0.0f;
+float aang_body_rotate_x = 0.0f;
+float aang_arms_rotate_x = 0.0f;
+float aang_fire_size = 1.0f;
+float aang_right_leg_z_offset = 0.0f;
+float aang_right_leg_y_offset = 0.0f;
+float aang_left_leg_z_offset = 0.0f;
+float aang_fire_light_size = 1.0f;
 
 // timing
 const int FPS = 60;
@@ -739,8 +754,76 @@ void runAnimations() {
 		}
 	}
 
-	//animacion fuego
-	fire_rotation += 10.0f;
+	//Animacion Avatar Aang
+	if (avatar_state) {
+		fire_rotation += 10.0f;
+		if (aang_arms_rotate_x < 15.0f) {
+			aang_arms_rotate_x += 1.0f;
+		}
+		if (aang_body_rotate_x < 15.0f) {
+			aang_body_rotate_x += 1.0f;
+		}
+		if (aang_right_leg_rotate_x < 35.0f) {
+			aang_right_leg_rotate_x += 2.33f;
+		}
+		if (aang_left_leg_rotate_x < 35.0f) {
+			aang_left_leg_rotate_x += 1.66f;
+		}
+		if (aang_pos_y < 3.0f * scale) {
+			aang_pos_y += 3.0f * scale / 15.0f;
+		}
+		if (aang_fire_size < 50.0f) {
+			aang_fire_size += 50.0f / 15.0f;
+		}
+		if (aang_right_leg_z_offset > -2.0f) {
+			aang_right_leg_z_offset -= 2.0f / 15.0f;
+		}
+		if (aang_left_leg_z_offset > -3.0f) {
+			aang_left_leg_z_offset -= 3.0f / 15.0f;
+		}
+		if (aang_right_leg_y_offset < 1.0f) {
+			aang_right_leg_y_offset += 1.0f / 15.0f;
+		}
+		if (aang_fire_light_size > 0.001) {
+			aang_fire_light_size -= (1.0f - 0.001) / 15.0f;
+		}
+	}
+	else {
+		if (aang_arms_rotate_x > 0.0f) {
+			aang_arms_rotate_x -= 1.0f;
+		}
+		if (aang_body_rotate_x > 0.0f) {
+			aang_body_rotate_x -= 1.0f;
+		}
+		if (aang_right_leg_rotate_x > 0.0f) {
+			aang_right_leg_rotate_x -= 2.33f;
+		}
+		if (aang_left_leg_rotate_x > 0.0f) {
+			aang_left_leg_rotate_x -= 1.66f;
+		}
+		if (aang_pos_y > 1.5f * scale) {
+			aang_pos_y -= 2.5f * scale / 15.0f;
+		}
+		else {
+			aang_pos_y = 1.5f * scale;
+		}
+		if (aang_fire_size > 0.0f) {
+			aang_fire_size -= 50.0f / 15.0f;
+		}
+		if (aang_right_leg_z_offset < 0.0f) {
+			aang_right_leg_z_offset += 2.0f / 15.0f;
+		}
+		if (aang_left_leg_z_offset < 0.0f) {
+			aang_left_leg_z_offset += 3.0f / 15.0f;
+		}
+		if (aang_right_leg_y_offset > 0.0f) {
+			aang_right_leg_y_offset -= 1.0f / 15.0f;
+		}
+		if (aang_fire_light_size < 1.0f) {
+			aang_fire_light_size += (1.0f - 0.001) / 15.0f;
+		}
+	}
+	
 }
 
 int main() {
@@ -1098,7 +1181,6 @@ int main() {
 	glm::mat4 modelAang;
 	glm::mat4 modelAangLeftLeg;
 	glm::mat4 modelAangRightLeg;
-	glm::vec3 aang_position = glm::vec3(10.0f * scale, 3.0f * scale, 10.0f * scale);
 
 	load_song_with_index(0);
 	alSourcePlay(sources[1]);
@@ -2181,13 +2263,13 @@ int main() {
 
 
 		//Luz aang
-		shaderStatic.setVec3("pointLight[22].position", aang_position);
+		shaderStatic.setVec3("pointLight[22].position", glm::vec3(aang_pos_x, aang_pos_y, aang_pos_z));
 		shaderStatic.setVec3("pointLight[22].ambient", glm::vec3(0.3f, 0.1f, 0.1f));
 		shaderStatic.setVec3("pointLight[22].diffuse", glm::vec3(1.0f, 0.2f, 0.0f));
 		shaderStatic.setVec3("pointLight[22].specular", glm::vec3(0.1f, 0.0f, 0.0f));
 		shaderStatic.setFloat("pointLight[22].constant", 1.0f);
 		shaderStatic.setFloat("pointLight[22].linear", 0.03f);
-		shaderStatic.setFloat("pointLight[22].quadratic", 0.00032f);
+		shaderStatic.setFloat("pointLight[22].quadratic", aang_fire_light_size);
 
 
 		/* MODELOS ANIMADOS */
@@ -2436,7 +2518,7 @@ int main() {
 
 		//Head
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(headAangTextureCoordsBuffer), headAangTextureCoordsBuffer);
-		model = glm::translate(glm::mat4(1.0f), aang_position);
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(aang_pos_x, aang_pos_y, aang_pos_z));
 		model = modelAang = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3( 16.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
@@ -2446,7 +2528,7 @@ int main() {
 		//Body
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(bodyAangTextureCoordsBuffer), bodyAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -14.5f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
-		model = glm::rotate(model, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(aang_body_rotate_x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f / Aang_SCALE * scale, 13.0f / Aang_SCALE * scale, 4.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2471,7 +2553,7 @@ int main() {
 		//Right Arm
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(armAangTextureCoordsBuffer), armAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(6.0f / Aang_SCALE * scale, -12.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
-		model = glm::rotate(model, glm::radians(18.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(aang_arms_rotate_x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(2.5f / Aang_SCALE * scale, 7.5f / Aang_SCALE * scale, 2.5f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
@@ -2481,7 +2563,7 @@ int main() {
 		//Left Arm
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(armAangTextureCoordsBuffer), armAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(-6.0f / Aang_SCALE * scale, -12.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
-		model = glm::rotate(model, glm::radians(18.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(aang_arms_rotate_x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(-15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(2.5f / Aang_SCALE * scale, 7.5f / Aang_SCALE * scale, 2.5f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(180.0f) ,glm::vec3(0.0f, 1.0f, 0.0f));
@@ -2491,8 +2573,8 @@ int main() {
 
 		//Right Leg
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(20.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -2.0f / Aang_SCALE * scale));
-		modelAangRightLeg = model = glm::rotate(model, glm::radians(35.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(modelAang, glm::vec3(2.0f / Aang_SCALE * scale, -(21.0f - aang_right_leg_y_offset + 5.0f * 0.7f) / Aang_SCALE * scale, aang_right_leg_z_offset / Aang_SCALE * scale));
+		modelAangRightLeg = model = glm::rotate(model, glm::radians(aang_right_leg_rotate_x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f)/ Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2500,8 +2582,8 @@ int main() {
 
 		//Left Leg
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(legAangTextureCoordsBuffer), legAangTextureCoordsBuffer);
-		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 5.0f * 0.7f) / Aang_SCALE * scale, -3.0f / Aang_SCALE * scale));
-		modelAangLeftLeg = model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(modelAang, glm::vec3(-2.0f / Aang_SCALE * scale, -(21.0f + 5.0f * 0.7f) / Aang_SCALE * scale, aang_left_leg_z_offset / Aang_SCALE * scale));
+		modelAangLeftLeg = model = glm::rotate(model, glm::radians(aang_left_leg_rotate_x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (10.0f * 0.7f) / Aang_SCALE * scale, 3.0f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2545,7 +2627,7 @@ int main() {
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(-fire_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(50.0f / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, 50.0f / Aang_SCALE * scale));
+		model = glm::scale(model, glm::vec3(aang_fire_size / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, aang_fire_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -2666,6 +2748,8 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 		camera.setCameraMode(CAMERA_THIRD_PERSON);
 	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
 		camera.setCameraMode(CAMERA_FREE);
+	if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+		avatar_state ^= true;
 	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
 		if (baby_yoda_levitating) {
 			baby_yoda_should_save_initial_values = true;
