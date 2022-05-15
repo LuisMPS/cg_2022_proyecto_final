@@ -458,6 +458,7 @@ enum BABY_YODA_WAVE_DIRECTION {
 };
 BABY_YODA_WAVE_DIRECTION baby_yoda_wave_direction = BABY_YODA_WAVE_DOWN;
 
+glm::vec3 pool_float_position = glm::vec3(-17.20f * scale, 1.85f, -16.45f * scale);
 float pool_float_offset_x = 0.0f;
 float pool_float_offset_z = 0.0f;
 float pool_float_angle = 15.0f;
@@ -700,13 +701,7 @@ void runAnimations() {
 	baby_yoda_delta_offset_y = baby_yoda_offset_y - baby_yoda_last_offset_y;
 
 	// Animacion Flotador
-	if (pool_float_speed == 0.0f) {
-		if (lastFrame - pool_float_move_time > 3.0f * 1000.0f) {
-			pool_float_angle = (rand() % 360) * 1.0f;
-			pool_float_speed = 0.5f;
-		}
-	}
-	else if (pool_float_speed > 0.0f) {
+	if (pool_float_speed > 0.0f) {
 		if (lastFrame - pool_float_move_time > 0.1f * 1000.0f) {
 			pool_float_move_time = lastFrame;
 			float pool_float_delta_x = sin(glm::radians(pool_float_angle)) * pool_float_speed;
@@ -718,9 +713,11 @@ void runAnimations() {
 				pool_float_speed = 0.0f;
 			}
 			if (pool_float_offset_x > 8.4f || pool_float_offset_x < -8.4f) {
+				pool_float_offset_x = pool_float_offset_x > 8.4f ? 8.4f : -8.4f;
 				pool_float_angle = pool_float_angle * -1.0f;
 			}
 			if (pool_float_offset_z > 3.8f || pool_float_offset_z < -3.8f) {
+				pool_float_offset_z = pool_float_offset_z > 3.8f ? 3.8f : -3.8f;
 				pool_float_angle = (static_cast<int>(pool_float_angle + 180) % 360) * -1.0f;
 			}
 		}
@@ -2667,7 +2664,7 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, texture_pool_float);
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(pool_float_offset_x * scale, 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, pool_float_offset_z * scale));
-		model = glm::translate(model, glm::vec3(-17.20f * scale, 1.85f, -16.45f * scale));
+		model = glm::translate(model, pool_float_position);
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.75f));
 		shaderCube.setMat4("model", model);
@@ -2792,6 +2789,17 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		if (camera.isWithinRadiusOfPosition(speakers_position, 6.0 * scale) && camera.isLookingAtPosition(speakers_position, 45.0f)) {
 			load_next_song();
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
+		glm::vec3 pool_float_offset = glm::vec3(pool_float_offset_x * scale, 0.0f, pool_float_offset_z * scale);
+		glm::vec3 pool_float_location = pool_float_position + pool_float_offset;
+		std::cout << camera.Yaw << std::endl;
+		if (camera.isWithinRadiusOfPosition(pool_float_location, 4.0 * scale) && camera.isLookingAtPosition(pool_float_location, 45.0f)) {
+			if (pool_float_speed < 0.1f) {
+				pool_float_speed = 0.5f;
+				pool_float_angle = -camera.Yaw + 90.0f;
+			}
 		}
 	}
 }
