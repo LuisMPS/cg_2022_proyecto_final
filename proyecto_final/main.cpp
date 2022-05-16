@@ -374,6 +374,7 @@ void loadAudio() {
 }
 
 unsigned int texture_baby_yoda;
+unsigned int texture_aang_avatar;
 unsigned int texture_aang;
 unsigned int texture_mike_wazowski;
 unsigned int texture_pool_float;
@@ -387,7 +388,8 @@ void loadTextures() {
 	TextureLoad texture;
 	texture_baby_yoda = texture.generate("textures/yoda.png", true);
 	texture_mike_wazowski = texture.generate("textures/mike_face.jpg", false);
-	texture_aang = texture.generate("textures/aang_texture.png", true);
+	texture_aang_avatar = texture.generate("textures/aang_avatar_state_texture.png", true);
+	texture_aang = texture.generate("textures/aang_normal_state_texture.png", true);
 	texture_pool_float = texture.generate("textures/blue_white_stripes.jpg", false);
 	texture_donut = texture.generate("textures/donut.jpg", false);
 	texture_swing_lifesaver = texture.generate("textures/orange_yellow_stripes.jpg", false);
@@ -2536,7 +2538,11 @@ int main() {
 
 		/* Aang */
 		float Aang_SCALE = 25.0f;
-		glBindTexture(GL_TEXTURE_2D, texture_aang);
+		if (avatar_state) {
+			glBindTexture(GL_TEXTURE_2D, texture_aang_avatar);
+		} else {
+			glBindTexture(GL_TEXTURE_2D, texture_aang);
+		}
 
 		//Head
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(headAangTextureCoordsBuffer), headAangTextureCoordsBuffer);
