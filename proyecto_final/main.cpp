@@ -762,7 +762,7 @@ void runAnimations() {
 
 	//Animacion Avatar Aang
 	if (avatar_state) {
-		ring_rotation += 20.0f;
+		ring_rotation += 15.0f;
 		if (aang_arms_rotate_x < 15.0f) {
 			aang_arms_rotate_x += 1.0f;
 		}
