@@ -1787,7 +1787,7 @@ int main() {
 		BasketHoop.Draw(shaderStatic);
 
 		// Cancha de Basket
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.30f * scale, 1.5f, 23.90f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-54.30f * scale, 0.05f, 23.90f * scale));
 		model = glm::scale(model, glm::vec3(1.0f / 2650.0f * 26.76f * scale, 1.0f, 1.0f / 1550.0f * 19.54f * scale));
 		shaderStatic.setMat4("model", model);
 		BasketField.Draw(shaderStatic);
@@ -1896,7 +1896,7 @@ int main() {
 		// Camino 1
 		for (int i = 0; i <= 1; i++) {
 			for (int j = 0; j <= 24; j++) {
-				model = glm::translate(glm::mat4(1.0f), glm::vec3((-0.75f + 1.5f * i) * scale, 0.5f, (1.662f + 1.324f * j) * scale));
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-0.75f + 1.5f * i) * scale, 0.0f, (1.662f + 1.324f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.5f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
 				shaderStatic.setMat4("model", model);
 				Path.Draw(shaderStatic);
@@ -1906,7 +1906,7 @@ int main() {
 		// Camino 2
 		for (int i = 0; i <= 1; i++) {
 			for (int j = 0; j <= 32; j++) {
-				model = glm::translate(glm::mat4(1.0f), glm::vec3((-21.184f + 1.324f * j) * scale, 0.5f, (21.87f - 1.5f * i) * scale));
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-21.184f + 1.324f * j) * scale, 0.0f, (21.87f - 1.5f * i) * scale));
 				model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.5f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
 				shaderStatic.setMat4("model", model);
@@ -2025,7 +2025,7 @@ int main() {
 		// Camino 1
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 24; j++) {
-				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.055f + 1.37f * i) * scale, 0.5f, (-9.162f - 1.324f * j) * scale));
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.055f + 1.37f * i) * scale, 0.0f, (-9.162f - 1.324f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.37f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
 				shaderStatic.setMat4("model", model);
 				Path.Draw(shaderStatic);
@@ -2035,7 +2035,7 @@ int main() {
 		// Camino 2
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 25; j++) {
-				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.078f + 1.324f * j) * scale, 0.5f, (-42.285f - 1.37f * i) * scale));
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-2.078f + 1.324f * j) * scale, 0.0f, (-42.285f - 1.37f * i) * scale));
 				model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.37f * scale, 1.0f, 1.0f / 5000.0f * 1.324f * scale));
 				shaderStatic.setMat4("model", model);
@@ -2046,7 +2046,7 @@ int main() {
 		// Camino a Alberca
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 7; j++) {
-				model = glm::translate(glm::mat4(1.0f), glm::vec3((-3.365f - 1.25f * i) * scale, 0.5f, (-12.075f - 1.25f * j) * scale));
+				model = glm::translate(glm::mat4(1.0f), glm::vec3((-3.365f - 1.25f * i) * scale, 0.0f, (-12.075f - 1.25f * j) * scale));
 				model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 1.25f * scale, 1.0f, 1.0f / 5000.0f * 1.25f * scale));
 				shaderStatic.setMat4("model", model);
 				Path.Draw(shaderStatic);
@@ -2174,13 +2174,13 @@ int main() {
 		Goal.Draw(shaderStatic);
 
 		// Agua de Alberca
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.5f, -16.45f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.85f, -16.45f * scale));
 		model = glm::scale(model, glm::vec3(1.0f / 5000.0f * 19.0f * scale, 1.0f, 1.0f / 5000.0f * 9.0f * scale));
 		shaderStatic.setMat4("model", model);
 		Water.Draw(shaderStatic);
 
 		//Fragata Nacion del Fuego
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 1.0f, -16.45f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.20f * scale, 0.0f, -16.45f * scale));
 		model = glm::scale(model, glm::vec3( 0.0005f * scale));
 		shaderStatic.setMat4("model", model);
 		FireNation.Draw(shaderStatic);
