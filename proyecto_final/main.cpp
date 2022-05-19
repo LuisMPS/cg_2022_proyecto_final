@@ -488,6 +488,12 @@ X_WING_MOVEMENT x_wing_movement = X_WING_STRAIGHT_LINE;
 //Animacion anillos
 float ring_rotation = 0.0f;
 
+// Animacion iluminacion
+bool street_light_should_save_initial_values = true;
+bool street_light_on = false;
+float street_light_current_state_duration = 0.0f;
+float street_light_initial_time = 0.0f;
+
 void runAnimations() {
 
 	// Animaciones de Hojas
@@ -839,6 +845,17 @@ void runAnimations() {
 		if (aang_fire_light_size < 1.0f) {
 			aang_fire_light_size += (1.0f - 0.001) / 15.0f;
 		}
+	}
+
+	// Iluminacion Encendida/Apagada
+	if (street_light_should_save_initial_values) {
+		street_light_initial_time = lastFrame;
+		street_light_current_state_duration = ((rand() % 450) + 2050) * 1.0f;
+		street_light_should_save_initial_values = false;
+	}
+	if (lastFrame - street_light_initial_time > street_light_current_state_duration) {
+		street_light_should_save_initial_values = true;
+		street_light_on = !street_light_on;
 	}
 	
 }
@@ -1228,7 +1245,7 @@ int main() {
 		//Setup Advanced Lights
 		shaderStatic.setVec3("viewPos", camera.Position);
 		shaderStatic.setVec3("dirLight.direction", lightDirection);
-		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+		shaderStatic.setVec3("dirLight.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
 		shaderStatic.setVec3("dirLight.diffuse", glm::vec3(1.0f, 1.0f, 1.0f));
 		shaderStatic.setVec3("dirLight.specular", glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -1531,7 +1548,7 @@ int main() {
 		}
 
 		// Iluminacion de Faros Calle 1 
-		for (int j = 0; j <= 6; j++) {
+		for (int j = 0; j <= 5; j++) {
 			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].position", glm::vec3((31.75f - 10.5833f * j) * scale, 3.0f * scale, -3.5f * scale));
 			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].ambient", glm::vec3(0.1f, 0.1f, 0.1f));
 			shaderStatic.setVec3("pointLight[" + std::to_string(j + 1) + "].diffuse", glm::vec3(1.0f, 0.9372f, 0.2588f));
@@ -1540,6 +1557,15 @@ int main() {
 			shaderStatic.setFloat("pointLight[" + std::to_string(j + 1) + "].linear", 0.03f);
 			shaderStatic.setFloat("pointLight[" + std::to_string(j + 1) + "].quadratic", 0.00032f);
 		}
+
+		// Iluminacion Faro Descompuesto
+		shaderStatic.setVec3("pointLight[7].position", glm::vec3(-31.75f * scale, 3.0f * scale, -3.5f * scale));
+		shaderStatic.setVec3("pointLight[7].ambient", street_light_on ? glm::vec3(0.1f, 0.1f, 0.1f) : glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setVec3("pointLight[7].diffuse", street_light_on ? glm::vec3(1.0f, 0.9372f, 0.2588f) : glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setVec3("pointLight[7].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setFloat("pointLight[7].constant", 1.0f);
+		shaderStatic.setFloat("pointLight[7].linear", 0.03f);
+		shaderStatic.setFloat("pointLight[7].quadratic", 0.00032f);
 
 		// Iluminacion de Faros Calle 2
 		for (int j = 0; j <= 6; j++) {
@@ -2340,13 +2366,12 @@ int main() {
 
 		/* Baby Yoda */
 
-		float thirdPersonCameraAngle = 180.0f;
-		glm::vec3 thirdPersonCameraCenter = glm::vec3(0.0f * scale, 0.0f * scale, 6.3333f * scale);
+		float babyYodaAngle = 180.0f;
+		glm::vec3 babyYodaCenter = glm::vec3(0.0f * scale, baby_yoda_offset_y * scale, 6.3333f * scale);
 		if (camera.Mode == CAMERA_THIRD_PERSON) {
-			camera.Center.y += baby_yoda_delta_offset_y * scale;
-			camera.Position.y += baby_yoda_delta_offset_y * scale;
-			thirdPersonCameraAngle = -camera.Yaw + 90.0;
-			thirdPersonCameraCenter = glm::vec3(camera.Center.x, camera.Center.y, camera.Center.z);
+			camera.moveTo(glm::vec3(camera.Center.x, baby_yoda_offset_y * scale, camera.Center.z));
+			babyYodaAngle = -camera.Yaw + 90.0;
+			babyYodaCenter = camera.Center;
 		}
 
 		float BABY_YODA_SCALE = 50.0f;
@@ -2356,8 +2381,8 @@ int main() {
 
 		// UPPER BODY
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(upperBodyTextureCoordsBuffer), upperBodyTextureCoordsBuffer);
-		model = glm::translate(glm::mat4(1.0f), thirdPersonCameraCenter + glm::vec3(0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale) + glm::vec3(0.0f * scale, 0.2f * scale, 0.0f * scale));
-		modelBabyYodaBody = model = glm::rotate(model, glm::radians(thirdPersonCameraAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(glm::mat4(1.0f), babyYodaCenter + glm::vec3(0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale, 0.0f / BABY_YODA_SCALE * scale) + glm::vec3(0.0f * scale, 0.2f * scale, 0.0f * scale));
+		modelBabyYodaBody = model = glm::rotate(model, glm::radians(babyYodaAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(14.0f / BABY_YODA_SCALE * scale, 4.0f / BABY_YODA_SCALE * scale, 14.0f / BABY_YODA_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2793,12 +2818,17 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 		modelPositionStep *= -1;
 	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
 		std::cout << "Position is: " << modelPositionX << ", " << modelPositionY << ", " << modelPositionZ << std::endl;
-	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
 		camera.setCameraMode(CAMERA_AERIAL);
-	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+		camera.moveTo(glm::vec3(camera.Center.x, 50.0f * scale, camera.Center.z));
+	}
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS) {
 		camera.setCameraMode(CAMERA_THIRD_PERSON);
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+		camera.moveTo(glm::vec3(camera.Center.x, 0.0f * scale, camera.Center.z));
+	}
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
 		camera.setCameraMode(CAMERA_FREE);
+	}
 	if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
 		avatar_state ^= true;
 	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
@@ -2820,7 +2850,6 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode) {
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
 		glm::vec3 pool_float_offset = glm::vec3(pool_float_offset_x * scale, 0.0f, pool_float_offset_z * scale);
 		glm::vec3 pool_float_location = pool_float_position + pool_float_offset;
-		std::cout << camera.Yaw << std::endl;
 		if (camera.isWithinRadiusOfPosition(pool_float_location, 4.0 * scale) && camera.isLookingAtPosition(pool_float_location, 45.0f)) {
 			if (pool_float_speed < 0.1f) {
 				pool_float_speed = 0.5f;
