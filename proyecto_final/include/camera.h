@@ -28,6 +28,7 @@ const float PITCH       =  0.0f;
 const float SPEED       =  0.5f;
 const float SENSITIVITY =  0.5f;
 const float ZOOM        =  45.0f;
+const float RADIUS		=  20.0f;
 
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
@@ -135,11 +136,18 @@ class Camera {
 				yoffset *= MouseSensitivity;
 				Yaw += xoffset;
 				Pitch -= yoffset;
-				float radius = 20.0f;
+				if (constrainPitch) {
+					if (Pitch > 0.0f) {
+						Pitch = 0.0f;
+					}
+					if (Pitch < -45.0f) {
+						Pitch = -45.0f;
+					}
+				}
 				Position = Center - glm::vec3(
-					radius * cos(glm::radians(Yaw)) * cos(glm::radians(Pitch)),
-					radius * sin(glm::radians(Pitch)),
-					radius * sin(glm::radians(Yaw)) * cos(glm::radians(Pitch))
+					RADIUS * cos(glm::radians(Yaw)) * cos(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Yaw)) * cos(glm::radians(Pitch))
 				);
 			}
 			else if (Mode == CAMERA_FREE) {
@@ -174,24 +182,51 @@ class Camera {
 			}
 		}
 
+		void move(glm::vec3 direction) {
+			if (Mode == CAMERA_FREE || Mode == CAMERA_AERIAL) {
+				glm::vec3 initialCenter = Center;
+				Position = initialCenter + direction;
+				Center = initialCenter + direction;
+			}
+			if (Mode == CAMERA_THIRD_PERSON) {
+				glm::vec3 initialCenter = Center;
+				Position = initialCenter + direction - glm::vec3(
+					RADIUS * cos(glm::radians(Yaw)) * cos(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Yaw)) * cos(glm::radians(Pitch))
+				);
+				Center = initialCenter + direction;
+			}
+		}
+
+		void moveTo(glm::vec3 position) {
+			if (Mode == CAMERA_FREE || Mode == CAMERA_AERIAL) {
+				Position = position;
+				Center = position;
+			}
+			if (Mode == CAMERA_THIRD_PERSON) {
+				Position = position - glm::vec3(
+					RADIUS * cos(glm::radians(Yaw)) * cos(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Pitch)),
+					RADIUS * sin(glm::radians(Yaw)) * cos(glm::radians(Pitch))
+				);
+				Center = position;
+			}
+		}
+
 		void setCameraMode(CameraMode Mode) {
+			if (this->Mode == Mode) return;
 			this->Mode = Mode;
 			switch (Mode) {
 				case CAMERA_FREE:
-					Center = glm::vec3(0.0f, 30.0f, 0.0f);
-					Position = Center + glm::vec3(0.0f, 10.0f, 0.0f);
 					Yaw = -90.0f;
 					Pitch = 0.0f;
 					break;
 				case CAMERA_THIRD_PERSON:
-					Center = glm::vec3(0.0f, 0.0f, 0.0f);
-					Position = Center + glm::vec3(0.0f, 0.0f, 20.0f);
 					Yaw = -90.0f;
-					Pitch = 0.0f;
+					Pitch = -30.0f;
 					break;
 				case CAMERA_AERIAL:
-					Center = glm::vec3(0.0f, 500.0f, 0.0f);
-					Position = glm::vec3(0.0f, 500.0f, 0.0f);
 					Yaw = -90.0f;
 					Pitch = -90.0f;
 					break;
@@ -201,6 +236,7 @@ class Camera {
 
 		bool isWithinRadiusOfPosition(glm::vec3 position, float radius) {
 			float distance = glm::distance(position, Center);
+			//std::cout << distance << std::endl;
 			return distance < radius;
 		}
 
@@ -208,6 +244,7 @@ class Camera {
 			glm::vec3 normalized_front = glm::normalize(Front);
 			glm::vec3 normalized_direction = glm::normalize(position - Center);
 			float angle = glm::degrees(acos(glm::dot(normalized_front, normalized_direction)));
+			//std::cout << angle << std::endl;
 			if (angle < toleranceAngle) return true;
 			else return false;
 		}
