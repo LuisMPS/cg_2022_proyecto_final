@@ -1,58 +1,41 @@
-# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 28.04.2022 16:40:20
+#
+# Wavefront material file
+# Converted by Meshlab Group
+#
 
-newmtl 08___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5882 0.5882 0.5882
-	Kd 0.5882 0.5882 0.5882
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Blue.jpg
-	map_Kd Blue.jpg
+newmtl material_0
+Ka 0.200000 0.200000 0.200000
+Kd 0.584314 0.584314 0.584314
+Ks 1.000000 1.000000 1.000000
+Tr 1.000000
+illum 2
+Ns 0.000000
+map_Kd Blue.jpg
 
-newmtl 13___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5882 0.5882 0.5882
-	Kd 0.5882 0.5882 0.5882
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Metallic.jpg
-	map_Kd Metallic.jpg
+newmtl material_1
+Ka 0.200000 0.200000 0.200000
+Kd 0.584314 0.584314 0.584314
+Ks 1.000000 1.000000 1.000000
+Tr 1.000000
+illum 2
+Ns 0.000000
+map_Kd Metallic.jpg
 
-newmtl 07___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Yellow.png
-	map_Kd Yellow.png
+newmtl material_2
+Ka 0.200000 0.200000 0.200000
+Kd 0.584314 0.584314 0.584314
+Ks 1.000000 1.000000 1.000000
+Tr 1.000000
+illum 2
+Ns 0.000000
+map_Kd Yellow.png
 
-newmtl 09___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5882 0.5882 0.5882
-	Kd 0.5882 0.5882 0.5882
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Red.jpg
-	map_Kd Red.jpg
+newmtl material_3
+Ka 0.200000 0.200000 0.200000
+Kd 0.584314 0.584314 0.584314
+Ks 1.000000 1.000000 1.000000
+Tr 1.000000
+illum 2
+Ns 0.000000
+map_Kd Red.jpg
+

@@ -98,6 +98,7 @@ float aang_body_rotate_x = 0.0f;
 float aang_arms_rotate_x = 0.0f;
 float aang_fire_size = 1.0f;
 float aang_water_size = 1.0f;
+float aang_earth_size = 1.0f;
 float aang_right_leg_z_offset = 0.0f;
 float aang_right_leg_y_offset = 0.0f;
 float aang_left_leg_z_offset = 0.0f;
@@ -373,6 +374,7 @@ void loadAudio() {
 }
 
 unsigned int texture_baby_yoda;
+unsigned int texture_aang_avatar;
 unsigned int texture_aang;
 unsigned int texture_mike_wazowski;
 unsigned int texture_pool_float;
@@ -380,17 +382,20 @@ unsigned int texture_donut;
 unsigned int texture_swing_lifesaver;
 unsigned int texture_fire;
 unsigned int texture_water;
+unsigned int texture_earth;
 
 void loadTextures() {
 	TextureLoad texture;
 	texture_baby_yoda = texture.generate("textures/yoda.png", true);
 	texture_mike_wazowski = texture.generate("textures/mike_face.jpg", false);
-	texture_aang = texture.generate("textures/aang_texture.png", true);
+	texture_aang_avatar = texture.generate("textures/aang_avatar_state_texture.png", true);
+	texture_aang = texture.generate("textures/aang_normal_state_texture.png", true);
 	texture_pool_float = texture.generate("textures/blue_white_stripes.jpg", false);
 	texture_donut = texture.generate("textures/donut.jpg", false);
 	texture_swing_lifesaver = texture.generate("textures/orange_yellow_stripes.jpg", false);
 	texture_fire = texture.generate("textures/fire.png", true);
 	texture_water = texture.generate("textures/water.png", true);
+	texture_earth = texture.generate("textures/earth.png", true);
 }
 
 // Animacion Hojas
@@ -756,7 +761,7 @@ void runAnimations() {
 
 	//Animacion Avatar Aang
 	if (avatar_state) {
-		ring_rotation += 10.0f;
+		ring_rotation += 15.0f;
 		if (aang_arms_rotate_x < 15.0f) {
 			aang_arms_rotate_x += 1.0f;
 		}
@@ -772,12 +777,15 @@ void runAnimations() {
 		if (aang_pos_y < 3.0f * scale) {
 			aang_pos_y += 3.0f * scale / 15.0f;
 		}
-		if (aang_fire_size < 50.0f) {
-			aang_fire_size += 50.0f / 15.0f;
+		if (aang_fire_size < 60.0f) {
+			aang_fire_size += 60.0f / 15.0f;
 		}
-		if (aang_water_size < 45.0f) {
-			aang_water_size += 45.0f / 15.0f;
-		}		
+		if (aang_water_size < 55.0f) {
+			aang_water_size += 55.0f / 15.0f;
+		}	
+		if (aang_earth_size < 50.0f) {
+			aang_earth_size += 50.0f / 15.0f;
+		}
 		if (aang_right_leg_z_offset > -2.0f) {
 			aang_right_leg_z_offset -= 2.0f / 15.0f;
 		}
@@ -811,10 +819,13 @@ void runAnimations() {
 			aang_pos_y = 1.5f * scale;
 		}
 		if (aang_fire_size > 0.0f) {
-			aang_fire_size -= 50.0f / 15.0f;
+			aang_fire_size -= 60.0f / 15.0f;
 		}
 		if (aang_water_size > 0.0f) {
-			aang_water_size -= 45.0f / 15.0f;
+			aang_water_size -= 55.0f / 15.0f;
+		}
+		if (aang_earth_size > 0.0f) {
+			aang_earth_size -= 50.0f / 15.0f;
 		}
 		if (aang_right_leg_z_offset < 0.0f) {
 			aang_right_leg_z_offset += 2.0f / 15.0f;
@@ -2527,7 +2538,11 @@ int main() {
 
 		/* Aang */
 		float Aang_SCALE = 25.0f;
-		glBindTexture(GL_TEXTURE_2D, texture_aang);
+		if (avatar_state) {
+			glBindTexture(GL_TEXTURE_2D, texture_aang_avatar);
+		} else {
+			glBindTexture(GL_TEXTURE_2D, texture_aang);
+		}
 
 		//Head
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(headAangTextureCoordsBuffer), headAangTextureCoordsBuffer);
@@ -2620,7 +2635,7 @@ int main() {
 
 		//Right Shoe Part 1
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
-		model = glm::translate(modelAangRightLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 3.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
+		model = glm::translate(modelAangRightLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 2.5f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2628,7 +2643,7 @@ int main() {
 
 		//Left Shoe Part 1
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shoeUpAangTextureCoordsBuffer), shoeUpAangTextureCoordsBuffer);
-		model = glm::translate(modelAangLeftLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 3.0f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
+		model = glm::translate(modelAangLeftLeg, glm::vec3(0.0f / Aang_SCALE * scale, -( 2.5f * 0.7f) / Aang_SCALE * scale, 1.875f / Aang_SCALE * scale));
 		model = glm::scale(model, glm::vec3(3.0f / Aang_SCALE * scale, (1.0f * 0.7f) / Aang_SCALE * scale, 0.75f / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2639,8 +2654,8 @@ int main() {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(FireAangTextureCoordsBuffer), FireAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(aang_fire_size / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, aang_fire_size / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(aang_fire_size / Aang_SCALE * scale, (15.0f * (aang_fire_size / 60.0f)) / Aang_SCALE * scale, aang_fire_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -2650,8 +2665,19 @@ int main() {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(WaterAangTextureCoordsBuffer), WaterAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(-25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(aang_water_size / Aang_SCALE * scale, 10.0f / Aang_SCALE * scale, aang_water_size / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(1.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(aang_water_size / Aang_SCALE * scale, (15.0f * (aang_water_size / 55.0f)) / Aang_SCALE * scale, aang_water_size / Aang_SCALE * scale));
+		shaderCube.setMat4("model", model);
+		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//Tierra
+		glBindTexture(GL_TEXTURE_2D, texture_earth);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(WaterAangTextureCoordsBuffer), WaterAangTextureCoordsBuffer);
+		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
+		model = glm::rotate(model, glm::radians(-105.0f), glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(aang_earth_size / Aang_SCALE * scale, (10.0f * (aang_earth_size / 50.0f)) / Aang_SCALE * scale, aang_earth_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
