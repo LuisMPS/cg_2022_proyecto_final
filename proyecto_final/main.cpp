@@ -512,7 +512,7 @@ void runAnimations() {
 		}
 	}
 	if (leaf_direction == LEAF_STATIC) {
-		leaf_static_time += (deltaTime * 0.001f) / 2.0f;
+		leaf_static_time += (deltaTime * 0.001f) / 5.5f;
 		if (leaf_static_time >= 1.0f) {
 			leaf_offset_x = 0.0f;
 			leaf_offset_y = 0.0f;
@@ -1899,14 +1899,14 @@ int main() {
 		Apartment.Draw(shaderStatic);
 
 		// Casa 1
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-7.35f * scale, 0.1f, 45.0f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-7.35f * scale, 1.0f, 45.0f * scale));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 12.5f * scale));
 		shaderStatic.setMat4("model", model);
 		HouseThreeFloor.Draw(shaderStatic);
 
 		// Casa 2
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(10.65f * scale, 0.1f, 45.0f * scale));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(10.65f * scale, 1.0f, 45.0f * scale));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f / 430.0f * 12.5f * scale));
 		shaderStatic.setMat4("model", model);

@@ -137,8 +137,8 @@ class Camera {
 				Yaw += xoffset;
 				Pitch -= yoffset;
 				if (constrainPitch) {
-					if (Pitch > 0.0f) {
-						Pitch = 0.0f;
+					if (Pitch > -14.0) {
+						Pitch = -14.0f;
 					}
 					if (Pitch < -45.0f) {
 						Pitch = -45.0f;
