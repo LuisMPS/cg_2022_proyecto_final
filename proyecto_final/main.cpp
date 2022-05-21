@@ -2311,16 +2311,29 @@ int main() {
 		shaderStatic.setMat4("model", model);
 		testModel.Draw(shaderStatic);
 
+		//Luz Parilla
+		shaderStatic.setVec3("spotLight[0].position", glm::vec3(17.0f * scale, 0.0f, -37.0f * scale));
+		shaderStatic.setVec3("spotLight[0].direction", glm::vec3(0.0f, 1.0f, 0.0f));
+		shaderStatic.setVec3("spotLight[0].ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setVec3("spotLight[0].diffuse", glm::vec3(1.0f, 0.3f, 0.0f));
+		shaderStatic.setVec3("spotLight[0].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setFloat("spotLight[0].constant", 1.0f);
+		shaderStatic.setFloat("spotLight[0].linear", 0.005f);
+		shaderStatic.setFloat("spotLight[0].quadratic", 0.001f);
+		shaderStatic.setFloat("spotLight[0].cutOff", 0.5f);
+		shaderStatic.setFloat("spotLight[0].outerCutOff", 0.3f);
 
 		//Luz aang
-		shaderStatic.setVec3("pointLight[22].position", glm::vec3(aang_pos_x, aang_pos_y, aang_pos_z));
-		shaderStatic.setVec3("pointLight[22].ambient", glm::vec3(0.3f, 0.1f, 0.1f));
-		shaderStatic.setVec3("pointLight[22].diffuse", glm::vec3(1.0f, 0.2f, 0.0f));
-		shaderStatic.setVec3("pointLight[22].specular", glm::vec3(0.1f, 0.0f, 0.0f));
-		shaderStatic.setFloat("pointLight[22].constant", 1.0f);
-		shaderStatic.setFloat("pointLight[22].linear", 0.03f);
-		shaderStatic.setFloat("pointLight[22].quadratic", aang_fire_light_size);
-
+		shaderStatic.setVec3("spotLight[1].position", glm::vec3(aang_pos_x, aang_pos_y, aang_pos_z));
+		shaderStatic.setVec3("spotLight[1].direction", glm::vec3(0.0f, -1.0f, 0.0f));
+		shaderStatic.setVec3("spotLight[1].ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setVec3("spotLight[1].diffuse", glm::vec3(1.0f, 0.2f, 0.0f));
+		shaderStatic.setVec3("spotLight[1].specular", glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderStatic.setFloat("spotLight[1].constant", 1.0f);
+		shaderStatic.setFloat("spotLight[1].linear", 0.005f);
+		shaderStatic.setFloat("spotLight[1].quadratic", aang_fire_light_size);
+		shaderStatic.setFloat("spotLight[1].cutOff", 0.5f);
+		shaderStatic.setFloat("spotLight[1].outerCutOff", 0.3f);
 
 		/* MODELOS ANIMADOS */
 
