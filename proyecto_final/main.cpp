@@ -47,8 +47,8 @@ void loadData();
 void loadTextures();
 
 // settings
-unsigned int SCR_WIDTH = 800;
-unsigned int SCR_HEIGHT = 600;
+unsigned int SCR_WIDTH = 2048;
+unsigned int SCR_HEIGHT = 1536;
 GLFWmonitor *monitors;
 GLuint VBO[2], VAO[1];
 
@@ -767,7 +767,7 @@ void runAnimations() {
 
 	//Animacion Avatar Aang
 	if (avatar_state) {
-		ring_rotation += 15.0f;
+		ring_rotation += 7.0f;
 		if (aang_arms_rotate_x < 15.0f) {
 			aang_arms_rotate_x += 1.0f;
 		}
@@ -2679,7 +2679,7 @@ int main() {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(FireAangTextureCoordsBuffer), FireAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(aang_fire_size / Aang_SCALE * scale, (15.0f * (aang_fire_size / 60.0f)) / Aang_SCALE * scale, aang_fire_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2689,8 +2689,8 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, texture_water);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(WaterAangTextureCoordsBuffer), WaterAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
-		model = glm::rotate(model, glm::radians(-25.0f), glm::vec3(1.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(1.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-35.0f), glm::vec3(1.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(aang_water_size / Aang_SCALE * scale, (15.0f * (aang_water_size / 55.0f)) / Aang_SCALE * scale, aang_water_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
@@ -2701,7 +2701,7 @@ int main() {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(WaterAangTextureCoordsBuffer), WaterAangTextureCoordsBuffer);
 		model = glm::translate(modelAang, glm::vec3(0.0f / Aang_SCALE * scale, -13.0f / Aang_SCALE * scale, 0.0f / Aang_SCALE * scale));
 		model = glm::rotate(model, glm::radians(-105.0f), glm::vec3(1.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(0.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-ring_rotation), glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(aang_earth_size / Aang_SCALE * scale, (10.0f * (aang_earth_size / 50.0f)) / Aang_SCALE * scale, aang_earth_size / Aang_SCALE * scale));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
