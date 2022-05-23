@@ -1,7 +1,8 @@
 #version 330 core
 out vec4 FragColor;
 
-#define NUMBER 23
+#define NUMBER_POINT_LIGHTS 22
+#define NUMBER_SPOT_LIGHTS 2
 
 in vec3 FragPos;
 in vec3 Normal;
@@ -55,8 +56,8 @@ struct SpotLight
 
 uniform vec3 viewPos;
 uniform DirLight dirLight;
-uniform PointLight pointLight[NUMBER];
-uniform SpotLight spotLight;
+uniform PointLight pointLight[NUMBER_POINT_LIGHTS];
+uniform SpotLight spotLight[NUMBER_SPOT_LIGHTS];
 //uniform Material material;
 
 uniform sampler2D material_diffuse;
@@ -66,7 +67,7 @@ uniform float material_shininess;
 // Function prototypes
 vec3 CalcDirLight( DirLight light, vec3 normal, vec3 viewDir );
 vec3 CalcPointLight( PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir );
-vec4 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir );
+vec3 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir );
 
 void main()
 {    
@@ -78,13 +79,16 @@ void main()
     vec3 result = CalcDirLight(dirLight, norm, viewDir);
 
     //Point Light
-    for(int i = 0; i < NUMBER; i++)
+    for(int i = 0; i < NUMBER_POINT_LIGHTS; i++)
     {
         result  += CalcPointLight(pointLight[i], norm, FragPos, viewDir);
     }
 
     // Spot light
-    //result += CalcSpotLight( spotLight, norm, FragPos, viewDir );
+	for(int i = 0; i < NUMBER_SPOT_LIGHTS; i++)
+    {
+		result += CalcSpotLight(spotLight[i], norm, FragPos, viewDir);
+    }
     
     vec4   texColor = vec4( result,texture( material_diffuse, TexCoords).a );
     if(texColor.a < 0.1)
@@ -146,7 +150,7 @@ vec3 CalcPointLight( PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
 }
 
 // Calculates the color when using a spot light.
-vec4 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
+vec3 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
 {
      vec3 lightDir = normalize(light.position - FragPos);
     
@@ -179,22 +183,15 @@ vec4 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
             
         //vec3 result = ambient + diffuse + specular;
         //FragColor = vec4(result, 1.0);
-        vec4 result = vec4(ambient + diffuse + specular,texture(material_diffuse, TexCoords).a) ;
-        if(result.a < 0.1)
-            discard;
-        FragColor = result;
-         return (result);
+        vec3 result = ambient + diffuse + specular;
+        return (result);
     }
     else 
     {
         // else, use ambient light so scene isn't completely dark outside the spotlight.
         //FragColor = vec4(light.ambient * texture(material_diffuse, TexCoords).rgb, 1.0);
-        vec4 result = vec4(light.ambient * texture(material_diffuse, TexCoords).rgb, texture(material_diffuse, TexCoords).a);
-        if(result.a < 0.1)
-            discard;
-        FragColor = result;
-         return (result);
+        vec3 result = vec3(light.ambient * texture(material_diffuse, TexCoords).rgb);
+        return (result);
     }
-
    
 }
