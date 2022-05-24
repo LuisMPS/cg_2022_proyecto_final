@@ -31,6 +31,7 @@
 #include <model.h>
 #include <Skybox.h>
 #include <torus.h>
+#include <toroide_cam.h>
 
 #include <iostream>
 #include <string>
@@ -914,6 +915,7 @@ int main() {
 	Shader shaderAnimate("shaders/shader_animate.vs", "shaders/shader_animate.fs");
 
 	Torus torus(5.0f, 3.0f, 50, 50);
+	Toroide_cam toroide_c(5.0f, 3.0f, 50, 50);
 
 	vector<std::string> faces = {
 		"resources/skybox/sh_ft.png",
@@ -2744,13 +2746,16 @@ int main() {
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		torus.draw();
 
+		// TOROIDES
+		glBindVertexArray(toroide_c.getVAO());
+
 		// Dona Columpio
 		glBindTexture(GL_TEXTURE_2D, texture_swing_lifesaver);
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-84.07f * scale, 1.885f * scale, 19.135f * scale));
 		model = glm::scale(model, glm::vec3(0.5f));
 		shaderCube.setMat4("model", model);
 		shaderCube.setVec3("aColor", 1.0f, 1.0f, 1.0f);
-		torus.draw();
+		toroide_c.draw();
 
 		shaderSkybox.use();
 		skybox.Draw(shaderSkybox, view, projection, camera);
