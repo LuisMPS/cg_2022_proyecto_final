@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TOROIDE_H
-#define TOROIDE_H
+#ifndef TOROIDECA_H
+#define TOROIDECA_H
 
 #include <glad/glad.h>
 
