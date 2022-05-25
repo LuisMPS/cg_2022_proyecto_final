@@ -979,6 +979,7 @@ int main() {
 	Model FireNation("resources/models/Fire_Nation_Frigate/FireNationFrigate.obj");
 	Model Monster("resources/models/Sullivan/SullivanMonster.obj");
 	Model Jabulani("resources/models/Jabulani/Jabulani.obj");
+
 	ModelAnim KiteKid("resources/models/KiteKid/KiteKid.dae");
 	KiteKid.initShaders(shaderAnimate.ID);
 
